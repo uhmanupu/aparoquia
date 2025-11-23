@@ -1,6 +1,6 @@
 {
-  "name": "Aparóquia - Paróquia Nossa Senhora da Conceição",
-  "short_name": "Aparóquia",
+  "name": "aparoquia app",
+  "short_name": "aparoquia",
   "display": "standalone",
   "start_url": ".",
   "background_color": "#0f172a",
