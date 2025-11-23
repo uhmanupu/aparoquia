@@ -1,6 +1,8 @@
 {
-  "name": "aparoquia app",
-  "short_name": "aparoquia",
+  "name": "Aparóquia - Paróquia Nossa Senhora da Conceição",
+  "short_name": "Aparóquia",
+  "description": "Agenda e informações da Paróquia Nossa Senhora da Conceição, Virgínia-MG. Horários de missa, novenas e eventos.", 
+  "lang": "pt-BR",
   "display": "standalone",
   "start_url": ".",
   "background_color": "#0f172a",
