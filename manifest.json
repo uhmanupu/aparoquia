@@ -1,0 +1,16 @@
+{
+  "name": "Aparóquia - Paróquia Nossa Senhora da Conceição",
+  "short_name": "Aparóquia",
+  "display": "standalone",
+  "start_url": ".",
+  "background_color": "#0f172a",
+  "theme_color": "#1e293b",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/12114/12114233.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
