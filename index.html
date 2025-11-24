@@ -1,782 +1,173 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <!-- Configuração PWA/Mobile para Ecrã Inteiro -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Paróquia N. Sra. Conceição</title>
-    <meta name="theme-color" content="#1e293b">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="Agenda Conceição">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <!-- Manifesto (PWA) embutido -->
-    <link rel="manifest" href="data:application/json;base64,eyJpY29ucyI6W3sic2l6ZXMiOiI1MTJ4NTEyIiwidHlwZSI6ImltYWdlL3BuZyIsInNyYyI6Imh0dHBzOi8vY2RuLWljb25zLXBuZy5mbGF0aWNvbi5jb20vNTEyLzEyMTE0LzEyMTE0MjMzLnBuZyJ9XSwibmFtZSI6IkFnZW5kYSBDb25jZcfDo28iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsInN0YXJ0X3VybCI6Ii4iLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzBlMWYzY2EiLCJ0aGVtZV9jb2xvciI6IiMxZTNjYjkiLCJvcmllbnRhdGlvbiI6InBvcnRyYWl0In0=">
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Fonte Clássica -->
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        /* TEMA ESCURO FIXO */
-        body { 
-            font-family: 'Merriweather', serif;
-            background-color: #0f172a; 
-            color: #e2e8f0; 
-            transition: background-color 0.3s, color 0.3s; 
-        }
-        .card { 
-            background-color: #1e293b; 
-            border: 1px solid #334155; 
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s, border-color 0.3s; 
-        }
-        .header-bg { 
-            background-color: #1e293b; 
-            border-color: #334155;
-        }
-        .tab-button { 
-            transition: all 0.3s ease; 
-            border-bottom: 3px solid transparent; 
-            padding-bottom: 8px; 
-            color: #94a3b8;
-        }
-        .tab-button.active { 
-            border-color: #f59e0b; /* Âmbar/Areia */
-            font-weight: 700; 
-            color: #f59e0b;
-        }
-
-        /* Estilo para a Barra de Dias (Picker) */
-        .date-picker-scroll { overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; }
-        .date-picker-scroll::-webkit-scrollbar { display: none; }
-        .date-button { 
-            padding: 8px 16px; 
-            margin-right: 8px; 
-            border-radius: 9999px; 
-            font-weight: 700; 
-            border: 2px solid transparent; 
-            background-color: #334155;
-            color: #cbd5e1;
-        }
-        .date-button.active { 
-            background-color: #f59e0b; /* Âmbar/Areia */
-            color: #1e293b; 
-        }
-
-        /* Cores de Destaque no Dark Mode (AREIA CLARO) */
-        .text-amber-100 { color: #fef3c7; } /* Títulos de cartões (Quase Branco/Areia) */
-        .text-amber-200 { color: #fef9c3; } /* Títulos grandes (Quase Branco/Areia) */
-        .text-amber-400 { color: #fbbf24; } /* Ícones e Destaques (Ouro/Âmbar) */
-        .text-amber-500 { color: #f59e0b; } /* Horários e Links (Âmbar/Areia) */
-        
-        .text-gray-500 { color: #94a3b8; }
-        .text-gray-300 { color: #cbd5e1; }
-
-        /* Correção para o Texto dentro dos Links de Contato: Tornar mais branco/visível */
-        .contact-link-text { color: #f1f5f9; }
-
-        .verse-block { 
-            margin-bottom: 1.5rem;
-            line-height: 1.5;
-            text-align: center; /* Centraliza o hino */
-        }
-        .refrain {
-            font-weight: 700;
-            color: #f59e0b; /* Cor do Refrão (Âmbar/Ouro) */
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-            display: block; 
-            text-transform: uppercase;
-            text-align: center; /* Centraliza o refrão */
-        }
-
-        /* AJUSTE PARA O FUNDO DO TEXTO DO HINO E ORAÇÃO */
-        .hino-content-bg {
-            background-color: #1f2937;
-            border-radius: 0.75rem;
-            padding: 1.25rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Ajuste Específico para Oração: Forçar cor branca */
-        #oracao-section .text-amber-200 { color: #f1f5f9 !important; } 
-        #oracao-section .font-bold { font-weight: 400 !important; }
-        
-        /* Estilo do Menu Hambúrguer (Mobile) */
-        #mobile-menu-overlay {
-            background-color: rgba(15, 23, 42, 0.95);
-            z-index: 40;
-            transition: transform 0.3s ease-in-out;
-            /* Começa fora do ecrã */
-            transform: translateX(100%); 
-        }
-        #mobile-menu-overlay.open {
-            /* Entra no ecrã */
-            transform: translateX(0);
-        }
-        .menu-item {
-            display: block;
-            width: 100%;
-            text-align: center;
-            padding: 1rem;
-            border-bottom: 1px solid #334155;
-            color: #fef3c7;
-            font-size: 1.125rem; /* text-lg */
-        }
-        .menu-item:hover {
-            color: #f59e0b;
-            background-color: #1e293b;
-        }
-
-        /* Oculta o menu de abas no mobile e mostra o Hambúrguer */
-        @media (max-width: 640px) {
-            #desktop-tab-bar {
-                display: none;
-            }
-        }
-        /* Oculta o Hambúrguer no desktop */
-        @media (min-width: 641px) {
-            #mobile-menu-button {
-                display: none;
-            }
-        }
-
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #1e293b; }
-        ::-webkit-scrollbar-thumb { background: #64748b; border-radius: 4px; }
-    </style>
-
-    <script>
-        // *** DADOS CONSOLIDADOS DE NOVEMBRO (Fórmula de Estabilidade) ***
-        const AGENDA_DATA = [
-            // Corrigido e Consolidado: Dias 01 a 30
-            // Padronizado: Folga = '--', Sem Padres
-            { "date": "01/Nov (Sábado)", "time": "09:00", "title": "Casamento", "location": "Igreja Matriz" },
-            { "date": "01/Nov (Sábado)", "time": "10:00", "title": "Benção", "location": "Bairro Marques" },
-            { "date": "01/Nov (Sábado)", "time": "11:00", "title": "Casamento", "location": "Igreja Matriz" },
-            { "date": "01/Nov (Sábado)", "time": "14:00", "title": "Catequese", "location": "Igreja Matriz" },
-            { "date": "01/Nov (Sábado)", "time": "16:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            { "date": "01/Nov (Sábado)", "time": "18:00", "title": "Vigília", "location": "Igreja Matriz" },
-            { "date": "01/Nov (Sábado)", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            
-            { "date": "02/Nov (Domingo)", "time": "05:00", "title": "Santa Missa", "location": "Cemitério" },
-            { "date": "02/Nov (Domingo)", "time": "08:00", "title": "Santa Missa Setor 6", "location": "Bairro São José da Mantiqueira" },
-            { "date": "02/Nov (Domingo)", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            { "date": "02/Nov (Domingo)", "time": "11:00", "title": "Santa Missa Setor 1", "location": "Bairro Mendes" },
-            { "date": "02/Nov (Domingo)", "time": "17:00", "title": "Santa Missa Setor 3", "location": "Bairro Corrêias" },
-            { "date": "02/Nov (Domingo)", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            
-            { "date": "03/Nov (Segunda-feira)", "time": "--", "title": "Folga", "location": "Folga" },
-            { "date": "03/Nov (Segunda-feira)", "time": "14:00", "title": "Visita às Obras", "location": "Visita às Obras" },
-            { "date": "03/Nov (Segunda-feira)", "time": "19:00", "title": "Santa Missa", "location": "Igreja Nossa Senhora Aparecida" },
-            
-            { "date": "04/Nov (Terça-feira)", "time": "--", "title": "Folga", "location": "Folga" },
-            { "date": "04/Nov (Terça-feira)", "time": "14:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "04/Nov (Terça-feira)", "time": "19:00", "title": "Santa Missa Setor 5", "location": "Bairro Morangal" },
-
-            { "date": "05/Nov (Quarta-feira)", "time": "09:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "05/Nov (Quarta-feira)", "time": "16:00", "title": "Visita aos Enfermos", "location": "Visita aos Enfermos" },
-            { "date": "05/Nov (Quarta-feira)", "time": "19:00", "title": "Santa Missa Setor 7", "location": "Bairro Serra Verde" },
-
-            { "date": "06/Nov (Quinta-feira)", "time": "09:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "06/Nov (Quinta-feira)", "time": "09:00", "title": "Visita às Obras", "location": "Visita às Obras" },
-            { "date": "06/Nov (Quinta-feira)", "time": "14:00", "title": "Visita aos Enfermos", "location": "Visita aos Enfermos" },
-            { "date": "06/Nov (Quinta-feira)", "time": "17:00", "title": "Confissão", "location": "Igreja Matriz" },
-            { "date": "06/Nov (Quinta-feira)", "time": "18:00", "title": "Adoração", "location": "Igreja Matriz" },
-            { "date": "06/Nov (Quinta-feira)", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            { "date": "06/Nov (Quinta-feira)", "time": "19:00", "title": "Santa Missa Setor 2", "location": "Bairro Porto" },
-            { "date": "06/Nov (Quinta-feira)", "time": "20:00", "title": "Reunião Irmandade do Santíssimo", "location": "Reunião" },
-
-            { "date": "07/Nov (Sexta-feira)", "time": "09:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "07/Nov (Sexta-feira)", "time": "09:00", "title": "Santa Missa", "location": "Abrigo São Camilo" },
-            { "date": "07/Nov (Sexta-feira)", "time": "14:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "07/Nov (Sexta-feira)", "time": "15:00", "title": "Buscar Seminarista", "location": "Buscar Seminarista" },
-            { "date": "07/Nov (Sexta-feira)", "time": "18:00", "title": "Adoração", "location": "Igreja Matriz" },
-            { "date": "07/Nov (Sexta-feira)", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            { "date": "07/Nov (Sexta-feira)", "time": "19:00", "title": "Santa Missa Setor 4", "location": "Bairro Moreiras" },
-
-            { "date": "08/Nov (Sábado)", "time": "09:00", "title": "Casamento", "location": "Igreja São José" },
-            { "date": "08/Nov (Sábado)", "time": "11:00", "title": "Casamento", "location": "Igreja Matriz" },
-            { "date": "08/Nov (Sábado)", "time": "16:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            { "date": "08/Nov (Sábado)", "time": "19:00", "title": "Santa Missa Setor 5", "location": "Bairro Marques" },
-            { "date": "08/Nov (Sábado)", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-
-            { "date": "09/Nov (Domingo)", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            { "date": "09/Nov (Domingo)", "time": "09:00", "title": "Santa Missa Setor 3", "location": "Bairro Mogiano" },
-            { "date": "09/Nov (Domingo)", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            { "date": "09/Nov (Domingo)", "time": "10:00", "title": "Batizado", "location": "Igreja Matriz" },
-            { "date": "09/Nov (Domingo)", "time": "18:00", "title": "Santa Missa Setor 1", "location": "Bairro Retirinho" },
-            { "date": "09/Nov (Domingo)", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-
-            { "date": "10/Nov (Segunda-feira)", "time": "--", "title": "Folga", "location": "Folga" },
-            { "date": "10/Nov (Segunda-feira)", "time": "09:00", "title": "Visita às Obras", "location": "Visita às Obras" },
-            { "date": "10/Nov (Segunda-feira)", "time": "16:00", "title": "Atendimento Confissão Primeira Eucaristia", "location": "Bairro Vargem Alegre" },
-            { "date": "10/Nov (Segunda-feira)", "time": "19:00", "title": "Santa Missa Setor 5", "location": "Bairro Pouso Frio" },
-
-            { "date": "11/Nov (Terça-feira)", "time": "09:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "11/Nov (Terça-feira)", "time": "14:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "11/Nov (Terça-feira)", "time": "16:00", "title": "Atendimento Confissão Primeira Eucaristia", "location": "Bairro Serra Verde" },
-            { "date": "11/Nov (Terça-feira)", "time": "19:00", "title": "Santa Missa Setor 2", "location": "Bairro Ribeirão" },
-            { "date": "11/Nov (Terça-feira)", "time": "19:00", "title": "Santa Missa Setor 7", "location": "Bairro Roseirinha" },
-
-            { "date": "12/Nov (Quarta-feira)", "time": "09:00", "title": "Santa Missa", "location": "Abrigo São Camilo" },
-            { "date": "12/Nov (Quarta-feira)", "time": "09:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "12/Nov (Quarta-feira)", "time": "16:00", "title": "Atendimento Confissão Primeira Eucaristia", "location": "Bairro Marques" },
-            { "date": "12/Nov (Quarta-feira)", "time": "19:00", "title": "Santa Missa Setor 6", "location": "Bairro Serra dos Fernandes" },
-            { "date": "12/Nov (Quarta-feira)", "time": "19:00", "title": "Formação MESC", "location": "Formação MESC" },
-
-            { "date": "13/Nov (Quinta-feira)", "time": "09:00", "title": "Visita às Obras", "location": "Visita às Obras" },
-            { "date": "13/Nov (Quinta-feira)", "time": "09:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "13/Nov (Quinta-feira)", "time": "14:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "13/Nov (Quinta-feira)", "time": "17:00", "title": "Confissão", "location": "Igreja Matriz" },
-            { "date": "13/Nov (Quinta-feira)", "time": "18:00", "title": "Adoração", "location": "Igreja Matriz" },
-            { "date": "13/Nov (Quinta-feira)", "time": "18:00", "title": "Confissão Primeira Eucaristia", "location": "Bairro Palmeiras" },
-            { "date": "13/Nov (Quinta-feira)", "time": "19:00", "title": "Santa Missa Setor 1", "location": "Bairro Palmeiras" },
-            { "date": "13/Nov (Quinta-feira)", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-
-            { "date": "14/Nov (Sexta-feira)", "time": "09:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "14/Nov (Sexta-feira)", "time": "09:00", "title": "Confissão Primeira Eucaristia", "location": "Cidade" },
-            { "date": "14/Nov (Sexta-feira)", "time": "15:00", "title": "Confissões Primeira Eucaristia", "location": "Bairro Moreiras" },
-            { "date": "14/Nov (Sexta-feira)", "time": "19:00", "title": "Santa Missa Setor 4", "location": "Bairro Mato Dentro" },
-            { "date": "14/Nov (Sexta-feira)", "time": "19:00", "title": "Santa Missa Setor 7", "location": "Bairro Vargem Alegre" },
-
-            { "date": "15/Nov (Sábado)", "time": "08:00", "title": "Abertura Ano Jubilar", "location": "Dia da Forania - Pouso Alto" },
-            { "date": "15/Nov (Sábado)", "time": "09:00", "title": "Casamento", "location": "Igreja Matriz" },
-            { "date": "15/Nov (Sábado)", "time": "11:00", "title": "Casamento", "location": "Igreja São José" },
-            { "date": "15/Nov (Sábado)", "time": "16:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            { "date": "15/Nov (Sábado)", "time": "19:00", "title": "Santa Missa Setor 6", "location": "Bairro São José da Mantiqueira" },
-            { "date": "15/Nov (Sábado)", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-
-            { "date": "16/Nov (Domingo)", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            { "date": "16/Nov (Domingo)", "time": "08:00", "title": "Santa Missa Setor 5", "location": "Bairro Roseira" },
-            { "date": "16/Nov (Domingo)", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            { "date": "16/Nov (Domingo)", "time": "10:30", "title": "Santa Missa Setor 7", "location": "Bairro Retiro dos Marins" },
-            { "date": "16/Nov (Domingo)", "time": "18:00", "title": "Santa Missa Setor 4", "location": "Bairro Moreiras" },
-            { "date": "16/Nov (Domingo)", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-
-            { "date": "17/Nov (Segunda-feira)", "time": "--", "title": "Folga", "location": "Folga" },
-            { "date": "17/Nov (Segunda-feira)", "time": "09:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "17/Nov (Segunda-feira)", "time": "14:00", "title": "Confissão Primeira Eucaristia", "location": "Cidade" },
-            { "date": "17/Nov (Segunda-feira)", "time": "19:00", "title": "Santa Missa Setor 9", "location": "Sertãozinho" },
-
-            { "date": "18/Nov (Terça-feira)", "time": "09:00", "title": "Santa Missa", "location": "Abrigo São Camilo" },
-            { "date": "18/Nov (Terça-feira)", "time": "14:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "18/Nov (Terça-feira)", "time": "14:00", "title": "Visita às Obras", "location": "Visita às Obras" },
-            { "date": "18/Nov (Terça-feira)", "time": "19:00", "title": "Santa Missa Setor 5", "location": "Bairro Felipes" },
-
-            { "date": "19/Nov (Quarta-feira)", "time": "--", "title": "Folga", "location": "Folga" },
-            { "date": "19/Nov (Quarta-feira)", "time": "09:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "19/Nov (Quarta-feira)", "time": "14:00", "title": "Visita aos Enfermos", "location": "Visita aos Enfermos" },
-            { "date": "19/Nov (Quarta-feira)", "time": "19:00", "title": "Santa Missa Setor 5", "location": "Bairro Marques" },
-
-            { "date": "20/Nov (Quinta-feira)", "time": "09:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "20/Nov (Quinta-feira)", "time": "17:00", "title": "Confissões", "location": "Igreja Matriz" },
-            { "date": "20/Nov (Quinta-feira)", "time": "18:00", "title": "Adoração", "location": "Igreja Matriz" },
-            { "date": "20/Nov (Quinta-feira)", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            { "date": "20/Nov (Quinta-feira)", "time": "19:00", "title": "Santa Missa Setor 7", "location": "Bairro Gonçalves" },
-
-            { "date": "21/Nov (Sexta-feira)", "time": "09:00", "title": "Visita aos Enfermos", "location": "Visita aos Enfermos" },
-            { "date": "21/Nov (Sexta-feira)", "time": "09:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "21/Nov (Sexta-feira)", "time": "14:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "21/Nov (Sexta-feira)", "time": "19:00", "title": "Santa Missa Setor 6", "location": "Bairro Torres" },
-            { "date": "21/Nov (Sexta-feira)", "time": "19:00", "title": "Santa Missa Setor 8", "location": "Bairro Caetê" },
-
-            { "date": "22/Nov (Sábado)", "time": "11:00", "title": "Casamento", "location": "Igreja Matriz" },
-            { "date": "22/Nov (Sábado)", "time": "11:00", "title": "Casamento", "location": "Bairro Retirinho" },
-            { "date": "22/Nov (Sábado)", "time": "16:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            { "date": "22/Nov (Sábado)", "time": "18:00", "title": "Santa Missa", "location": "Hotel" },
-            { "date": "22/Nov (Sábado)", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-
-            { "date": "23/Nov (Domingo)", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            { "date": "23/Nov (Domingo)", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            { "date": "23/Nov (Domingo)", "time": "09:00", "title": "Santa Missa Setor 3", "location": "Bairro Mendanha" },
-            { "date": "23/Nov (Domingo)", "time": "15:00", "title": "Primeira Eucaristia", "location": "Igreja Matriz" },
-            { "date": "23/Nov (Domingo)", "time": "18:00", "title": "Santa Missa Setor 1", "location": "Bairro Retirinho" },
-            { "date": "23/Nov (Domingo)", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-
-            { "date": "24/Nov (Segunda-feira)", "time": "--", "title": "Folga", "location": "Folga" },
-            { "date": "24/Nov (Segunda-feira)", "time": "18:00", "title": "Santa Missa Sagrado Coração", "location": "Igreja Sagrado Coração" },
-            { "date": "24/Nov (Segunda-feira)", "time": "19:00", "title": "Formação MESC", "location": "Formação MESC" },
-
-            { "date": "25/Nov (Terça-feira)", "time": "09:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "25/Nov (Terça-feira)", "time": "14:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "25/Nov (Terça-feira)", "time": "19:00", "title": "Santa Missa Setor 4", "location": "Bairro Pereiras" },
-            { "date": "25/Nov (Terça-feira)", "time": "19:00", "title": "Santa Missa Setor 7", "location": "Bairro Rio Acima II" },
-            { "date": "25/Nov (Terça-feira)", "time": "20:00", "title": "Reunião Setor 7", "location": "Reunião Setor 7" },
-            
-            { "date": "26/Nov (Quarta-feira)", "time": "09:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "26/Nov (Quarta-feira)", "time": "14:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "26/Nov (Quarta-feira)", "time": "19:00", "title": "Santa Missa Setor 1", "location": "Bairro Mendes" },
-            { "date": "26/Nov (Quarta-feira)", "time": "19:00", "title": "Santa Missa Setor 4", "location": "Bairro Água Limpa" },
-
-            { "date": "27/Nov (Quinta-feira)", "time": "05:00", "title": "Santa Missa Pedra Santa", "location": "Pedra Santa" },
-            { "date": "27/Nov (Quinta-feira)", "time": "09:00", "title": "Abrigo São Camilo", "location": "Abrigo São Camilo" },
-            { "date": "27/Nov (Quinta-feira)", "time": "14:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "27/Nov (Quinta-feira)", "time": "17:00", "title": "Confissão", "location": "Igreja Matriz" },
-            { "date": "27/Nov (Quinta-feira)", "time": "18:00", "title": "Adoração", "location": "Igreja Matriz" },
-            { "date": "27/Nov (Quinta-feira)", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            { "date": "27/Nov (Quinta-feira)", "time": "19:00", "title": "Santa Missa Setor 1", "location": "Bairro Muquém" },
-
-            { "date": "28/Nov (Sexta-feira)", "time": "09:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "28/Nov (Sexta-feira)", "time": "14:00", "title": "Atendimento", "location": "Atendimento" },
-            { "date": "28/Nov (Sexta-feira)", "time": "19:00", "title": "Santa Missa Setor 7", "location": "Bairro Vargem Alegre" },
-            { "date": "28/Nov (Sexta-feira)", "time": "19:00", "title": "Primeiro dia da Novena", "location": "Novena" },
-            
-            { "date": "29/Nov (Sábado)", "time": "10:00", "title": "Santa Missa Setor 1", "location": "Bairro Virgem do Socorro" },
-            { "date": "29/Nov (Sábado)", "time": "11:00", "title": "Casamento", "location": "Igreja Matriz" },
-            { "date": "29/Nov (Sábado)", "time": "16:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            { "date": "29/Nov (Sábado)", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            { "date": "29/Nov (Sábado)", "time": "19:00", "title": "Santa Missa Setor 7", "location": "Bairro Roseirinha" },
-            { "date": "29/Nov (Sábado)", "time": "19:00", "title": "Segundo dia da Novena", "location": "Novena" },
-
-            { "date": "30/Nov (Domingo)", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            { "date": "30/Nov (Domingo)", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            { "date": "30/Nov (Domingo)", "time": "09:00", "title": "Santa Missa Setor 3", "location": "Bairro Mendanha" },
-            { "date": "30/Nov (Domingo)", "time": "11:00", "title": "Santa Missa Setor 1", "location": "Bairro Palmeiras" },
-            { "date": "30/Nov (Domingo)", "time": "18:00", "title": "Santa Missa Setor 5", "location": "Bairro Roseira" },
-            { "date": "30/Nov (Domingo)", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz" },
-            { "date": "30/Nov (Domingo)", "time": "19:00", "title": "Terceiro dia da Novena", "location": "Novena" }
-        ];
-
-        let uniqueDates = [];
-        let currentTab = 'agenda'; 
-        let currentSelectedDate = ''; 
-        let isMenuOpen = false; // Estado do menu móvel
-
-        // Função para encontrar as datas únicas e inicializar a data selecionada
-        function getUniqueDates() {
-             const dates = AGENDA_DATA.map(item => item.date.trim());
-             uniqueDates = [...new Set(dates)];
-             
-             if (uniqueDates.length > 0) {
-                 const today = new Date();
-                 const todayDay = today.getDate().toString().padStart(2, '0');
-                 
-                 // Tenta encontrar a data de hoje ou a mais próxima
-                 let closestDate = uniqueDates[0];
-                 for (const fullDate of uniqueDates) {
-                     if (fullDate.includes(todayDay + '/Nov')) {
-                         closestDate = fullDate;
-                         break;
-                     }
-                 }
-                 
-                 if (currentSelectedDate === '') {
-                     currentSelectedDate = closestDate; 
-                 }
-             }
-        }
-        
-        // Renderiza os botões de seleção de dia (Calendário Horizontal)
-        function renderDatePicker() {
-            getUniqueDates();
-            const container = document.getElementById('date-picker-container');
-            if (!container) return; 
-            
-            container.innerHTML = '';
-            
-            uniqueDates.forEach(fullDate => {
-                const datePart = fullDate.split('/')[0];
-                const button = document.createElement('button');
-                button.className = 'date-button';
-                button.textContent = datePart;
-                button.setAttribute('data-full-date', fullDate);
-                
-                if (fullDate === currentSelectedDate) {
-                    button.classList.add('active');
-                }
-                
-                button.onclick = () => selectDate(fullDate);
-                container.appendChild(button);
-            });
-            // Rola a barra de dias para o botão ativo (o dia selecionado)
-            const activeBtn = container.querySelector('.date-button.active');
-            if (activeBtn) {
-                activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-        }
-        
-        // Seleciona um novo dia
-        function selectDate(fullDate) {
-            currentSelectedDate = fullDate;
-            renderAgenda(); 
-            renderDatePicker(); 
-        }
-
-        // Renderiza os eventos da Agenda para a data selecionada
-        function renderAgenda() {
-            const container = document.getElementById('agenda-content');
-            if (!container) return;
-            container.innerHTML = '';
-            
-            const filteredData = AGENDA_DATA.filter(event => event.date.trim() === currentSelectedDate);
-
-            if (filteredData.length === 0) {
-                container.innerHTML = `<div class="p-6 card rounded-xl shadow-md text-center text-gray-500">
-                    <p>Nenhum evento agendado para esta data.</p>
-                </div>`;
-                return;
-            }
-
-            // Cabeçalho da data
-            const headerDiv = document.createElement('div');
-            headerDiv.className = 'mb-4 text-center';
-            const dayOfWeek = currentSelectedDate.split('(')[1].replace(')', '');
-            const dateOnly = currentSelectedDate.split('(')[0].trim();
-            headerDiv.innerHTML = `
-                <p class="text-xl font-bold text-amber-100">${dayOfWeek}</p>
-                <p class="text-3xl font-extrabold text-amber-200">${dateOnly}</p>
-            `;
-            container.appendChild(headerDiv);
-
-            // Lista de eventos
-            const listCard = document.createElement('div');
-            listCard.className = 'card rounded-xl shadow-lg p-4 space-y-2';
-
-            filteredData.forEach(event => {
-                const eventDiv = document.createElement('div');
-                eventDiv.className = 'flex justify-between items-center py-3 border-b border-gray-700 last:border-b-0';
-                
-                // Determina se é um evento de destaque (ex: Missa Matriz)
-                const isMatriz = event.title.includes("Igreja Matriz") || event.location.includes("Igreja Matriz");
-                const titleColor = isMatriz ? 'text-amber-400' : 'text-amber-100';
-
-                eventDiv.innerHTML = `
-                    <div class="flex-1">
-                        <p class="font-bold text-base ${titleColor}">${event.title}</p>
-                        <p class="text-xs text-gray-500">${event.location}</p>
-                    </div>
-                    <span class="font-bold text-lg text-amber-500 mr-4">${event.time}</span>
-                `;
-                listCard.appendChild(eventDiv);
-            });
-
-            container.appendChild(listCard);
-            lucide.createIcons();
-        }
-        
-        // --- Função de Troca de Abas ---
-        function switchTab(tabName) {
-            currentTab = tabName;
-            
-            // Fecha o menu móvel se estiver aberto
-            if (isMenuOpen) {
-                toggleMobileMenu();
-            }
-
-            // Gerenciar Visibilidade
-            document.getElementById('agenda-section').classList.add('hidden');
-            document.getElementById('hino-section').classList.add('hidden');
-            document.getElementById('oracao-section').classList.add('hidden');
-            document.getElementById('info-section').classList.add('hidden');
-            document.getElementById('contatos-section').classList.add('hidden');
-            document.getElementById(`${tabName}-section`).classList.remove('hidden');
-
-            // Gerenciar Botões (Desktop)
-            document.querySelectorAll('.tab-button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            // Oculta a borda se estiver no mobile (hambúrguer)
-            const activeBtn = document.getElementById(`${tabName}-btn`);
-            if (activeBtn) {
-                 activeBtn.classList.add('active');
-            }
-
-            // Chamadas específicas de renderização
-            if (tabName === 'agenda') {
-                renderDatePicker(); 
-                renderAgenda(); 
-            }
-            lucide.createIcons();
-        }
-        
-        // Função para Abrir/Fechar o Menu Móvel
-        function toggleMobileMenu() {
-            isMenuOpen = !isMenuOpen;
-            const menuOverlay = document.getElementById('mobile-menu-overlay');
-            const menuIconContainer = document.getElementById('mobile-menu-button');
-
-            if (isMenuOpen) {
-                menuOverlay.classList.add('open');
-                menuIconContainer.innerHTML = `<i data-lucide="x" class="w-6 h-6 text-amber-400"></i>`; // Ícone X
-            } else {
-                menuOverlay.classList.remove('open');
-                menuIconContainer.innerHTML = `<i data-lucide="menu" class="w-6 h-6 text-amber-400"></i>`; // Ícone Menu
-            }
-            lucide.createIcons();
-        }
-
-
-        // Inicialização
-        document.addEventListener('DOMContentLoaded', () => {
-            getUniqueDates(); 
-            switchTab('agenda'); 
-            lucide.createIcons();
-        });
-
-    </script>
-</head>
-<body class="min-h-screen flex flex-col">
-    <!-- Menu Hambúrguer Overlay (Mobile) -->
-    <div id="mobile-menu-overlay" class="fixed inset-0 w-full h-full sm:hidden p-4 transition-transform duration-300 transform -translate-x-full">
-        <div class="hino-content-bg rounded-xl shadow-2xl p-6 flex flex-col items-start space-y-2 mt-20">
-            <h3 class="text-lg font-bold text-amber-400 mb-2">Navegação Principal</h3>
-            <button onclick="switchTab('agenda')" class="menu-item flex items-center justify-start gap-3 rounded-lg"><i data-lucide="calendar-days" class="w-5 h-5"></i> Agenda</button>
-             <button onclick="switchTab('hino')" class="menu-item flex items-center justify-start gap-3 rounded-lg"><i data-lucide="music" class="w-5 h-5"></i> Hino</button>
-            <button onclick="switchTab('oracao')" class="menu-item flex items-center justify-start gap-3 rounded-lg"><i data-lucide="scroll" class="w-5 h-5"></i> Oração</button>
-            <button onclick="switchTab('info')" class="menu-item flex items-center justify-start gap-3 rounded-lg"><i data-lucide="info" class="w-5 h-5"></i> Informações</button>
-            <button onclick="switchTab('contatos')" class="menu-item flex items-center justify-start gap-3 rounded-lg"><i data-lucide="phone" class="w-5 h-5"></i> Contatos</button>
-        </div>
-    </div>
-    
-    <header class="border-b border-gray-700 sticky top-0 z-20 shadow-lg header-bg">
-        <div class="max-w-xl mx-auto px-4 py-4 flex justify-between items-center">
-            <!-- BLOCO ESQUERDO: NOME E LOGÓTIPO -->
-            <div class="flex items-center gap-3">
-                <i data-lucide="church" class="w-8 h-8 text-amber-400"></i>
-                <div>
-                    <h1 class="text-xl font-bold text-amber-100">Paróquia</h1>
-                    <p class="text-xs text-amber-400">Nossa Senhora da Conceição</p>
-                </div>
-            </div>
-            
-            <!-- BLOCO DIREITO: JUBILEU EM DESTAQUE E MENU MÓVEL -->
-            <div class="flex items-center gap-4">
-                <div class="text-right hidden sm:block">
-                    <p class="text-xs font-bold text-amber-400">Ano Jubilar</p>
-                    <p class="text-lg font-bold text-amber-200">1866 – 2026</p>
-                </div>
-                 <!-- Botão Menu Hambúrguer (Apenas em Mobile) -->
-                <button id="mobile-menu-button" onclick="toggleMobileMenu()" class="sm:hidden p-1 rounded-full hover:bg-gray-700 transition-colors z-50">
-                    <i data-lucide="menu" class="w-6 h-6 text-amber-400"></i>
-                </button>
-            </div>
-        </div>
-        
-        <!-- BARRA DE NAVEGAÇÃO POR ABAS (Desktop) -->
-        <div id="desktop-tab-bar" class="max-w-xl mx-auto px-4 flex justify-between border-t border-gray-700 overflow-x-auto whitespace-nowrap">
-            <button id="agenda-btn" onclick="switchTab('agenda')" class="tab-button py-3 text-sm flex justify-center items-center gap-2">
-                <i data-lucide="calendar-days" class="w-4 h-4"></i> Agenda
-            </button>
-            <button id="hino-btn" onclick="switchTab('hino')" class="tab-button py-3 text-sm flex justify-center items-center gap-2">
-                <i data-lucide="music" class="w-4 h-4"></i> Hino
-            </button>
-            <button id="oracao-btn" onclick="switchTab('oracao')" class="tab-button py-3 text-sm flex justify-center items-center gap-2">
-                <i data-lucide="scroll" class="w-4 h-4"></i> Oração
-            </button>
-            <button id="info-btn" onclick="switchTab('info')" class="tab-button py-3 text-sm flex justify-center items-center gap-2">
-                <i data-lucide="info" class="w-4 h-4"></i> Informações
-            </button>
-            <button id="contatos-btn" onclick="switchTab('contatos')" class="tab-button py-3 text-sm flex justify-center items-center gap-2">
-                <i data-lucide="phone" class="w-4 h-4"></i> Contatos
-            </button>
-        </div>
-    </header>
-
-    <main class="flex-1 max-w-xl mx-auto px-4 py-6 w-full">
-        <!-- SEÇÃO 1: AGENDA -->
-        <div id="agenda-section">
-            <!-- BARRA DE SELEÇÃO DE DIAS (CALENDÁRIO) -->
-            <div class="mb-6">
-                <div id="date-picker-container" class="date-picker-scroll flex pb-2">
-                    <!-- Botões dos dias injetados pelo JavaScript -->
-                </div>
-            </div>
-            
-            <!-- Conteúdo da Agenda (Apenas do Dia Selecionado) -->
-            <div id="agenda-content" class="space-y-4">
-                <!-- Conteúdo injetado pelo JavaScript -->
-            </div>
-        </div>
-
-        <!-- SEÇÃO 2: HINO -->
-        <div id="hino-section" class="hidden space-y-6">
-            <div class="hino-content-bg rounded-xl shadow-lg p-5">
-                <h2 class="text-2xl font-bold mb-4 text-amber-200 text-center">Hino do Jubileu de 160 Anos</h2>
-                
-                <div class="text-sm text-gray-300">
-                    <p class="verse-block">
-                        Aqui nesta terra, ornada de serra,<br>
-                        Coberta pelo céu azul anil,<br>
-                        Nasceu nossa fé, que o tempo não encerra,<br>
-                        Abençoando este chão do Brasil.<br>
-                        Nesta alvorada bendita e festiva,<br>
-                        A semente de Cristo cresceu,<br>
-                        E a vossa presença, ó Mãe compassiva,<br>
-                        Nossa Paróquia edificou.
-                    </p>
-                    
-                    <span class="refrain">
-                        Soberana da pátria celeste,<br>
-                        Velai por Virgínia querida;<br>
-                        Nossa Paróquia em festa celebra<br>
-                        O jubileu de cento e sessenta anos<br>
-                        de história!
-                    </span>
-                    
-                    <p class="verse-block pt-4">
-                        Gerações que aqui receberam<br>
-                        O santo batismo e a união,<br>
-                        Em cada jornada da vida souberam<br>
-                        Buscar em Vós consolação.<br>
-                        As preces dos filhos que aqui cresceram<br>
-                        Sustentam a força da missão,<br>
-                        E o amor que em Cristo sempre viveram<br>
-                        Guia firme todo o coração.
-                    </p>
-
-                    <span class="refrain">
-                        Soberana da pátria celeste,<br>
-                        Velai por Virgínia querida;<br>
-                        Nossa Paróquia em festa celebra<br>
-                        O jubileu de cento e sessenta anos<br>
-                        de história!
-                    </span>
-                    
-                    <p class="verse-block pt-4">
-                        Que a fé que herdamos acesa<br>
-                        Nos guarde em Vós, fortaleza.<br>
-                        Que a nossa Paróquia seja<br>
-                        Sinal de esperança e fé.<br>
-                        E que o Evangelho, nossa luz,<br>
-                        Nos leve sempre ao Cristo Jesus.
-                    </p>
-
-                    <span class="refrain">
-                        Soberana da pátria celeste,<br>
-                        Velai por Virgínia querida;<br>
-                        Nossa Paróquia em festa celebra<br>
-                        O jubileu de cento e sessenta anos<br>
-                        de história!
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <!-- SEÇÃO 3: ORAÇÃO -->
-        <div id="oracao-section" class="hidden space-y-6">
-            <div class="hino-content-bg rounded-xl shadow-lg p-5">
-                <h2 class="text-2xl font-bold mb-4 text-amber-200 text-center">Oração do Jubileu de 160 Anos</h2>
-                
-                <div class="text-sm text-gray-300 space-y-4">
-                    <p class="pt-2">Deus Todo-poderoso, Senhor do Tempo e da História, a Ti elevamos nossa voz neste Ano de Graça. Somos herdeiros de 160 anos de fé que não se dobrou, e Te bendizemos por cada vida iluminada, por cada Sacramento que fez este Templo pulsar com a força do Teu Reino.</p>
-                    
-                    <p class="pt-2">Senhor Jesus Cristo, Fonte Eterna de Misericórdia, concede-nos viver este Jubileu com coração renovado.</p>
-                    
-                    <p>Purifica-nos. Reconcilia-nos. Reergue-nos na luz da Tua Ressurreição, para que sejamos um só povo, firme e ardente na fé.</p>
-                    
-                    <p>Que a memória dos que vieram antes de nós seja chama que não se apaga e nos impulsione a levar o Evangelho com coragem, esperança e verdade.</p>
-                    
-                    <p class="pt-2">Nossa Senhora da Conceição, Mãe e Padroeira, estrela que guia os passos desta Paróquia, intercede por nós.</p>
-                    
-                    <p>Guarda-nos no Teu manto, inspira-nos com o Teu "Sim" e conduz-nos a uma nova primavera espiritual.</p>
-                    
-                    <p class="pt-4 italic">Pai santo, recebe este Jubileu como oferta viva, para Tua glória e para a salvação das almas.</p>
-                    <p class="font-bold">Por nosso Senhor Jesus Cristo, vosso Filho, que é Deus, e contigo vive e reina, na unidade do Espírito Santo, por todos os séculos dos séculos. Amém.</p>
-                </div>
-            </div>
-        </div>
-
-
-        <!-- SEÇÃO 4: INFORMAÇÕES -->
-        <div id="info-section" class="hidden space-y-6">
-             <!-- Horários de Missa (Matriz) -->
-            <div class="card rounded-xl shadow-lg p-5">
-                <h2 class="text-xl font-bold mb-3 text-amber-100 flex items-center gap-2"><i data-lucide="church" class="w-5 h-5 text-amber-400"></i> Horários de Missa (Matriz)</h2>
-                <div class="text-sm text-gray-300 space-y-2">
-                    <div class="flex justify-between border-b border-gray-700 pb-1"><span class="font-bold text-amber-200">Quinta-feira:</span><span class="text-amber-500">19:00h</span></div>
-                    <div class="flex justify-between border-b border-gray-700 pb-1"><span class="font-bold text-amber-200">Sábado:</span><span class="text-amber-500">16:00h e 19:00h</span></div>
-                    <div class="flex justify-between"><span class="font-bold text-amber-200">Domingo:</span><span class="text-amber-500">07:00h, 09:00h e 19:00h</span></div>
-                </div>
-            </div>
-
-            <!-- Sobre a Paróquia (Otimizado) -->
-            <div class="card rounded-xl shadow-lg p-5 space-y-4">
-                <h2 class="text-xl font-bold text-amber-100 flex items-center gap-2"><i data-lucide="landmark" class="w-5 h-5 text-amber-400"></i> Sobre a Paróquia</h2>
-                
-                <div class="text-sm text-gray-300 space-y-3">
-                    <div class="flex gap-3 items-start">
-                        <i data-lucide="calendar-check" class="w-5 h-5 text-amber-400 mt-1 flex-shrink-0"></i>
-                        <p class="leading-relaxed"><span class="font-bold text-amber-200">Fundação:</span> A Paróquia foi criada em 15 de Novembro de 1866, com raízes em 1856, quando Padre Custódio de Oliveira Monte-Raso ergueu a capela.</p>
-                    </div>
-                    <div class="flex gap-3 items-start">
-                        <i data-lucide="map" class="w-5 h-5 text-amber-400 mt-1 flex-shrink-0"></i>
-                        <p class="leading-relaxed"><span class="font-bold text-amber-200">Localização Histórica:</span> Situada em Virgínia/MG, a paróquia é um farol de fé no Sul de Minas, conhecida pela sua devoção a Nossa Senhora da Conceição.</p>
-                    </div>
-                    <div class="flex gap-3 items-start">
-                        <i data-lucide="heart" class="w-5 h-5 text-amber-400 mt-1 flex-shrink-0"></i>
-                        <p class="leading-relaxed"><span class="font-bold text-amber-200">Missão:</span> Evangelizar e acolher a todos com amor fraterno, dando continuidade à tradição centenária de fé e caridade na região.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Horário do Escritório Paroquial -->
-            <div class="card rounded-xl shadow-lg p-5">
-                <h2 class="text-xl font-bold mb-3 text-amber-100 flex items-center gap-2"><i data-lucide="clock" class="w-5 h-5 text-amber-400"></i> Horário do Escritório Paroquial</h2>
-                <div class="text-sm text-gray-300 space-y-2">
-                    <div class="flex justify-between border-b border-gray-700 pb-1"><span class="font-bold">Segunda a Sexta:</span><span>08:00h – 17:00h</span></div>
-                    <div class="flex justify-between"><span class="font-bold">Sábados e Domingos:</span><span>Fechado</span></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SEÇÃO 5: CONTATOS -->
-        <div id="contatos-section" class="hidden space-y-4">
-            <div class="card rounded-xl shadow-lg p-5 space-y-4">
-                <h2 class="text-xl font-bold mb-3 text-amber-100 flex items-center gap-2"><i data-lucide="phone-call" class="w-5 h-5 text-amber-400"></i> Escritório Paroquial</h2>
-                
-                <!-- WHATSAPP (Corrigido para Âmbar) -->
-                <a href="https://wa.me/553533731397" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 p-3 bg-amber-400/20 hover:bg-amber-300/20 rounded-lg transition-colors">
-                    <i data-lucide="message-square" class="w-6 h-6 text-amber-400"></i>
-                    <div>
-                        <p class="font-bold text-sm text-amber-100">WhatsApp Oficial</p>
-                        <p class="text-xs text-gray-400 contact-link-text">(35) 3373-1397</p>
-                    </div>
-                </a>
-                
-                <!-- INSTAGRAM -->
-                <a href="https://www.instagram.com/aparoquia/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 p-3 bg-pink-400/20 hover:bg-pink-300/20 rounded-lg transition-colors">
-                    <i data-lucide="instagram" class="w-6 h-6 text-pink-400"></i>
-                    <div>
-                        <p class="font-bold text-sm text-amber-100">Instagram Oficial</p>
-                        <p class="text-xs text-gray-400 contact-link-text">@aparoquia</p>
-                    </div>
-                </a>
-
-                <!-- TELEFONE -->
-                <a href="tel:+553532611217,8007" class="flex items-center gap-4 p-3 bg-blue-400/20 hover:bg-blue-300/20 rounded-lg transition-colors">
-                    <i data-lucide="phone" class="w-6 h-6 text-blue-400"></i>
-                    <div>
-                        <p class="font-bold text-sm text-amber-100">Telefone com Ramal</p>
-                        <p class="text-xs text-gray-400 contact-link-text">(35) 3261-1217 ramal 8007</p>
-                    </div>
-                </a>
-
-                <!-- E-MAIL -->
-                <a href="mailto:paroquiavirginia@yahoo.com.br" class="flex items-center gap-4 p-3 bg-red-400/20 hover:bg-red-300/20 rounded-lg transition-colors">
-                    <i data-lucide="mail" class="w-6 h-6 text-red-400"></i>
-                    <div>
-                        <p class="font-bold text-sm text-amber-100">E-mail Oficial</p>
-                        <p class="text-xs text-gray-400 contact-link-text">paroquiavirginia@yahoo.com.br</p>
-                    </div>
-                </a>
-            </div>
-
-            <div class="card rounded-xl shadow-lg p-5">
-                <h2 class="text-xl font-bold mb-3 text-amber-100 flex items-center gap-2"><i data-lucide="map-pin" class="w-5 h-5 text-amber-400"></i> Localização</h2>
-                <p class="text-sm text-gray-300">Praça Cônego Monte Raso, nº 304 - Centro<br>37465-000, Virgínia/MG</p>
-                <a href="https://www.google.com/maps/search/?api=1&query=Praça+Cônego+Monte+Raso,+304,+Virgínia+-+MG" target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex items-center gap-2 text-sm font-bold text-amber-500 hover:text-amber-400">
-                    Ver no Mapa <i data-lucide="external-link" class="w-4 h-4"></i>
-                </a>
-            </div>
-        </div>
-    </main>
-    
-    <footer class="text-center py-4 text-xs text-gray-500 border-t border-gray-700 mt-auto header-bg">
-        Desenvolvido por Emanuel Uchôas
-    </footer>
-</body>
-</html>
-
+const dailyAgendaData = {
+    // ===================================
+    // NOVEMBRO (23 a 30)
+    // ===================================
+    '23-Nov': {
+        dayName: 'DOMINGO',
+        liturgical: 'SOLENIDADE de Cristo Rei do Universo', 
+        dateStr: '23/Nov',
+        events: [
+            { title: 'Santa Missa', subtitle: 'Igreja Matriz', time: '07:00', church: 'Matriz', color: 'parish-gold' },
+            { title: 'Santa Missa', subtitle: 'Igreja Matriz', time: '09:00', church: 'Matriz', color: 'parish-gold' }, 
+            { title: 'Santa Missa Setor 3', subtitle: 'Bairro Mendanha', time: '09:00', church: 'Comunidade', color: 'parish-soft-gray' },
+            { title: 'Santa Missa', subtitle: 'Igreja Matriz', time: '10:00', church: 'Matriz', color: 'parish-gold' },
+            { title: 'Primeira Eucaristia', subtitle: 'Igreja Matriz', time: '15:00', church: 'Matriz', color: 'parish-gold' },
+            { title: 'Santa Missa Setor 1', subtitle: 'Bairro Retirinho', time: '18:00', church: 'Comunidade', color: 'parish-soft-gray' },
+            { title: 'Santa Missa', subtitle: 'Igreja Matriz', time: '19:00', church: 'Matriz', color: 'parish-gold' },
+        ]
+    },
+    '24-Nov': {
+        dayName: 'SEGUNDA-FEIRA',
+        liturgical: 'Segunda-feira da 34ª Semana do Tempo Comum', 
+        dateStr: '24/Nov',
+        events: [
+            { title: 'Visita às obras', subtitle: '', time: '09:00', church: 'Atendimento', color: 'parish-soft-gray' }, 
+            { title: 'Santa Missa', subtitle: 'Sagrado Coração', time: '18:00', church: 'External', color: 'parish-red' }, 
+            { title: 'Formação MESC', subtitle: '', time: '19:00', church: 'External', color: 'parish-red' }, 
+        ]
+    },
+    '25-Nov': {
+        dayName: 'TERÇA-FEIRA',
+        liturgical: 'Terça-feira da 34ª Semana do Tempo Comum', 
+        dateStr: '25/Nov',
+        events: [
+            { title: 'Atendimento', subtitle: '', time: '09:00', church: 'Atendimento', color: 'parish-soft-gray' }, 
+            { title: 'Atendimento', subtitle: 'Secretaria', time: '14:00', church: 'Atendimento', color: 'parish-soft-gray' }, 
+            { title: 'Santa Missa Setor 4', subtitle: 'Bairro Pereiras', time: '19:00', church: 'Comunidade', color: 'parish-soft-gray' },
+            { title: 'Santa Missa Setor 7', subtitle: 'Bairro Rio Acima II', time: '19:00', church: 'Comunidade', color: 'parish-soft-gray' },
+            { title: 'Reunião Setor 7', subtitle: '', time: '20:00', church: 'External', color: 'parish-red' }, 
+        ]
+    },
+    '26-Nov': { 
+        dayName: 'QUARTA-FEIRA',
+        liturgical: 'Memória de São Nicolau Tavelić e Companheiros, Mártires', 
+        dateStr: '26/Nov',
+        events: [
+            { title: 'Atendimento', subtitle: 'Secretaria', time: '09:00', church: 'Atendimento', color: 'parish-soft-gray' }, 
+            { title: 'Santa Missa Setor 1', subtitle: 'Bairro Mendes', time: '19:00', church: 'Comunidade', color: 'parish-soft-gray' },
+            { title: 'Santa Missa Setor 4', subtitle: 'Bairro Água Limpa', time: '19:00', church: 'Comunidade', color: 'parish-soft-gray' },
+        ]
+    },
+    '27-Nov': { 
+        dayName: 'QUINTA-FEIRA',
+        liturgical: 'Memória de Nossa Senhora das Graças e da Medalha Milagrosa', 
+        dateStr: '27/Nov',
+        events: [
+            { title: 'Procissão', subtitle: 'Saindo da Igreja Matriz (até Pedra Santa)', time: '04:30', church: 'External', color: 'parish-red' }, 
+            { title: 'Santa Missa', subtitle: 'Pedra Santa (logo após a Procissão)', time: '05:00', church: 'External', color: 'parish-red' }, 
+            { title: 'Santa Missa', subtitle: 'Abrigo São Camilo', time: '09:00', church: 'External', color: 'parish-red' }, 
+            { title: 'Atendimento', subtitle: 'Secretaria', time: '14:00', church: 'Atendimento', color: 'parish-soft-gray' }, 
+            { title: 'Confissão', subtitle: 'Igreja Matriz', time: '17:00', church: 'Matriz', color: 'parish-gold' },
+            { title: 'Adoração', subtitle: 'Igreja Matriz', time: '18:00', church: 'Matriz', color: 'parish-gold' },
+            { title: 'Santa Missa Setor 1', subtitle: 'Bairro Muquém', time: '19:00', church: 'Comunidade', color: 'parish-soft-gray' },
+            { title: 'Santa Missa', subtitle: 'Igreja Matriz', time: '19:00', church: 'Matriz', color: 'parish-gold' },
+        ]
+    },
+    '28-Nov': {
+        dayName: 'SEXTA-FEIRA',
+        liturgical: '1º Dia da Novena | Memória de São Tiago da Marca, Presbítero', 
+        dateStr: '28/Nov',
+        events: [
+            { title: 'Atendimento', subtitle: 'Secretaria', time: '09:00', church: 'Atendimento', color: 'parish-soft-gray' }, 
+            { title: 'Atendimento', subtitle: 'Secretaria', time: '14:00', church: 'Atendimento', color: 'parish-soft-gray' }, 
+            { title: 'Santa Missa Setor 7', subtitle: 'Bairro Vargem Alegre', time: '19:00', church: 'Comunidade', color: 'parish-soft-gray' },
+            { title: 'Primeiro dia da Novena', subtitle: 'Igreja Matriz', time: '19:00', church: 'Matriz', color: 'parish-gold' }, 
+        ]
+    },
+    '29-Nov': {
+        dayName: 'SÁBADO',
+        liturgical: '2º Dia da Novena | Nossa Senhora no Sábado (Memória Facultativa)', 
+        dateStr: '29/Nov',
+        events: [
+            { title: 'Casamento', subtitle: 'Igreja Matriz', time: '11:00', church: 'Matriz', color: 'parish-soft-gray' },
+            { title: 'Santa Missa', subtitle: 'Igreja Matriz', time: '16:00', church: 'Matriz', color: 'parish-gold' }, 
+            { title: 'Santa Missa Setor 7', subtitle: 'Bairro Roseirinha', time: '16:00', church: 'Comunidade', color: 'parish-soft-gray' },
+            { title: 'Segundo dia da Novena', subtitle: 'Igreja Matriz', time: '19:00', church: 'Matriz', color: 'parish-gold' }, 
+        ]
+    },
+    '30-Nov': {
+        dayName: 'DOMINGO',
+        liturgical: '3º Dia da Novena | 1º DOMINGO DO ADVENTO',
+        dateStr: '30/Nov',
+        events: [
+            { title: 'Santa Missa', subtitle: 'Igreja Matriz', time: '07:00', church: 'Matriz', color: 'parish-gold' },
+            { title: 'Santa Missa', subtitle: 'Igreja Matriz', time: '09:00', church: 'Matriz', color: 'parish-gold' }, 
+            { title: 'Santa Missa Setor 7', subtitle: 'Bairro Retiro dos Marins', time: '09:30', church: 'Comunidade', color: 'parish-soft-gray' },
+            { title: 'Santa Missa Setor 1', subtitle: 'Bairro Palmeiras', time: '11:00', church: 'Comunidade', color: 'parish-soft-gray' },
+            { title: 'Santa Missa Setor 5', subtitle: 'Bairro Roseira', time: '18:00', church: 'Comunidade', color: 'parish-soft-gray' },
+            { title: 'Terceiro dia da Novena', subtitle: 'Igreja Matriz', time: '19:00', church: 'Matriz', color: 'parish-gold' }, 
+        ]
+    },
+    // ===================================
+    // DEZEMBRO (1 a 8)
+    // ===================================
+    '01-Dec': {
+        dayName: 'SEGUNDA-FEIRA',
+        liturgical: '4º Dia da Novena | São Remígio, Bispo (Memória)', 
+        dateStr: '01/Dez',
+        events: [
+            { title: 'Quarto dia da Novena', subtitle: 'Igreja Matriz', time: '19:00', church: 'Matriz', color: 'parish-gold' }
+        ]
+    },
+    '02-Dec': {
+        dayName: 'TERÇA-FEIRA',
+        liturgical: '5º Dia da Novena | 1ª Semana do Advento', 
+        dateStr: '02/Dez',
+        events: [
+            { title: 'Quinto dia da Novena', subtitle: 'Igreja Matriz', time: '19:00', church: 'Matriz', color: 'parish-gold' }
+        ]
+    },
+    '03-Dec': {
+        dayName: 'QUARTA-FEIRA',
+        liturgical: '6º Dia da Novena | São Francisco Xavier, Presbítero (Memória)', 
+        dateStr: '03/Dez',
+        events: [
+            { title: 'Sexto dia da Novena', subtitle: 'Igreja Matriz', time: '19:00', church: 'Matriz', color: 'parish-gold' }
+        ]
+    },
+    '04-Dec': {
+        dayName: 'QUINTA-FEIRA',
+        liturgical: '7º Dia da Novena | São João Damasceno, Presbítero e Doutor (Memória)', 
+        dateStr: '04/Dez',
+        events: [
+            { title: 'Sétimo dia da Novena', subtitle: 'Igreja Matriz', time: '19:00', church: 'Matriz', color: 'parish-gold' }
+        ]
+    },
+    '05-Dec': {
+        dayName: 'SEXTA-FEIRA',
+        liturgical: '8º Dia da Novena | Semana do Advento', 
+        dateStr: '05/Dez',
+        events: [
+            { title: 'Oitavo dia da Novena', subtitle: 'Igreja Matriz', time: '19:00', church: 'Matriz', color: 'parish-gold' }
+        ]
+    },
+    '06-Dec': {
+        dayName: 'SÁBADO',
+        liturgical: '9º Dia da Novena | São Nicolau, Bispo (Memória)', 
+        dateStr: '06/Dez',
+        events: [
+            { title: 'Nono dia da Novena', subtitle: 'Igreja Matriz', time: '19:00', church: 'Matriz', color: 'parish-gold' }
+        ]
+    },
+    '07-Dec': {
+        dayName: 'DOMINGO',
+        liturgical: 'VÉSPERA DA FESTA | 2º DOMINGO DO ADVENTO', 
+        dateStr: '07/Dez',
+        events: [
+            // Missas diurnas da Matriz mantidas
+            { title: 'Santa Missa', subtitle: 'Igreja Matriz', time: '07:00', church: 'Matriz', color: 'parish-gold' },
+            { title: 'Santa Missa', subtitle: 'Igreja Matriz', time: '09:00', church: 'Matriz', color: 'parish-gold' },
+            // Novena final
+            { title: 'Último dia da Novena', subtitle: 'Igreja Matriz', time: '19:00', church: 'Matriz', color: 'parish-gold' }
+        ]
+    },
+    '08-Dec': {
+        dayName: 'SEGUNDA-FEIRA',
+        liturgical: 'SOLENIDADE da Imaculada Conceição de Nossa Senhora', 
+        dateStr: '08/Dez',
+        events: [
+            { title: 'Santa Missa Solene', subtitle: 'Igreja Matriz', time: '10:00', church: 'Matriz', color: 'parish-gold' },
+            { title: 'Procissão Solene e Santa Missa', subtitle: 'Igreja Matriz', time: '19:00', church: 'Matriz', color: 'parish-gold' }
+        ]
+    }
+};
