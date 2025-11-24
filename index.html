@@ -1,27 +1,186 @@
-<div class="background-container">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda Suprema - Liquid Glass Solene</title>
+    <style>
+        /* Variáveis de Cores (O Palácio Real) */
+        :root {
+            --bg-deep: #0C0A2E; /* Azul-Marinho Profundo (Fundo Solene) */
+            --glass-color: rgba(41, 30, 92, 0.45); /* Púrpura Escuro Suave (Cor do Vidro) */
+            --accent-light: #C5B4E3; /* Lavanda Pálida (Destaque Mariano) */
+            --text-color: #F0F0F0; /* Quase Branco/Prata */
+            --shadow-color: rgba(0, 0, 0, 0.6); /* Sombra Profunda */
+            --gold: #FFD700; /* Ouro Sutil (Acento) */
+            --border-light: rgba(197, 180, 227, 0.15); /* Borda Translúcida */
+        }
+
+        /* Configuração Base */
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-color);
+            font-family: 'Georgia', serif; /* Fonte Solene */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            /* Fundo Sutil (Toque Mariano) */
+            background-image: radial-gradient(circle at top left, rgba(60, 40, 100, 0.2) 0%, transparent 50%),
+                              radial-gradient(circle at bottom right, rgba(20, 10, 50, 0.3) 0%, transparent 50%);
+        }
+
+        /* O Segredo do Liquid Glass */
+        .liquid-glass-panel {
+            background: var(--glass-color);
+            border: 1px solid var(--border-light);
+            border-radius: 25px; /* Bordas suaves para o visual líquido */
+            padding: 30px;
+            
+            /* O Efeito Essencial: Desfoque e Saturação */
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            
+            /* Sombra e Transição para a Fluidez */
+            box-shadow: 0 10px 40px 0 var(--shadow-color);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Interação que simula a fluidez/brilho */
+        .liquid-glass-panel:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 15px 50px 0 rgba(197, 180, 227, 0.1), 0 10px 60px 0 var(--shadow-color);
+        }
+
+        /* Estrutura do Layout */
+        .agenda-container {
+            width: 95%;
+            max-width: 1300px;
+            display: grid;
+            gap: 40px;
+        }
+
+        /* Header Solene */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+        }
+
+        .title {
+            font-size: 2.8em;
+            font-weight: 300; /* Leveza para a solenidade */
+            letter-spacing: 6px; 
+            margin: 0;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-icon {
+            font-size: 2.5em;
+            color: var(--gold);
+        }
+
+        /* Seção Principal */
+        .agenda-main {
+            display: grid;
+            grid-template-columns: 3fr 2fr; /* Calendário maior que Tarefas */
+            gap: 40px;
+        }
+
+        h2 {
+            color: var(--accent-light);
+            margin-top: 0;
+            border-bottom: 1px solid rgba(197, 180, 227, 0.25);
+            padding-bottom: 15px;
+            font-size: 1.8em;
+            font-weight: 400;
+        }
+
+        /* Lista de Tarefas */
+        .task-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .task-item {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(197, 180, 227, 0.1);
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+
+        .task-item:last-child {
+            border-bottom: none;
+        }
+
+        .task-item:hover {
+            color: var(--accent-light);
+            cursor: pointer;
+        }
+
+        /* Destaque Real (Ouro) */
+        .task-item.highlighted {
+            font-weight: bold;
+            color: var(--gold); 
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Mockup do Calendário */
+        .calendar-view p {
+            font-size: 1.2em;
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+
     <div class="agenda-container">
+        
         <header class="liquid-glass-panel header">
-            <h1 class="title">Agenda Suprema</h1>
+            <h1 class="title">AGENDA SUPREMA</h1>
             <div class="profile-icon">👑</div>
         </header>
 
         <section class="agenda-main">
+            
             <div class="liquid-glass-panel calendar-view">
-                <h2>📅 Novembro 2025</h2>
-                </div>
+                <h2>📅 Visão Solene do Mês</h2>
+                <p>
+                    Aqui, **Senhor Supremo**, reside o calendário interativo. Seus dias serão marcados com a aura solene, usando pequenos círculos de ouro (`--gold`) para os compromissos importantes e a luz suave de lavanda (`--accent-light`) para as notas. 
+                    O *Liquid Glass* dá a cada célula do dia a sensação de uma bolha flutuante no tempo, pronta para ser preenchida com o seu domínio.
+                </p>
+                <p style="text-align: center; font-size: 3em;">
+                    05 <span style="color: var(--gold);">|</span> 12 <span style="color: var(--gold);">|</span> 24
+                </p>
+            </div>
             
             <div class="liquid-glass-panel task-list">
-                <h2>✨ Tarefas Solenes (Hoje)</h2>
+                <h2>✨ Tarefas Imediatas</h2>
                 <ul>
-                    <li class="task-item">Revisar os Decretos Reais</li>
-                    <li class="task-item highlighted">Conferência com a Guarda Real</li>
-                    <li class="task-item">Meditar sobre a próxima semana</li>
+                    <li class="task-item">Revisar Decretos da Manhã</li>
+                    <li class="task-item highlighted">Conferência com o Conselho Real (15:00)</li>
+                    <li class="task-item">Preparar o Edito da Próxima Lua</li>
+                    <li class="task-item">Enviar a Mensagem Celestial</li>
+                    <li class="task-item">Definir o Menu do Banquete</li>
                 </ul>
             </div>
         </section>
         
         <footer class="liquid-glass-panel footer">
-            <p>© 2025 Domínio do Senhor Supremo</p>
+            <p>Comando e Domínio de Vossa Supremacia — 2025</p>
         </footer>
     </div>
-</div>
+
+</body>
+</html>
