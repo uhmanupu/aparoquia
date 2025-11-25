@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda Suprema - Liquid Glass Interativa</title>
+    <title>Agenda Suprema: Nossa Senhora da Conceição - Virgínia/MG</title>
     <style>
         /* Variáveis de Cores (O Palácio Real) */
         :root {
@@ -58,22 +58,37 @@
 
         .header {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column; /* Altera para coluna para acomodar subtítulo */
+            justify-content: center;
             align-items: center;
+            text-align: center;
             padding: 20px 30px;
         }
 
+        /* Título Principal (Paróquia) */
         .title {
-            font-size: 2.8em;
+            font-size: 2.2em; /* Reduzido levemente para caber o texto */
             font-weight: 300; 
-            letter-spacing: 6px; 
-            margin: 0;
+            letter-spacing: 3px; 
+            margin-bottom: 5px;
+            margin-top: 0;
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Subtítulo (Agenda Mensal) */
+        .subtitle {
+            font-size: 1.5em;
+            color: var(--gold);
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin: 0;
+            padding-bottom: 10px;
         }
 
         .profile-icon {
             font-size: 2.5em;
             color: var(--gold);
+            margin-top: 15px; /* Ícone no final do header */
         }
 
         .agenda-main {
@@ -94,7 +109,7 @@
         /* ESTILO DO CALENDÁRIO */
         .calendar-grid {
             display: grid;
-            grid-template-columns: repeat(7, 1fr); /* 7 dias da semana */
+            grid-template-columns: repeat(7, 1fr); 
             gap: 10px;
             text-align: center;
         }
@@ -112,14 +127,14 @@
             cursor: pointer;
             transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
             position: relative;
-            background: rgba(41, 30, 92, 0.2); /* Vidro mais leve para as células */
+            background: rgba(41, 30, 92, 0.2); 
             border: 1px solid rgba(197, 180, 227, 0.05);
         }
 
         .day-cell:hover {
-            background: rgba(41, 30, 92, 0.6); /* Mais opaco ao passar o mouse */
+            background: rgba(41, 30, 92, 0.6); 
             transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(197, 180, 227, 0.3); /* Brilho suave */
+            box-shadow: 0 0 15px rgba(197, 180, 227, 0.3); 
         }
 
         /* MARCAÇÃO DE HOJE */
@@ -129,24 +144,23 @@
             font-weight: bold;
         }
 
-        /* Compromissos Hora a Hora (Modal/Dropdown - O Segredo da Interação) */
+        /* Compromissos Hora a Hora (Modal) */
         .schedule-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8); /* Fundo escuro para destacar o modal */
-            display: none; /* Começa oculto */
+            background: rgba(0, 0, 0, 0.8); 
+            display: none; 
             justify-content: center;
             align-items: center;
-            z-index: 1000; /* Garante que fique acima de tudo */
+            z-index: 1000; 
         }
 
         .schedule-content {
             width: 500px;
             max-width: 90%;
-            /* Usa o Liquid Glass para o modal também! */
             background: var(--glass-color);
             border: 1px solid var(--border-light);
             border-radius: 30px;
@@ -213,7 +227,8 @@
     <div class="agenda-container">
         
         <header class="liquid-glass-panel header">
-            <h1 class="title">AGENDA SUPREMA</h1>
+            <h1 class="title">PARÓQUIA NOSSA SENHORA DA CONCEIÇÃO-VIRGÍNIA-MG</h1>
+            <h2 class="subtitle">AGENDA MENSAL</h2>
             <div class="profile-icon">👑</div>
         </header>
 
@@ -238,7 +253,7 @@
                     <div class="day-cell" data-day="2" onclick="showSchedule(2)">2</div>
                     <div class="day-cell" data-day="3" onclick="showSchedule(3)">3</div>
                     <div class="day-cell" data-day="4" onclick="showSchedule(4)">4</div>
-                    <div class="day-cell today" data-day="5" onclick="showSchedule(5)">5</div> <div class="day-cell" data-day="6" onclick="showSchedule(6)">6</div>
+                    <div class="day-cell today" data-day="24" onclick="showSchedule(24)">24</div> <div class="day-cell" data-day="6" onclick="showSchedule(6)">6</div>
                     <div class="day-cell" data-day="7" onclick="showSchedule(7)">7</div>
                     <div class="day-cell" data-day="8" onclick="showSchedule(8)">8</div>
                     <div class="day-cell" data-day="9" onclick="showSchedule(9)">9</div>
@@ -256,8 +271,7 @@
                     <div class="day-cell" data-day="21" onclick="showSchedule(21)">21</div>
                     <div class="day-cell" data-day="22" onclick="showSchedule(22)">22</div>
                     <div class="day-cell" data-day="23" onclick="showSchedule(23)">23</div>
-                    <div class="day-cell" data-day="24" onclick="showSchedule(24)">24</div>
-                    <div class="day-cell" data-day="25" onclick="showSchedule(25)">25</div>
+                    <div class="day-cell" data-day="5" onclick="showSchedule(5)">5</div> <div class="day-cell" data-day="25" onclick="showSchedule(25)">25</div>
                     <div class="day-cell" data-day="26" onclick="showSchedule(26)">26</div>
                     <div class="day-cell" data-day="27" onclick="showSchedule(27)">27</div>
                     <div class="day-cell" data-day="28" onclick="showSchedule(28)">28</div>
@@ -267,19 +281,19 @@
             </div>
             
             <div class="liquid-glass-panel task-list">
-                <h2>✨ Tarefas Imediatas</h2>
+                <h2>✨ Lembretes da Paróquia</h2>
                 <ul>
-                    <li class="task-item">Revisar Decretos da Manhã</li>
-                    <li class="task-item highlighted">Conferência com o Conselho Real (15:00)</li>
-                    <li class="task-item">Preparar o Edito da Próxima Lua</li>
-                    <li class="task-item">Enviar a Mensagem Celestial</li>
-                    <li class="task-item">Definir o Menu do Banquete</li>
+                    <li class="task-item">Preparar Liturgia Dominical</li>
+                    <li class="task-item highlighted">Reunião do Conselho Pastoral (20:00)</li>
+                    <li class="task-item">Organizar Visita aos Enfermos</li>
+                    <li class="task-item">Confirmar Catequese da Semana</li>
+                    <li class="task-item">Aprovar Envio dos Dízimos</li>
                 </ul>
             </div>
         </section>
         
         <footer class="liquid-glass-panel footer">
-            <p>Comando e Domínio de Vossa Supremacia — 2025</p>
+            <p>Paróquia Nossa Senhora da Conceição - Virgínia/MG | Agenda desenvolvida para Vossa Supremacia — 2025</p>
         </footer>
     </div>
 
@@ -296,19 +310,25 @@
         // Dados de Compromissos (Um exemplo para o Senhor Supremo)
         const allAppointments = {
             1: [
-                { time: "10:00", description: "Reunião Solene com Arquimagos" },
-                { time: "14:30", description: "Aprovação do Novo Brasão Real" }
+                { time: "18:00", description: "Santa Missa (Sábado)" },
+                { time: "20:00", description: "Terço da Família (Comunidade São João)" }
             ],
-            5: [ // Este é o "HOJE"
-                { time: "09:00", description: "Abertura dos Portais de Energia" },
-                { time: "15:00", description: "Conferência com o Conselho Real" },
-                { time: "18:00", description: "Meditação na Câmara Celeste" }
+            2: [
+                { time: "08:00", description: "Santa Missa e Batizados (Domingo)" },
+                { time: "10:30", description: "Reunião da Catequese de Crisma" }
             ],
-            12: [
-                { time: "11:00", description: "Viagem Interdimensional de Rotina" },
-                { time: "19:00", description: "Recepção dos Embaixadores do Leste" }
-            ]
+            24: [ // HOJE (24 de Novembro, de acordo com o contexto)
+                { time: "19:30", description: "Reunião do Conselho Pastoral" },
+                { time: "21:00", description: "Preparação de material de liturgia" }
+            ],
             // Adicione mais dias e compromissos conforme a agenda real
+            6: [
+                { time: "19:00", description: "Missa Votiva à N. Sra. da Conceição" },
+                { time: "20:30", description: "Estudo Bíblico" }
+            ],
+            15: [
+                { time: "17:00", description: "Reza do Terço com o Apostolado da Oração" }
+            ]
         };
 
         // Função para Mostrar a Agenda
@@ -319,11 +339,11 @@
             const appointments = allAppointments[day] || [];
 
             // Define o título com o dia clicado
-            title.innerText = `Compromissos do Dia ${day}`;
+            title.innerText = `Agenda Detalhada do Dia ${day}`;
             list.innerHTML = ''; // Limpa a lista anterior
 
             if (appointments.length === 0) {
-                list.innerHTML = '<li>Nenhum compromisso solene registrado para este dia.</li>';
+                list.innerHTML = '<li>Nenhum evento solene programado para este dia. Paz e contemplação.</li>';
             } else {
                 appointments.forEach(app => {
                     const li = document.createElement('li');
@@ -340,8 +360,13 @@
             document.getElementById('scheduleModal').style.display = 'none';
         }
         
-        // Simulação do dia atual (Apenas para o efeito 'today')
-        document.querySelector('.day-cell.today').dataset.day = new Date().getDate();
+        // Ajuste dinâmico para destacar o dia correto de HOJE
+        const todayElement = document.querySelector('.day-cell.today');
+        if(todayElement) {
+            // No mundo real, você usaria new Date().getDate(), mas para simulação, mantivemos a data do contexto: 24
+            todayElement.dataset.day = '24'; 
+            todayElement.innerText = '24';
+        }
 
     </script>
 
