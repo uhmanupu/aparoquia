@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda Suprema: Nossa Senhora da Conceição - Virgínia/MG</title>
+    <title>Agenda Paróquia N. Sra. da Conceição - Virgínia/MG</title>
     <style>
         /* Variáveis de Cores (O Palácio Real) */
         :root {
@@ -58,7 +58,7 @@
 
         .header {
             display: flex;
-            flex-direction: column; /* Altera para coluna para acomodar subtítulo */
+            flex-direction: column; 
             justify-content: center;
             align-items: center;
             text-align: center;
@@ -67,7 +67,7 @@
 
         /* Título Principal (Paróquia) */
         .title {
-            font-size: 2.2em; /* Reduzido levemente para caber o texto */
+            font-size: 2.2em; 
             font-weight: 300; 
             letter-spacing: 3px; 
             margin-bottom: 5px;
@@ -88,7 +88,7 @@
         .profile-icon {
             font-size: 2.5em;
             color: var(--gold);
-            margin-top: 15px; /* Ícone no final do header */
+            margin-top: 15px; 
         }
 
         .agenda-main {
@@ -131,13 +131,25 @@
             border: 1px solid rgba(197, 180, 227, 0.05);
         }
 
+        /* Adiciona um ponto discreto para indicar compromisso */
+        .day-cell[data-has-event="true"]::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 8px;
+            height: 8px;
+            background-color: var(--gold);
+            border-radius: 50%;
+        }
+
         .day-cell:hover {
             background: rgba(41, 30, 92, 0.6); 
             transform: scale(1.05);
             box-shadow: 0 0 15px rgba(197, 180, 227, 0.3); 
         }
 
-        /* MARCAÇÃO DE HOJE */
+        /* MARCAÇÃO DE HOJE (24 de Novembro, de acordo com o contexto) */
         .day-cell.today {
             border: 2px solid var(--gold);
             background: rgba(255, 215, 0, 0.1);
@@ -190,10 +202,14 @@
         .schedule-content li {
             padding: 10px 0;
             border-bottom: 1px dashed var(--border-light);
+            font-size: 1.1em;
         }
         
         .schedule-content li strong {
             color: var(--accent-light);
+            font-weight: bold;
+            display: inline-block;
+            width: 60px; /* Alinha a hora */
         }
 
         .close-btn {
@@ -211,6 +227,7 @@
         }
 
         /* --- Estilos do painel de Tarefas (Mantidos) --- */
+        .task-list h2 { border-bottom: none; }
         .task-list ul { list-style: none; padding: 0; }
         .task-item { padding: 15px 0; border-bottom: 1px solid rgba(197, 180, 227, 0.1); font-size: 1.1em; transition: color 0.3s ease; }
         .task-item:last-child { border-bottom: none; }
@@ -229,65 +246,71 @@
         <header class="liquid-glass-panel header">
             <h1 class="title">PARÓQUIA NOSSA SENHORA DA CONCEIÇÃO-VIRGÍNIA-MG</h1>
             <h2 class="subtitle">AGENDA MENSAL</h2>
-            <div class="profile-icon">👑</div>
-        </header>
+            <div class="profile-icon"></div> </header>
 
         <section class="agenda-main">
             
             <div class="liquid-glass-panel calendar-view">
-                <h2>📅 Novembro 2025</h2>
-                
-                <div class="calendar-grid">
-                    <div class="day-header">Dom</div>
-                    <div class="day-header">Seg</div>
-                    <div class="day-header">Ter</div>
-                    <div class="day-header">Qua</div>
-                    <div class="day-header">Qui</div>
-                    <div class="day-header">Sex</div>
-                    <div class="day-header">Sáb</div>
+                <h2>Novembro 2025</h2> <div class="calendar-grid">
+                    <div class="day-header">DOM</div>
+                    <div class="day-header">SEG</div>
+                    <div class="day-header">TER</div>
+                    <div class="day-header">QUA</div>
+                    <div class="day-header">QUI</div>
+                    <div class="day-header">SEX</div>
+                    <div class="day-header">SÁB</div>
 
-                    <div class="day-cell" data-day="30" style="opacity: 0.3; cursor: default;">28</div>
-                    <div class="day-cell" data-day="31" style="opacity: 0.3; cursor: default;">29</div>
+                    <div class="day-cell" style="opacity: 0.3; cursor: default;"></div>
+                    <div class="day-cell" style="opacity: 0.3; cursor: default;"></div>
+                    <div class="day-cell" style="opacity: 0.3; cursor: default;"></div>
+                    <div class="day-cell" style="opacity: 0.3; cursor: default;"></div>
+                    <div class="day-cell" style="opacity: 0.3; cursor: default;"></div>
+                    <div class="day-cell" style="opacity: 0.3; cursor: default;"></div>
                     
-                    <div class="day-cell" data-day="1" onclick="showSchedule(1)">1</div>
-                    <div class="day-cell" data-day="2" onclick="showSchedule(2)">2</div>
-                    <div class="day-cell" data-day="3" onclick="showSchedule(3)">3</div>
-                    <div class="day-cell" data-day="4" onclick="showSchedule(4)">4</div>
-                    <div class="day-cell today" data-day="24" onclick="showSchedule(24)">24</div> <div class="day-cell" data-day="6" onclick="showSchedule(6)">6</div>
-                    <div class="day-cell" data-day="7" onclick="showSchedule(7)">7</div>
-                    <div class="day-cell" data-day="8" onclick="showSchedule(8)">8</div>
-                    <div class="day-cell" data-day="9" onclick="showSchedule(9)">9</div>
-                    <div class="day-cell" data-day="10" onclick="showSchedule(10)">10</div>
-                    <div class="day-cell" data-day="11" onclick="showSchedule(11)">11</div>
-                    <div class="day-cell" data-day="12" onclick="showSchedule(12)">12</div>
-                    <div class="day-cell" data-day="13" onclick="showSchedule(13)">13</div>
-                    <div class="day-cell" data-day="14" onclick="showSchedule(14)">14</div>
-                    <div class="day-cell" data-day="15" onclick="showSchedule(15)">15</div>
-                    <div class="day-cell" data-day="16" onclick="showSchedule(16)">16</div>
-                    <div class="day-cell" data-day="17" onclick="showSchedule(17)">17</div>
-                    <div class="day-cell" data-day="18" onclick="showSchedule(18)">18</div>
-                    <div class="day-cell" data-day="19" onclick="showSchedule(19)">19</div>
-                    <div class="day-cell" data-day="20" onclick="showSchedule(20)">20</div>
-                    <div class="day-cell" data-day="21" onclick="showSchedule(21)">21</div>
-                    <div class="day-cell" data-day="22" onclick="showSchedule(22)">22</div>
-                    <div class="day-cell" data-day="23" onclick="showSchedule(23)">23</div>
-                    <div class="day-cell" data-day="5" onclick="showSchedule(5)">5</div> <div class="day-cell" data-day="25" onclick="showSchedule(25)">25</div>
-                    <div class="day-cell" data-day="26" onclick="showSchedule(26)">26</div>
-                    <div class="day-cell" data-day="27" onclick="showSchedule(27)">27</div>
-                    <div class="day-cell" data-day="28" onclick="showSchedule(28)">28</div>
-                    <div class="day-cell" data-day="29" onclick="showSchedule(29)">29</div>
-                    <div class="day-cell" data-day="30" onclick="showSchedule(30)">30</div>
+                    <div class="day-cell" data-day="01" data-has-event="true" onclick="showSchedule(1)">1</div>
+                    
+                    <div class="day-cell" data-day="02" data-has-event="true" onclick="showSchedule(2)">2</div>
+                    <div class="day-cell" data-day="03" data-has-event="true" onclick="showSchedule(3)">3</div>
+                    <div class="day-cell" data-day="04" data-has-event="true" onclick="showSchedule(4)">4</div>
+                    <div class="day-cell" data-day="05" data-has-event="true" onclick="showSchedule(5)">5</div>
+                    <div class="day-cell" data-day="06" data-has-event="true" onclick="showSchedule(6)">6</div>
+                    <div class="day-cell" data-day="07" data-has-event="true" onclick="showSchedule(7)">7</div>
+                    <div class="day-cell" data-day="08" data-has-event="true" onclick="showSchedule(8)">8</div>
+                    
+                    <div class="day-cell" data-day="09" data-has-event="true" onclick="showSchedule(9)">9</div>
+                    <div class="day-cell" data-day="10" data-has-event="true" onclick="showSchedule(10)">10</div>
+                    <div class="day-cell" data-day="11" data-has-event="true" onclick="showSchedule(11)">11</div>
+                    <div class="day-cell" data-day="12" data-has-event="true" onclick="showSchedule(12)">12</div>
+                    <div class="day-cell" data-day="13" data-has-event="true" onclick="showSchedule(13)">13</div>
+                    <div class="day-cell" data-day="14" data-has-event="true" onclick="showSchedule(14)">14</div>
+                    <div class="day-cell" data-day="15" data-has-event="true" onclick="showSchedule(15)">15</div>
+
+                    <div class="day-cell" data-day="16" data-has-event="true" onclick="showSchedule(16)">16</div>
+                    <div class="day-cell" data-day="17" data-has-event="true" onclick="showSchedule(17)">17</div>
+                    <div class="day-cell" data-day="18" data-has-event="true" onclick="showSchedule(18)">18</div>
+                    <div class="day-cell" data-day="19" data-has-event="true" onclick="showSchedule(19)">19</div>
+                    <div class="day-cell" data-day="20" data-has-event="true" onclick="showSchedule(20)">20</div>
+                    <div class="day-cell" data-day="21" data-has-event="true" onclick="showSchedule(21)">21</div>
+                    <div class="day-cell" data-day="22" data-has-event="true" onclick="showSchedule(22)">22</div>
+
+                    <div class="day-cell" data-day="23" data-has-event="true" onclick="showSchedule(23)">23</div>
+                    <div class="day-cell today" data-day="24" data-has-event="true" onclick="showSchedule(24)">24</div> <div class="day-cell" data-day="25" data-has-event="true" onclick="showSchedule(25)">25</div>
+                    <div class="day-cell" data-day="26" data-has-event="true" onclick="showSchedule(26)">26</div>
+                    <div class="day-cell" data-day="27" data-has-event="true" onclick="showSchedule(27)">27</div>
+                    <div class="day-cell" data-day="28" data-has-event="true" onclick="showSchedule(28)">28</div>
+                    <div class="day-cell" data-day="29" data-has-event="true" onclick="showSchedule(29)">29</div>
+                    <div class="day-cell" data-day="30" data-has-event="true" onclick="showSchedule(30)">30</div>
+                    
                 </div>
             </div>
             
             <div class="liquid-glass-panel task-list">
-                <h2>✨ Lembretes da Paróquia</h2>
-                <ul>
-                    <li class="task-item">Preparar Liturgia Dominical</li>
-                    <li class="task-item highlighted">Reunião do Conselho Pastoral (20:00)</li>
-                    <li class="task-item">Organizar Visita aos Enfermos</li>
-                    <li class="task-item">Confirmar Catequese da Semana</li>
-                    <li class="task-item">Aprovar Envio dos Dízimos</li>
+                <h2>Próximos Destaques</h2> <ul>
+                    <li class="task-item highlighted">Novena: Primeiro dia (Dia 28, 19:00)</li>
+                    <li class="task-item">Casamento: Dia 29, 11:00 (Igreja Matriz)</li>
+                    <li class="task-item">Formação MESC: Dia 25, 19:00</li>
+                    <li class="task-item">Missa Sertão: Dia 30, 09:30 (Retiro dos Marins)</li>
+                    <li class="task-item">Aniversário Paróquia: Dia 15 (159 anos)</li>
                 </ul>
             </div>
         </section>
@@ -307,27 +330,212 @@
     </div>
 
     <script>
-        // Dados de Compromissos (Um exemplo para o Senhor Supremo)
+        // Dados de Compromissos COMPLETOS E CORRIGIDOS (O MAPA REAL DO MÊS)
         const allAppointments = {
             1: [
-                { time: "18:00", description: "Santa Missa (Sábado)" },
-                { time: "20:00", description: "Terço da Família (Comunidade São João)" }
+                { time: "09:00", description: "Casamento - Igreja Matriz (Pe. Aylton)" },
+                { time: "10:00", description: "Bênção bairro Marques (Pe. Erick)" },
+                { time: "11:00", description: "Casamento - Igreja Matriz (Pe. Aylton)" },
+                { time: "14:00", description: "Catequese - Igreja Matriz (Pe. Erick)" },
+                { time: "16:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
+                { time: "18:00", description: "Vigília - Igreja Matriz (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Erick)" }
             ],
             2: [
-                { time: "08:00", description: "Santa Missa e Batizados (Domingo)" },
-                { time: "10:30", description: "Reunião da Catequese de Crisma" }
+                { time: "05:00", description: "Santa Missa no Cemitério (Pe. Erick)" },
+                { time: "08:00", description: "Santa Missa Setor 6 – Bairro São José da Mantiqueira (Pe. Erick)" },
+                { time: "09:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
+                { time: "11:00", description: "Santa Missa Setor 1 – Bairro Mendes (Pe. Edimilson)" },
+                { time: "17:00", description: "Santa Missa Setor 3 – Bairro Correias (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Erick)" }
             ],
-            24: [ // HOJE (24 de Novembro, de acordo com o contexto)
-                { time: "19:30", description: "Reunião do Conselho Pastoral" },
-                { time: "21:00", description: "Preparação de material de liturgia" }
+            3: [
+                { time: "14:00", description: "Visita às obras (Pe. Erick)" },
+                { time: "19:00", description: "Santa Missa Igreja Nossa Senhora Aparecida (Pe. Erick)" }
             ],
-            // Adicione mais dias e compromissos conforme a agenda real
+            4: [
+                { time: "14:00", description: "Hora Marcada (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Morangal (Pe. Erick)" }
+            ],
+            5: [
+                { time: "09:00", description: "Hora Marcada (Pe. Edimilson)" },
+                { time: "16:00", description: "Visita aos enfermos (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Serra Verde (Pe. Edimilson)" }
+            ],
             6: [
-                { time: "19:00", description: "Missa Votiva à N. Sra. da Conceição" },
-                { time: "20:30", description: "Estudo Bíblico" }
+                { time: "09:00", description: "Hora Marcada (Pe. Erick)" },
+                { time: "09:00", description: "Visita às obras (Pe. Erick)" },
+                { time: "14:00", description: "Hora Marcada (Pe. Edimilson)" },
+                { time: "14:00", description: "Visita aos enfermos (Pe. Edimilson)" },
+                { time: "17:00", description: "Confissão - Igreja Matriz (Pe. Erick)" },
+                { time: "18:00", description: "Adoração – Igreja Matriz (Pe. Erick)" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Setor 2 – Bairro Porto (Pe. Edimilson)" },
+                { time: "20:00", description: "Reunião Irmandade do Santíssimo (Pe. Edimilson)" }
+            ],
+            7: [
+                { time: "09:00", description: "Hora Marcada (Pe. Edimilson)" },
+                { time: "09:00", description: "Santa Missa Abrigo São Camilo (Pe. Edimilson)" },
+                { time: "14:00", description: "Hora Marcada (Pe. Edimilson)" },
+                { time: "15:00", description: "Buscar seminarista (Pe. Erick)" },
+                { time: "18:00", description: "Adoração – Igreja Matriz (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Setor 4 – Bairro Moreiras (Pe. Erick)" }
+            ],
+            8: [
+                { time: "09:00", description: "Casamento - Igreja Matriz (Pe. Erick)" },
+                { time: "11:00", description: "Casamento - Igreja Matriz (Pe. Erick)" },
+                { time: "16:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Marques (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Erick)" }
+            ],
+            9: [
+                { time: "07:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
+                { time: "09:00", description: "Santa Missa Setor 2 – Bairro Mogiano (Pe. Erick)" },
+                { time: "09:00", description: "Santa Missa Igreja Matriz (Pe. Erick)" },
+                { time: "10:00", description: "Batizado – Igreja Matriz (Pe. Edimilson)" },
+                { time: "18:00", description: "Santa Missa Setor 3 – Bairro Retirinho (Pe. Erick)" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" }
+            ],
+            10: [
+                { time: "09:00", description: "Visita às obras (Pe. Erick)" },
+                { time: "16:00", description: "Hora Marcada Confissão Primeira Eucaristia (Bairro Vargem Alegre e Retiro dos Marins) (Pe. Erick)" },
+                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Pouso Frio (Pe. Edimilson)" }
+            ],
+            11: [
+                { time: "09:00", description: "Hora Marcada (Pe. Erick)" },
+                { time: "14:00", description: "Hora Marcada (Pe. Edimilson)" },
+                { time: "16:00", description: "Hora Marcada confissões Primeira Eucaristia (Serra Verde e Rio Acima II) (Pe. Erick)" },
+                { time: "19:00", description: "Santa Missa Setor 2 – Bairro Ribeirão (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Roseirinha (Pe. Erick)" }
+            ],
+            12: [
+                { time: "09:00", description: "Hora Marcada (Pe. Edimilson)" },
+                { time: "09:00", description: "Santa Missa Abrigo São Camilo (Pe. Edimilson)" },
+                { time: "16:00", description: "Hora Marcada confissão Primeira Eucaristia Bairro Marques (Pe. Erick)" },
+                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Serra dos Fernandes (Pe. Edimilson)" },
+                { time: "19:00", description: "Formação MESC (Pe. Erick)" }
+            ],
+            13: [
+                { time: "09:00", description: "Visita às obras (Pe. Erick)" },
+                { time: "09:00", description: "Hora Marcada (Pe. Edimilson)" },
+                { time: "14:00", description: "Hora Marcada (Pe. Edimilson)" },
+                { time: "17:00", description: "Confissão - Igreja Matriz (Pe. Erick)" },
+                { time: "18:00", description: "Adoração – Igreja Matriz (Pe. Erick)" },
+                { time: "18:00", description: "Confissão Primeira Eucaristia - Bairro Palmeiras (Retirinho e Lavras) (Pe. Erick)" },
+                { time: "19:00", description: "Santa Missa Setor 1 – Bairro Palmeiras (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Erick)" }
+            ],
+            14: [
+                { time: "09:00", description: "Hora Marcada (Pe. Edimilson)" },
+                { time: "09:00", description: "Confissão Primeira Eucaristia - Cidade (Pe. Edimilson)" },
+                { time: "15:00", description: "Confissões Primeira Eucaristia Bairro Moreiras (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Setor 1 – Bairro Mato Dentro (Pe. Erick)" },
+                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Vargem Alegre (Pe. Edimilson)" }
             ],
             15: [
-                { time: "17:00", description: "Reza do Terço com o Apostolado da Oração" }
+                { time: "08:00", description: "Abertura Ano Jubilar - Pouso Alto (Pe. Edimilson)" },
+                { time: "09:00", description: "Hora Marcada (Pe. Erick)" },
+                { time: "11:00", description: "Casamento - Igreja São José (Pe. Erick)" },
+                { time: "16:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Setor 6 – Bairro São José da Mantiqueira (Pe. Erick)" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" }
+            ],
+            16: [
+                { time: "07:00", description: "Santa Missa Igreja Matriz (Pe. Erick)" },
+                { time: "08:00", description: "Santa Missa Setor 5 – Bairro Roseira (Pe. Erick)" },
+                { time: "10:30", description: "Santa Missa Setor 7 – Bairro Retiro dos Marins (Pe. Edimilson)" },
+                { time: "18:00", description: "Santa Missa Setor 4 – Bairro Moreiras (Pe. Erick)" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" }
+            ],
+            17: [
+                { time: "09:00", description: "Hora Marcada (Pe. Erick)" },
+                { time: "14:00", description: "Confissão Primeira Eucaristia Cidade (Pe. Erick)" },
+                { time: "19:00", description: "Santa Missa Setor 9 – Sertãozinho D. Rosalia (Pe. Erick)" }
+            ],
+            18: [
+                { time: "09:00", description: "Santa Missa Abrigo São Camilo (Pe. Edimilson)" },
+                { time: "14:00", description: "Hora Marcada (Pe. Erick)" },
+                { time: "14:00", description: "Visita às obras (Pe. Erick)" },
+                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Felipes (Pe. Edimilson)" }
+            ],
+            19: [
+                { time: "09:00", description: "Hora Marcada (Pe. Edimilson)" },
+                { time: "14:00", description: "Visita aos enfermos (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Marques (Pe. Edimilson)" }
+            ],
+            20: [
+                { time: "09:00", description: "Hora Marcada (Pe. Edimilson)" },
+                { time: "17:00", description: "Confissões - Igreja Matriz (Pe. Erick)" },
+                { time: "18:00", description: "Adoração – Igreja Matriz (Pe. Erick)" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Gonçalves (Pe. Erick)" }
+            ],
+            21: [
+                { time: "09:00", description: "Visita aos enfermos (Pe. Erick)" },
+                { time: "09:00", description: "Hora Marcada (Pe. Edimilson)" },
+                { time: "14:00", description: "Hora Marcada (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Setor 6 – Bairro Torres (Pe. Erick)" },
+                { time: "19:00", description: "Santa Missa Setor 8 – Bairro Caeté (Pe. Edimilson)" }
+            ],
+            22: [
+                { time: "11:00", description: "Casamento Igreja Matriz (Pe. Aylton)" },
+                { time: "16:00", description: "Casamento Bairro Retirinho (Pe. Edimilson)" },
+                { time: "18:00", description: "Santa Missa hotel? (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Erick)" }
+            ],
+            23: [
+                { time: "07:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
+                { time: "09:00", description: "Santa Missa Setor 3 – Bairro Mendanha (Pe. Erick)" },
+                { time: "15:00", description: "Primeira Eucarística – Igreja Matriz (Pe. Erick)" },
+                { time: "18:00", description: "Santa Missa Setor 1 – Bairro Retirinho (Pe. Erick)" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" }
+            ],
+            24: [
+                { time: "18:00", description: "Santa Missa Sagrado Coração (Pe. Erick)" },
+                { time: "19:00", description: "Formação MESC (Pe. Erick)" }
+            ],
+            25: [
+                { time: "09:00", description: "Hora Marcada (Pe. Erick)" },
+                { time: "14:00", description: "Hora Marcada (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Setor 4 – Bairro Pereiras (Pe. Erick)" },
+                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Rio Acima II (Pe. Edimilson)" },
+                { time: "20:00", description: "Reunião Setor 7 (Pe. Edimilson)" }
+            ],
+            26: [
+                { time: "09:00", description: "Hora Marcada (Pe. Erick)" },
+                { time: "19:00", description: "Santa Missa Setor 1 – Bairro Mendes (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Setor 4 – Bairro Água Limpa (Pe. Erick)" }
+            ],
+            27: [
+                { time: "05:00", description: "Santa Missa Pedra Santa (Pe. Erick)" },
+                { time: "09:00", description: "Abrigo São Camilo (Pe. Erick)" },
+                { time: "09:00", description: "Hora Marcada (Pe. Edimilson)" },
+                { time: "14:00", description: "Hora Marcada (Pe. Edimilson)" },
+                { time: "17:00", description: "Confissão - Igreja Matriz (Pe. Edimilson)" },
+                { time: "18:00", description: "Adoração – Igreja Matriz (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Setor 1 – Bairro Muquém (Pe. Erick)" }
+            ],
+            28: [
+                { time: "09:00", description: "Hora Marcada (Pe. Edimilson)" },
+                { time: "14:00", description: "Hora Marcada (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Vargem Alegre (Pe. Erick)" },
+                { time: "19:00", description: "Primeiro dia da Novena (Pe. Enderson)" }
+            ],
+            29: [
+                { time: "10:00", description: "Santa Missa Setor 1 – Bairro Virgem do Socorro (Pe. Erick)" },
+                { time: "11:00", description: "Casamento - Igreja Matriz (Pe. Edimilson)" },
+                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Roseirinha (Pe. Edimilson)" },
+                { time: "19:00", description: "Segundo dia da Novena (Pe. Johnson)" }
+            ],
+            30: [
+                { time: "07:00", description: "Santa Missa Igreja Matriz (Pe. Erick)" },
+                { time: "09:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
+                { time: "09:30", description: "Santa Missa Setor 7 – Bairro Retiro dos Marins (Pe. Erick)" },
+                { time: "11:00", description: "Santa Missa Setor 1 – Bairro Palmeiras (Pe. Edimilson)" },
+                { time: "18:00", description: "Santa Missa Setor 5 – Bairro Roseira (Pe. Erick)" },
+                { time: "19:00", description: "Terceiro dia da Novena (Pe. Jean)" }
             ]
         };
 
@@ -336,7 +544,9 @@
             const modal = document.getElementById('scheduleModal');
             const title = document.getElementById('modalTitle');
             const list = document.getElementById('scheduleList');
-            const appointments = allAppointments[day] || [];
+            // Formata o dia para ter sempre 2 dígitos para corresponder às chaves '01' etc.
+            const dayKey = day < 10 ? `0${day}` : `${day}`;
+            const appointments = allAppointments[day] || allAppointments[dayKey] || [];
 
             // Define o título com o dia clicado
             title.innerText = `Agenda Detalhada do Dia ${day}`;
@@ -347,7 +557,7 @@
             } else {
                 appointments.forEach(app => {
                     const li = document.createElement('li');
-                    li.innerHTML = `<strong>${app.time}</strong> — ${app.description}`;
+                    li.innerHTML = `<strong>${app.time}</strong> ${app.description}`;
                     list.appendChild(li);
                 });
             }
@@ -359,14 +569,23 @@
         function hideSchedule() {
             document.getElementById('scheduleModal').style.display = 'none';
         }
-        
-        // Ajuste dinâmico para destacar o dia correto de HOJE
-        const todayElement = document.querySelector('.day-cell.today');
-        if(todayElement) {
-            // No mundo real, você usaria new Date().getDate(), mas para simulação, mantivemos a data do contexto: 24
-            todayElement.dataset.day = '24'; 
-            todayElement.innerText = '24';
-        }
+
+        // Função de Inicialização para marcar 'HOJE' e os dias com evento
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = 24; // De acordo com o contexto da sua imagem (Dia 24 é o "hoje" implícito)
+            const todayElement = document.querySelector(`.day-cell[data-day='${today < 10 ? '0' + today : today}']`);
+            if (todayElement) {
+                todayElement.classList.add('today');
+            }
+
+            // Marcar todos os dias com evento (ponto de ouro)
+            Object.keys(allAppointments).forEach(day => {
+                const dayElement = document.querySelector(`.day-cell[data-day='${day}']`);
+                if (dayElement) {
+                    dayElement.setAttribute('data-has-event', 'true');
+                }
+            });
+        });
 
     </script>
 
