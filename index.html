@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda Paróquia N. Sra. da Conceição - Virgínia/MG</title>
+    <title>Agenda Paróquia N. Sra. da Conceição - Virgínia/MG (Mobile First)</title>
     <style>
         /* Variáveis de Cores (O Palácio Real) */
         :root {
@@ -26,7 +26,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 20px;
+            padding: 10px; /* Padding reduzido para telas pequenas */
             background-image: radial-gradient(circle at top left, rgba(60, 40, 100, 0.2) 0%, transparent 50%),
                               radial-gradient(circle at bottom right, rgba(20, 10, 50, 0.3) 0%, transparent 50%);
         }
@@ -36,7 +36,7 @@
             background: var(--glass-color);
             border: 1px solid var(--border-light);
             border-radius: 25px; 
-            padding: 30px;
+            padding: 20px; /* Padding reduzido para caber mais na tela */
             backdrop-filter: blur(12px) saturate(180%);
             -webkit-backdrop-filter: blur(12px) saturate(180%);
             box-shadow: 0 10px 40px 0 var(--shadow-color);
@@ -44,16 +44,16 @@
         }
 
         .liquid-glass-panel:hover {
-            transform: translateY(-7px);
-            box-shadow: 0 15px 50px 0 rgba(197, 180, 227, 0.1), 0 10px 60px 0 var(--shadow-color);
+            transform: none; /* Remove a animação de hover em touch screens para evitar cliques acidentais */
+            box-shadow: 0 10px 40px 0 var(--shadow-color);
         }
 
-        /* Estrutura do Layout */
+        /* Estrutura do Layout (MOBILE FIRST: Coluna Única) */
         .agenda-container {
-            width: 95%;
+            width: 100%; /* Largura total da tela móvel */
             max-width: 1300px;
             display: grid;
-            gap: 40px;
+            gap: 20px; /* Espaçamento menor no celular */
         }
 
         .header {
@@ -62,180 +62,111 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 20px 30px;
+            padding: 15px 10px;
         }
 
-        /* Título Principal (Paróquia) */
+        /* Títulos menores para caber no celular */
         .title {
-            font-size: 2.2em; 
-            font-weight: 300; 
-            letter-spacing: 3px; 
-            margin-bottom: 5px;
-            margin-top: 0;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+            font-size: 1.5em; 
+            letter-spacing: 2px; 
         }
 
-        /* Subtítulo (Agenda Mensal) */
         .subtitle {
-            font-size: 1.5em;
-            color: var(--gold);
-            font-weight: bold;
-            letter-spacing: 2px;
-            margin: 0;
-            padding-bottom: 10px;
+            font-size: 1.1em;
+            letter-spacing: 1px;
         }
 
-        .profile-icon {
-            font-size: 2.5em;
-            color: var(--gold);
-            margin-top: 15px; 
-        }
-
+        /* Layout Principal: Fica em coluna no Mobile */
         .agenda-main {
             display: grid;
-            grid-template-columns: 3fr 2fr; 
-            gap: 40px;
+            grid-template-columns: 1fr; /* Coluna única no celular */
+            gap: 20px; 
         }
 
         h2 {
-            color: var(--accent-light);
-            margin-top: 0;
-            border-bottom: 1px solid rgba(197, 180, 227, 0.25);
-            padding-bottom: 15px;
-            font-size: 1.8em;
-            font-weight: 400;
+            font-size: 1.5em;
+            padding-bottom: 10px;
         }
 
-        /* ESTILO DO CALENDÁRIO */
+        /* ESTILO DO CALENDÁRIO para MOBILE */
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr); 
-            gap: 10px;
-            text-align: center;
+            gap: 5px; /* Reduz o espaçamento entre os dias */
+            font-size: 0.8em; /* Fonte menor para caber */
         }
 
         .day-header {
-            color: var(--gold);
-            font-weight: bold;
-            padding: 10px 5px;
-            border-bottom: 2px solid var(--gold);
+            padding: 5px 2px;
+            font-size: 0.9em;
         }
 
         .day-cell {
-            padding: 15px 5px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            position: relative;
-            background: rgba(41, 30, 92, 0.2); 
-            border: 1px solid rgba(197, 180, 227, 0.05);
+            padding: 10px 2px; /* Reduz o padding da célula */
+            border-radius: 8px; /* Bordas mais suaves */
         }
-
-        /* Adiciona um ponto discreto para indicar compromisso */
+        
         .day-cell[data-has-event="true"]::after {
-            content: '';
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            width: 8px;
-            height: 8px;
-            background-color: var(--gold);
-            border-radius: 50%;
-        }
-
-        .day-cell:hover {
-            background: rgba(41, 30, 92, 0.6); 
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(197, 180, 227, 0.3); 
-        }
-
-        /* MARCAÇÃO DE HOJE (24 de Novembro, de acordo com o contexto) */
-        .day-cell.today {
-            border: 2px solid var(--gold);
-            background: rgba(255, 215, 0, 0.1);
-            font-weight: bold;
+            width: 6px;
+            height: 6px;
+            top: 3px;
+            right: 3px;
         }
 
         /* Compromissos Hora a Hora (Modal) */
         .schedule-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8); 
-            display: none; 
-            justify-content: center;
-            align-items: center;
-            z-index: 1000; 
+            padding: 10px;
         }
-
         .schedule-content {
-            width: 500px;
-            max-width: 90%;
-            background: var(--glass-color);
-            border: 1px solid var(--border-light);
-            border-radius: 30px;
-            padding: 40px;
-            backdrop-filter: blur(15px) saturate(200%);
-            box-shadow: 0 10px 50px var(--shadow-color);
-            transform: scale(0.9);
-            animation: supreme-fade-in 0.5s forwards;
+            width: 95%; /* O modal cobre quase toda a largura */
+            padding: 20px;
         }
 
-        @keyframes supreme-fade-in {
-            to { transform: scale(1); opacity: 1; }
+        /* Ajustes para telas maiores (TABLETS E DESKTOP) */
+        @media (min-width: 768px) {
+            .liquid-glass-panel:hover {
+                transform: translateY(-7px); /* Volta a animação no desktop */
+                box-shadow: 0 15px 50px 0 rgba(197, 180, 227, 0.1), 0 10px 60px 0 var(--shadow-color);
+            }
+
+            .agenda-container {
+                padding: 20px;
+                gap: 40px;
+            }
+
+            .header {
+                padding: 20px 30px;
+            }
+
+            .title {
+                font-size: 2.2em;
+            }
+
+            .subtitle {
+                font-size: 1.5em;
+            }
+            
+            .agenda-main {
+                grid-template-columns: 3fr 2fr; /* Layout em duas colunas no desktop */
+                gap: 40px;
+            }
+
+            .calendar-grid {
+                font-size: 1em;
+                gap: 10px;
+            }
+
+            .day-cell {
+                padding: 15px 5px;
+            }
         }
 
-        .schedule-content h3 {
-            color: var(--gold);
-            border-bottom: 1px solid var(--gold);
-            padding-bottom: 10px;
-            margin-top: 0;
-        }
-
-        .schedule-content ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .schedule-content li {
-            padding: 10px 0;
-            border-bottom: 1px dashed var(--border-light);
-            font-size: 1.1em;
-        }
-        
-        .schedule-content li strong {
-            color: var(--accent-light);
-            font-weight: bold;
-            display: inline-block;
-            width: 60px; /* Alinha a hora */
-        }
-
-        .close-btn {
-            float: right;
-            font-size: 2em;
-            font-weight: bold;
-            color: var(--accent-light);
-            cursor: pointer;
-            transition: color 0.3s;
-            line-height: 1;
-        }
-
-        .close-btn:hover {
-            color: var(--gold);
-        }
-
-        /* --- Estilos do painel de Tarefas (Mantidos) --- */
-        .task-list h2 { border-bottom: none; }
-        .task-list ul { list-style: none; padding: 0; }
-        .task-item { padding: 15px 0; border-bottom: 1px solid rgba(197, 180, 227, 0.1); font-size: 1.1em; transition: color 0.3s ease; }
-        .task-item:last-child { border-bottom: none; }
-        .task-item:hover { color: var(--accent-light); cursor: pointer; }
-        .task-item.highlighted { font-weight: bold; color: var(--gold); text-shadow: 0 0 5px rgba(255, 215, 0, 0.3); }
+        /* --- Estilos do painel de Tarefas (Ajustados para Mobile) --- */
+        .task-list h2 { font-size: 1.2em; }
+        .task-item { font-size: 1em; }
 
         /* Footer */
-        .footer { text-align: center; padding: 15px; font-size: 0.9em; opacity: 0.7; }
+        .footer { padding: 10px; }
 
     </style>
 </head>
@@ -297,7 +228,8 @@
                     <div class="day-cell" data-day="22" data-has-event="true" onclick="showSchedule(22)">22</div>
 
                     <div class="day-cell" data-day="23" data-has-event="true" onclick="showSchedule(23)">23</div>
-                    <div class="day-cell today" data-day="24" data-has-event="true" onclick="showSchedule(24)">24</div> <div class="day-cell" data-day="25" data-has-event="true" onclick="showSchedule(25)">25</div>
+                    <div class="day-cell today" data-day="24" data-has-event="true" onclick="showSchedule(24)">24</div>
+                    <div class="day-cell" data-day="25" data-has-event="true" onclick="showSchedule(25)">25</div>
                     <div class="day-cell" data-day="26" data-has-event="true" onclick="showSchedule(26)">26</div>
                     <div class="day-cell" data-day="27" data-has-event="true" onclick="showSchedule(27)">27</div>
                     <div class="day-cell" data-day="28" data-has-event="true" onclick="showSchedule(28)">28</div>
@@ -334,7 +266,7 @@
     </div>
 
     <script>
-        // Dados de Compromissos (Sem os Padres, Atendimento trocado por Hora Marcada)
+        // Dados de Compromissos (ATUALIZADOS PARA 'Atendimentos com Hora Marcada')
         const allAppointments = {
             1: [
                 { time: "09:00", description: "Casamento - Igreja Matriz" },
@@ -358,18 +290,18 @@
                 { time: "19:00", description: "Santa Missa Igreja Nossa Senhora Aparecida" }
             ],
             4: [
-                { time: "14:00", description: "Hora Marcada" },
+                { time: "14:00", description: "Atendimentos com Hora Marcada" },
                 { time: "19:00", description: "Santa Missa Setor 5 – Bairro Morangal" }
             ],
             5: [
-                { time: "09:00", description: "Hora Marcada" },
+                { time: "09:00", description: "Atendimentos com Hora Marcada" },
                 { time: "16:00", description: "Visita aos enfermos" },
                 { time: "19:00", description: "Santa Missa Setor 7 – Bairro Serra Verde" }
             ],
             6: [
-                { time: "09:00", description: "Hora Marcada" },
+                { time: "09:00", description: "Atendimentos com Hora Marcada" },
                 { time: "09:00", description: "Visita às obras" },
-                { time: "14:00", description: "Hora Marcada" },
+                { time: "14:00", description: "Atendimentos com Hora Marcada" },
                 { time: "14:00", description: "Visita aos enfermos" },
                 { time: "17:00", description: "Confissão - Igreja Matriz" },
                 { time: "18:00", description: "Adoração – Igreja Matriz" },
@@ -378,9 +310,9 @@
                 { time: "20:00", description: "Reunião Irmandade do Santíssimo" }
             ],
             7: [
-                { time: "09:00", description: "Hora Marcada" },
+                { time: "09:00", description: "Atendimentos com Hora Marcada" },
                 { time: "09:00", description: "Santa Missa Abrigo São Camilo" },
-                { time: "14:00", description: "Hora Marcada" },
+                { time: "14:00", description: "Atendimentos com Hora Marcada" },
                 { time: "15:00", description: "Buscar seminarista" },
                 { time: "18:00", description: "Adoração – Igreja Matriz" },
                 { time: "19:00", description: "Santa Missa Igreja Matriz" },
@@ -403,27 +335,27 @@
             ],
             10: [
                 { time: "09:00", description: "Visita às obras" },
-                { time: "16:00", description: "Hora Marcada Confissão Primeira Eucaristia (Bairro Vargem Alegre e Retiro dos Marins)" },
+                { time: "16:00", description: "Atendimentos com Hora Marcada Confissão Primeira Eucaristia (Bairro Vargem Alegre e Retiro dos Marins)" },
                 { time: "19:00", description: "Santa Missa Setor 5 – Bairro Pouso Frio" }
             ],
             11: [
-                { time: "09:00", description: "Hora Marcada" },
-                { time: "14:00", description: "Hora Marcada" },
-                { time: "16:00", description: "Hora Marcada confissões Primeira Eucaristia (Serra Verde e Rio Acima II)" },
+                { time: "09:00", description: "Atendimentos com Hora Marcada" },
+                { time: "14:00", description: "Atendimentos com Hora Marcada" },
+                { time: "16:00", description: "Atendimentos com Hora Marcada confissões Primeira Eucaristia (Serra Verde e Rio Acima II)" },
                 { time: "19:00", description: "Santa Missa Setor 2 – Bairro Ribeirão" },
                 { time: "19:00", description: "Santa Missa Setor 7 – Bairro Roseirinha" }
             ],
             12: [
-                { time: "09:00", description: "Hora Marcada" },
+                { time: "09:00", description: "Atendimentos com Hora Marcada" },
                 { time: "09:00", description: "Santa Missa Abrigo São Camilo" },
-                { time: "16:00", description: "Hora Marcada confissão Primeira Eucaristia Bairro Marques" },
+                { time: "16:00", description: "Atendimentos com Hora Marcada confissão Primeira Eucaristia Bairro Marques" },
                 { time: "19:00", description: "Santa Missa Setor 5 – Bairro Serra dos Fernandes" },
                 { time: "19:00", description: "Formação MESC" }
             ],
             13: [
                 { time: "09:00", description: "Visita às obras" },
-                { time: "09:00", description: "Hora Marcada" },
-                { time: "14:00", description: "Hora Marcada" },
+                { time: "09:00", description: "Atendimentos com Hora Marcada" },
+                { time: "14:00", description: "Atendimentos com Hora Marcada" },
                 { time: "17:00", description: "Confissão - Igreja Matriz" },
                 { time: "18:00", description: "Adoração – Igreja Matriz" },
                 { time: "18:00", description: "Confissão Primeira Eucaristia - Bairro Palmeiras (Retirinho e Lavras)" },
@@ -431,7 +363,7 @@
                 { time: "19:00", description: "Santa Missa Igreja Matriz" }
             ],
             14: [
-                { time: "09:00", description: "Hora Marcada" },
+                { time: "09:00", description: "Atendimentos com Hora Marcada" },
                 { time: "09:00", description: "Confissão Primeira Eucaristia - Cidade" },
                 { time: "15:00", description: "Confissões Primeira Eucaristia Bairro Moreiras" },
                 { time: "19:00", description: "Santa Missa Setor 1 – Bairro Mato Dentro" },
@@ -439,7 +371,7 @@
             ],
             15: [
                 { time: "08:00", description: "Abertura Ano Jubilar - Pouso Alto" },
-                { time: "09:00", description: "Hora Marcada" },
+                { time: "09:00", description: "Atendimentos com Hora Marcada" },
                 { time: "11:00", description: "Casamento - Igreja São José" },
                 { time: "16:00", description: "Santa Missa Igreja Matriz" },
                 { time: "19:00", description: "Santa Missa Setor 6 – Bairro São José da Mantiqueira" },
@@ -453,23 +385,23 @@
                 { time: "19:00", description: "Santa Missa Igreja Matriz" }
             ],
             17: [
-                { time: "09:00", description: "Hora Marcada" },
+                { time: "09:00", description: "Atendimentos com Hora Marcada" },
                 { time: "14:00", description: "Confissão Primeira Eucaristia Cidade" },
                 { time: "19:00", description: "Santa Missa Setor 9 – Sertãozinho D. Rosalia" }
             ],
             18: [
                 { time: "09:00", description: "Santa Missa Abrigo São Camilo" },
-                { time: "14:00", description: "Hora Marcada" },
+                { time: "14:00", description: "Atendimentos com Hora Marcada" },
                 { time: "14:00", description: "Visita às obras" },
                 { time: "19:00", description: "Santa Missa Setor 5 – Bairro Felipes" }
             ],
             19: [
-                { time: "09:00", description: "Hora Marcada" },
+                { time: "09:00", description: "Atendimentos com Hora Marcada" },
                 { time: "14:00", description: "Visita aos enfermos" },
                 { time: "19:00", description: "Santa Missa Setor 5 – Bairro Marques" }
             ],
             20: [
-                { time: "09:00", description: "Hora Marcada" },
+                { time: "09:00", description: "Atendimentos com Hora Marcada" },
                 { time: "17:00", description: "Confissões - Igreja Matriz" },
                 { time: "18:00", description: "Adoração – Igreja Matriz" },
                 { time: "19:00", description: "Santa Missa Igreja Matriz" },
@@ -477,8 +409,8 @@
             ],
             21: [
                 { time: "09:00", description: "Visita aos enfermos" },
-                { time: "09:00", description: "Hora Marcada" },
-                { time: "14:00", description: "Hora Marcada" },
+                { time: "09:00", description: "Atendimentos com Hora Marcada" },
+                { time: "14:00", description: "Atendimentos com Hora Marcada" },
                 { time: "19:00", description: "Santa Missa Setor 6 – Bairro Torres" },
                 { time: "19:00", description: "Santa Missa Setor 8 – Bairro Caeté" }
             ],
@@ -500,30 +432,30 @@
                 { time: "19:00", description: "Formação MESC" }
             ],
             25: [
-                { time: "09:00", description: "Hora Marcada" },
-                { time: "14:00", description: "Hora Marcada" },
+                { time: "09:00", description: "Atendimentos com Hora Marcada" },
+                { time: "14:00", description: "Atendimentos com Hora Marcada" },
                 { time: "19:00", description: "Santa Missa Setor 4 – Bairro Pereiras" },
                 { time: "19:00", description: "Santa Missa Setor 7 – Bairro Rio Acima II" },
                 { time: "20:00", description: "Reunião Setor 7" }
             ],
             26: [
-                { time: "09:00", description: "Hora Marcada" },
+                { time: "09:00", description: "Atendimentos com Hora Marcada" },
                 { time: "19:00", description: "Santa Missa Setor 1 – Bairro Mendes" },
                 { time: "19:00", description: "Santa Missa Setor 4 – Bairro Água Limpa" }
             ],
             27: [
                 { time: "05:00", description: "Santa Missa Pedra Santa" },
                 { time: "09:00", description: "Abrigo São Camilo" },
-                { time: "09:00", description: "Hora Marcada" },
-                { time: "14:00", description: "Hora Marcada" },
+                { time: "09:00", description: "Atendimentos com Hora Marcada" },
+                { time: "14:00", description: "Atendimentos com Hora Marcada" },
                 { time: "17:00", description: "Confissão - Igreja Matriz" },
                 { time: "18:00", description: "Adoração – Igreja Matriz" },
                 { time: "19:00", description: "Santa Missa Igreja Matriz" },
                 { time: "19:00", description: "Santa Missa Setor 1 – Bairro Muquém" }
             ],
             28: [
-                { time: "09:00", description: "Hora Marcada" },
-                { time: "14:00", description: "Hora Marcada" },
+                { time: "09:00", description: "Atendimentos com Hora Marcada" },
+                { time: "14:00", description: "Atendimentos com Hora Marcada" },
                 { time: "19:00", description: "Santa Missa Setor 7 – Bairro Vargem Alegre" },
                 { time: "19:00", description: "Primeiro dia da Novena" }
             ],
@@ -549,13 +481,11 @@
             const title = document.getElementById('modalTitle');
             const list = document.getElementById('scheduleList');
             
-            // Verifica a chave do dia
             const dayKey = day < 10 ? `0${day}` : `${day}`;
             const appointments = allAppointments[day] || allAppointments[dayKey] || [];
 
-            // Define o título com o dia clicado
             title.innerText = `Agenda Detalhada do Dia ${day}`;
-            list.innerHTML = ''; // Limpa a lista anterior
+            list.innerHTML = ''; 
 
             if (appointments.length === 0) {
                 list.innerHTML = '<li>Nenhum evento solene programado para este dia. Paz e contemplação.</li>';
@@ -567,7 +497,7 @@
                 });
             }
 
-            modal.style.display = 'flex'; // Torna o modal visível
+            modal.style.display = 'flex'; 
         }
 
         // Função para Esconder a Agenda
@@ -577,14 +507,13 @@
 
         // Função de Inicialização para marcar 'HOJE' e os dias com evento
         document.addEventListener('DOMContentLoaded', () => {
-            const today = 24; // De acordo com o contexto da sua imagem (Dia 24 é o "hoje" implícito)
+            const today = 24;
             const todayKey = today < 10 ? `0${today}` : `${today}`;
             const todayElement = document.querySelector(`.day-cell[data-day='${todayKey}']`);
             if (todayElement) {
                 todayElement.classList.add('today');
             }
 
-            // Marcar todos os dias com evento (ponto de ouro)
             Object.keys(allAppointments).forEach(day => {
                 const dayElement = document.querySelector(`.day-cell[data-day='${day}']`);
                 if (dayElement) {
