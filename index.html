@@ -246,12 +246,15 @@
         <header class="liquid-glass-panel header">
             <h1 class="title">PARÓQUIA NOSSA SENHORA DA CONCEIÇÃO-VIRGÍNIA-MG</h1>
             <h2 class="subtitle">AGENDA MENSAL</h2>
-            <div class="profile-icon"></div> </header>
+            <div class="profile-icon"></div>
+        </header>
 
         <section class="agenda-main">
             
             <div class="liquid-glass-panel calendar-view">
-                <h2>Novembro 2025</h2> <div class="calendar-grid">
+                <h2>Novembro 2025</h2>
+                
+                <div class="calendar-grid">
                     <div class="day-header">DOM</div>
                     <div class="day-header">SEG</div>
                     <div class="day-header">TER</div>
@@ -305,7 +308,8 @@
             </div>
             
             <div class="liquid-glass-panel task-list">
-                <h2>Próximos Destaques</h2> <ul>
+                <h2>Próximos Destaques</h2>
+                <ul>
                     <li class="task-item highlighted">Novena: Primeiro dia (Dia 28, 19:00)</li>
                     <li class="task-item">Casamento: Dia 29, 11:00 (Igreja Matriz)</li>
                     <li class="task-item">Formação MESC: Dia 25, 19:00</li>
@@ -330,212 +334,212 @@
     </div>
 
     <script>
-        // Dados de Compromissos COMPLETOS E CORRIGIDOS (O MAPA REAL DO MÊS)
+        // Dados de Compromissos (Sem os Padres, Atendimento trocado por Hora Marcada)
         const allAppointments = {
             1: [
-                { time: "09:00", description: "Casamento - Igreja Matriz (Pe. Aylton)" },
-                { time: "10:00", description: "Bênção bairro Marques (Pe. Erick)" },
-                { time: "11:00", description: "Casamento - Igreja Matriz (Pe. Aylton)" },
-                { time: "14:00", description: "Catequese - Igreja Matriz (Pe. Erick)" },
-                { time: "16:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
-                { time: "18:00", description: "Vigília - Igreja Matriz (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Erick)" }
+                { time: "09:00", description: "Casamento - Igreja Matriz" },
+                { time: "10:00", description: "Bênção bairro Marques" },
+                { time: "11:00", description: "Casamento - Igreja Matriz" },
+                { time: "14:00", description: "Catequese - Igreja Matriz" },
+                { time: "16:00", description: "Santa Missa Igreja Matriz" },
+                { time: "18:00", description: "Vigília - Igreja Matriz" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz" }
             ],
             2: [
-                { time: "05:00", description: "Santa Missa no Cemitério (Pe. Erick)" },
-                { time: "08:00", description: "Santa Missa Setor 6 – Bairro São José da Mantiqueira (Pe. Erick)" },
-                { time: "09:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
-                { time: "11:00", description: "Santa Missa Setor 1 – Bairro Mendes (Pe. Edimilson)" },
-                { time: "17:00", description: "Santa Missa Setor 3 – Bairro Correias (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Erick)" }
+                { time: "05:00", description: "Santa Missa no Cemitério" },
+                { time: "08:00", description: "Santa Missa Setor 6 – Bairro São José da Mantiqueira" },
+                { time: "09:00", description: "Santa Missa Igreja Matriz" },
+                { time: "11:00", description: "Santa Missa Setor 1 – Bairro Mendes" },
+                { time: "17:00", description: "Santa Missa Setor 3 – Bairro Correias" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz" }
             ],
             3: [
-                { time: "14:00", description: "Visita às obras (Pe. Erick)" },
-                { time: "19:00", description: "Santa Missa Igreja Nossa Senhora Aparecida (Pe. Erick)" }
+                { time: "14:00", description: "Visita às obras" },
+                { time: "19:00", description: "Santa Missa Igreja Nossa Senhora Aparecida" }
             ],
             4: [
-                { time: "14:00", description: "Hora Marcada (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Morangal (Pe. Erick)" }
+                { time: "14:00", description: "Hora Marcada" },
+                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Morangal" }
             ],
             5: [
-                { time: "09:00", description: "Hora Marcada (Pe. Edimilson)" },
-                { time: "16:00", description: "Visita aos enfermos (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Serra Verde (Pe. Edimilson)" }
+                { time: "09:00", description: "Hora Marcada" },
+                { time: "16:00", description: "Visita aos enfermos" },
+                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Serra Verde" }
             ],
             6: [
-                { time: "09:00", description: "Hora Marcada (Pe. Erick)" },
-                { time: "09:00", description: "Visita às obras (Pe. Erick)" },
-                { time: "14:00", description: "Hora Marcada (Pe. Edimilson)" },
-                { time: "14:00", description: "Visita aos enfermos (Pe. Edimilson)" },
-                { time: "17:00", description: "Confissão - Igreja Matriz (Pe. Erick)" },
-                { time: "18:00", description: "Adoração – Igreja Matriz (Pe. Erick)" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Setor 2 – Bairro Porto (Pe. Edimilson)" },
-                { time: "20:00", description: "Reunião Irmandade do Santíssimo (Pe. Edimilson)" }
+                { time: "09:00", description: "Hora Marcada" },
+                { time: "09:00", description: "Visita às obras" },
+                { time: "14:00", description: "Hora Marcada" },
+                { time: "14:00", description: "Visita aos enfermos" },
+                { time: "17:00", description: "Confissão - Igreja Matriz" },
+                { time: "18:00", description: "Adoração – Igreja Matriz" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz" },
+                { time: "19:00", description: "Santa Missa Setor 2 – Bairro Porto" },
+                { time: "20:00", description: "Reunião Irmandade do Santíssimo" }
             ],
             7: [
-                { time: "09:00", description: "Hora Marcada (Pe. Edimilson)" },
-                { time: "09:00", description: "Santa Missa Abrigo São Camilo (Pe. Edimilson)" },
-                { time: "14:00", description: "Hora Marcada (Pe. Edimilson)" },
-                { time: "15:00", description: "Buscar seminarista (Pe. Erick)" },
-                { time: "18:00", description: "Adoração – Igreja Matriz (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Setor 4 – Bairro Moreiras (Pe. Erick)" }
+                { time: "09:00", description: "Hora Marcada" },
+                { time: "09:00", description: "Santa Missa Abrigo São Camilo" },
+                { time: "14:00", description: "Hora Marcada" },
+                { time: "15:00", description: "Buscar seminarista" },
+                { time: "18:00", description: "Adoração – Igreja Matriz" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz" },
+                { time: "19:00", description: "Santa Missa Setor 4 – Bairro Moreiras" }
             ],
             8: [
-                { time: "09:00", description: "Casamento - Igreja Matriz (Pe. Erick)" },
-                { time: "11:00", description: "Casamento - Igreja Matriz (Pe. Erick)" },
-                { time: "16:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Marques (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Erick)" }
+                { time: "09:00", description: "Casamento - Igreja Matriz" },
+                { time: "11:00", description: "Casamento - Igreja Matriz" },
+                { time: "16:00", description: "Santa Missa Igreja Matriz" },
+                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Marques" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz" }
             ],
             9: [
-                { time: "07:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
-                { time: "09:00", description: "Santa Missa Setor 2 – Bairro Mogiano (Pe. Erick)" },
-                { time: "09:00", description: "Santa Missa Igreja Matriz (Pe. Erick)" },
-                { time: "10:00", description: "Batizado – Igreja Matriz (Pe. Edimilson)" },
-                { time: "18:00", description: "Santa Missa Setor 3 – Bairro Retirinho (Pe. Erick)" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" }
+                { time: "07:00", description: "Santa Missa Igreja Matriz" },
+                { time: "09:00", description: "Santa Missa Setor 2 – Bairro Mogiano" },
+                { time: "09:00", description: "Santa Missa Igreja Matriz" },
+                { time: "10:00", description: "Batizado – Igreja Matriz" },
+                { time: "18:00", description: "Santa Missa Setor 3 – Bairro Retirinho" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz" }
             ],
             10: [
-                { time: "09:00", description: "Visita às obras (Pe. Erick)" },
-                { time: "16:00", description: "Hora Marcada Confissão Primeira Eucaristia (Bairro Vargem Alegre e Retiro dos Marins) (Pe. Erick)" },
-                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Pouso Frio (Pe. Edimilson)" }
+                { time: "09:00", description: "Visita às obras" },
+                { time: "16:00", description: "Hora Marcada Confissão Primeira Eucaristia (Bairro Vargem Alegre e Retiro dos Marins)" },
+                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Pouso Frio" }
             ],
             11: [
-                { time: "09:00", description: "Hora Marcada (Pe. Erick)" },
-                { time: "14:00", description: "Hora Marcada (Pe. Edimilson)" },
-                { time: "16:00", description: "Hora Marcada confissões Primeira Eucaristia (Serra Verde e Rio Acima II) (Pe. Erick)" },
-                { time: "19:00", description: "Santa Missa Setor 2 – Bairro Ribeirão (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Roseirinha (Pe. Erick)" }
+                { time: "09:00", description: "Hora Marcada" },
+                { time: "14:00", description: "Hora Marcada" },
+                { time: "16:00", description: "Hora Marcada confissões Primeira Eucaristia (Serra Verde e Rio Acima II)" },
+                { time: "19:00", description: "Santa Missa Setor 2 – Bairro Ribeirão" },
+                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Roseirinha" }
             ],
             12: [
-                { time: "09:00", description: "Hora Marcada (Pe. Edimilson)" },
-                { time: "09:00", description: "Santa Missa Abrigo São Camilo (Pe. Edimilson)" },
-                { time: "16:00", description: "Hora Marcada confissão Primeira Eucaristia Bairro Marques (Pe. Erick)" },
-                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Serra dos Fernandes (Pe. Edimilson)" },
-                { time: "19:00", description: "Formação MESC (Pe. Erick)" }
+                { time: "09:00", description: "Hora Marcada" },
+                { time: "09:00", description: "Santa Missa Abrigo São Camilo" },
+                { time: "16:00", description: "Hora Marcada confissão Primeira Eucaristia Bairro Marques" },
+                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Serra dos Fernandes" },
+                { time: "19:00", description: "Formação MESC" }
             ],
             13: [
-                { time: "09:00", description: "Visita às obras (Pe. Erick)" },
-                { time: "09:00", description: "Hora Marcada (Pe. Edimilson)" },
-                { time: "14:00", description: "Hora Marcada (Pe. Edimilson)" },
-                { time: "17:00", description: "Confissão - Igreja Matriz (Pe. Erick)" },
-                { time: "18:00", description: "Adoração – Igreja Matriz (Pe. Erick)" },
-                { time: "18:00", description: "Confissão Primeira Eucaristia - Bairro Palmeiras (Retirinho e Lavras) (Pe. Erick)" },
-                { time: "19:00", description: "Santa Missa Setor 1 – Bairro Palmeiras (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Erick)" }
+                { time: "09:00", description: "Visita às obras" },
+                { time: "09:00", description: "Hora Marcada" },
+                { time: "14:00", description: "Hora Marcada" },
+                { time: "17:00", description: "Confissão - Igreja Matriz" },
+                { time: "18:00", description: "Adoração – Igreja Matriz" },
+                { time: "18:00", description: "Confissão Primeira Eucaristia - Bairro Palmeiras (Retirinho e Lavras)" },
+                { time: "19:00", description: "Santa Missa Setor 1 – Bairro Palmeiras" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz" }
             ],
             14: [
-                { time: "09:00", description: "Hora Marcada (Pe. Edimilson)" },
-                { time: "09:00", description: "Confissão Primeira Eucaristia - Cidade (Pe. Edimilson)" },
-                { time: "15:00", description: "Confissões Primeira Eucaristia Bairro Moreiras (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Setor 1 – Bairro Mato Dentro (Pe. Erick)" },
-                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Vargem Alegre (Pe. Edimilson)" }
+                { time: "09:00", description: "Hora Marcada" },
+                { time: "09:00", description: "Confissão Primeira Eucaristia - Cidade" },
+                { time: "15:00", description: "Confissões Primeira Eucaristia Bairro Moreiras" },
+                { time: "19:00", description: "Santa Missa Setor 1 – Bairro Mato Dentro" },
+                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Vargem Alegre" }
             ],
             15: [
-                { time: "08:00", description: "Abertura Ano Jubilar - Pouso Alto (Pe. Edimilson)" },
-                { time: "09:00", description: "Hora Marcada (Pe. Erick)" },
-                { time: "11:00", description: "Casamento - Igreja São José (Pe. Erick)" },
-                { time: "16:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Setor 6 – Bairro São José da Mantiqueira (Pe. Erick)" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" }
+                { time: "08:00", description: "Abertura Ano Jubilar - Pouso Alto" },
+                { time: "09:00", description: "Hora Marcada" },
+                { time: "11:00", description: "Casamento - Igreja São José" },
+                { time: "16:00", description: "Santa Missa Igreja Matriz" },
+                { time: "19:00", description: "Santa Missa Setor 6 – Bairro São José da Mantiqueira" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz" }
             ],
             16: [
-                { time: "07:00", description: "Santa Missa Igreja Matriz (Pe. Erick)" },
-                { time: "08:00", description: "Santa Missa Setor 5 – Bairro Roseira (Pe. Erick)" },
-                { time: "10:30", description: "Santa Missa Setor 7 – Bairro Retiro dos Marins (Pe. Edimilson)" },
-                { time: "18:00", description: "Santa Missa Setor 4 – Bairro Moreiras (Pe. Erick)" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" }
+                { time: "07:00", description: "Santa Missa Igreja Matriz" },
+                { time: "08:00", description: "Santa Missa Setor 5 – Bairro Roseira" },
+                { time: "10:30", description: "Santa Missa Setor 7 – Bairro Retiro dos Marins" },
+                { time: "18:00", description: "Santa Missa Setor 4 – Bairro Moreiras" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz" }
             ],
             17: [
-                { time: "09:00", description: "Hora Marcada (Pe. Erick)" },
-                { time: "14:00", description: "Confissão Primeira Eucaristia Cidade (Pe. Erick)" },
-                { time: "19:00", description: "Santa Missa Setor 9 – Sertãozinho D. Rosalia (Pe. Erick)" }
+                { time: "09:00", description: "Hora Marcada" },
+                { time: "14:00", description: "Confissão Primeira Eucaristia Cidade" },
+                { time: "19:00", description: "Santa Missa Setor 9 – Sertãozinho D. Rosalia" }
             ],
             18: [
-                { time: "09:00", description: "Santa Missa Abrigo São Camilo (Pe. Edimilson)" },
-                { time: "14:00", description: "Hora Marcada (Pe. Erick)" },
-                { time: "14:00", description: "Visita às obras (Pe. Erick)" },
-                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Felipes (Pe. Edimilson)" }
+                { time: "09:00", description: "Santa Missa Abrigo São Camilo" },
+                { time: "14:00", description: "Hora Marcada" },
+                { time: "14:00", description: "Visita às obras" },
+                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Felipes" }
             ],
             19: [
-                { time: "09:00", description: "Hora Marcada (Pe. Edimilson)" },
-                { time: "14:00", description: "Visita aos enfermos (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Marques (Pe. Edimilson)" }
+                { time: "09:00", description: "Hora Marcada" },
+                { time: "14:00", description: "Visita aos enfermos" },
+                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Marques" }
             ],
             20: [
-                { time: "09:00", description: "Hora Marcada (Pe. Edimilson)" },
-                { time: "17:00", description: "Confissões - Igreja Matriz (Pe. Erick)" },
-                { time: "18:00", description: "Adoração – Igreja Matriz (Pe. Erick)" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Gonçalves (Pe. Erick)" }
+                { time: "09:00", description: "Hora Marcada" },
+                { time: "17:00", description: "Confissões - Igreja Matriz" },
+                { time: "18:00", description: "Adoração – Igreja Matriz" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz" },
+                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Gonçalves" }
             ],
             21: [
-                { time: "09:00", description: "Visita aos enfermos (Pe. Erick)" },
-                { time: "09:00", description: "Hora Marcada (Pe. Edimilson)" },
-                { time: "14:00", description: "Hora Marcada (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Setor 6 – Bairro Torres (Pe. Erick)" },
-                { time: "19:00", description: "Santa Missa Setor 8 – Bairro Caeté (Pe. Edimilson)" }
+                { time: "09:00", description: "Visita aos enfermos" },
+                { time: "09:00", description: "Hora Marcada" },
+                { time: "14:00", description: "Hora Marcada" },
+                { time: "19:00", description: "Santa Missa Setor 6 – Bairro Torres" },
+                { time: "19:00", description: "Santa Missa Setor 8 – Bairro Caeté" }
             ],
             22: [
-                { time: "11:00", description: "Casamento Igreja Matriz (Pe. Aylton)" },
-                { time: "16:00", description: "Casamento Bairro Retirinho (Pe. Edimilson)" },
-                { time: "18:00", description: "Santa Missa hotel? (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Erick)" }
+                { time: "11:00", description: "Casamento Igreja Matriz" },
+                { time: "16:00", description: "Casamento Bairro Retirinho" },
+                { time: "18:00", description: "Santa Missa hotel?" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz" }
             ],
             23: [
-                { time: "07:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
-                { time: "09:00", description: "Santa Missa Setor 3 – Bairro Mendanha (Pe. Erick)" },
-                { time: "15:00", description: "Primeira Eucarística – Igreja Matriz (Pe. Erick)" },
-                { time: "18:00", description: "Santa Missa Setor 1 – Bairro Retirinho (Pe. Erick)" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" }
+                { time: "07:00", description: "Santa Missa Igreja Matriz" },
+                { time: "09:00", description: "Santa Missa Setor 3 – Bairro Mendanha" },
+                { time: "15:00", description: "Primeira Eucarística – Igreja Matriz" },
+                { time: "18:00", description: "Santa Missa Setor 1 – Bairro Retirinho" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz" }
             ],
             24: [
-                { time: "18:00", description: "Santa Missa Sagrado Coração (Pe. Erick)" },
-                { time: "19:00", description: "Formação MESC (Pe. Erick)" }
+                { time: "18:00", description: "Santa Missa Sagrado Coração" },
+                { time: "19:00", description: "Formação MESC" }
             ],
             25: [
-                { time: "09:00", description: "Hora Marcada (Pe. Erick)" },
-                { time: "14:00", description: "Hora Marcada (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Setor 4 – Bairro Pereiras (Pe. Erick)" },
-                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Rio Acima II (Pe. Edimilson)" },
-                { time: "20:00", description: "Reunião Setor 7 (Pe. Edimilson)" }
+                { time: "09:00", description: "Hora Marcada" },
+                { time: "14:00", description: "Hora Marcada" },
+                { time: "19:00", description: "Santa Missa Setor 4 – Bairro Pereiras" },
+                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Rio Acima II" },
+                { time: "20:00", description: "Reunião Setor 7" }
             ],
             26: [
-                { time: "09:00", description: "Hora Marcada (Pe. Erick)" },
-                { time: "19:00", description: "Santa Missa Setor 1 – Bairro Mendes (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Setor 4 – Bairro Água Limpa (Pe. Erick)" }
+                { time: "09:00", description: "Hora Marcada" },
+                { time: "19:00", description: "Santa Missa Setor 1 – Bairro Mendes" },
+                { time: "19:00", description: "Santa Missa Setor 4 – Bairro Água Limpa" }
             ],
             27: [
-                { time: "05:00", description: "Santa Missa Pedra Santa (Pe. Erick)" },
-                { time: "09:00", description: "Abrigo São Camilo (Pe. Erick)" },
-                { time: "09:00", description: "Hora Marcada (Pe. Edimilson)" },
-                { time: "14:00", description: "Hora Marcada (Pe. Edimilson)" },
-                { time: "17:00", description: "Confissão - Igreja Matriz (Pe. Edimilson)" },
-                { time: "18:00", description: "Adoração – Igreja Matriz (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Setor 1 – Bairro Muquém (Pe. Erick)" }
+                { time: "05:00", description: "Santa Missa Pedra Santa" },
+                { time: "09:00", description: "Abrigo São Camilo" },
+                { time: "09:00", description: "Hora Marcada" },
+                { time: "14:00", description: "Hora Marcada" },
+                { time: "17:00", description: "Confissão - Igreja Matriz" },
+                { time: "18:00", description: "Adoração – Igreja Matriz" },
+                { time: "19:00", description: "Santa Missa Igreja Matriz" },
+                { time: "19:00", description: "Santa Missa Setor 1 – Bairro Muquém" }
             ],
             28: [
-                { time: "09:00", description: "Hora Marcada (Pe. Edimilson)" },
-                { time: "14:00", description: "Hora Marcada (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Vargem Alegre (Pe. Erick)" },
-                { time: "19:00", description: "Primeiro dia da Novena (Pe. Enderson)" }
+                { time: "09:00", description: "Hora Marcada" },
+                { time: "14:00", description: "Hora Marcada" },
+                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Vargem Alegre" },
+                { time: "19:00", description: "Primeiro dia da Novena" }
             ],
             29: [
-                { time: "10:00", description: "Santa Missa Setor 1 – Bairro Virgem do Socorro (Pe. Erick)" },
-                { time: "11:00", description: "Casamento - Igreja Matriz (Pe. Edimilson)" },
-                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Roseirinha (Pe. Edimilson)" },
-                { time: "19:00", description: "Segundo dia da Novena (Pe. Johnson)" }
+                { time: "10:00", description: "Santa Missa Setor 1 – Bairro Virgem do Socorro" },
+                { time: "11:00", description: "Casamento - Igreja Matriz" },
+                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Roseirinha" },
+                { time: "19:00", description: "Segundo dia da Novena" }
             ],
             30: [
-                { time: "07:00", description: "Santa Missa Igreja Matriz (Pe. Erick)" },
-                { time: "09:00", description: "Santa Missa Igreja Matriz (Pe. Edimilson)" },
-                { time: "09:30", description: "Santa Missa Setor 7 – Bairro Retiro dos Marins (Pe. Erick)" },
-                { time: "11:00", description: "Santa Missa Setor 1 – Bairro Palmeiras (Pe. Edimilson)" },
-                { time: "18:00", description: "Santa Missa Setor 5 – Bairro Roseira (Pe. Erick)" },
-                { time: "19:00", description: "Terceiro dia da Novena (Pe. Jean)" }
+                { time: "07:00", description: "Santa Missa Igreja Matriz" },
+                { time: "09:00", description: "Santa Missa Igreja Matriz" },
+                { time: "09:30", description: "Santa Missa Setor 7 – Bairro Retiro dos Marins" },
+                { time: "11:00", description: "Santa Missa Setor 1 – Bairro Palmeiras" },
+                { time: "18:00", description: "Santa Missa Setor 5 – Bairro Roseira" },
+                { time: "19:00", description: "Terceiro dia da Novena" }
             ]
         };
 
@@ -544,7 +548,8 @@
             const modal = document.getElementById('scheduleModal');
             const title = document.getElementById('modalTitle');
             const list = document.getElementById('scheduleList');
-            // Formata o dia para ter sempre 2 dígitos para corresponder às chaves '01' etc.
+            
+            // Verifica a chave do dia
             const dayKey = day < 10 ? `0${day}` : `${day}`;
             const appointments = allAppointments[day] || allAppointments[dayKey] || [];
 
@@ -573,7 +578,8 @@
         // Função de Inicialização para marcar 'HOJE' e os dias com evento
         document.addEventListener('DOMContentLoaded', () => {
             const today = 24; // De acordo com o contexto da sua imagem (Dia 24 é o "hoje" implícito)
-            const todayElement = document.querySelector(`.day-cell[data-day='${today < 10 ? '0' + today : today}']`);
+            const todayKey = today < 10 ? `0${today}` : `${today}`;
+            const todayElement = document.querySelector(`.day-cell[data-day='${todayKey}']`);
             if (todayElement) {
                 todayElement.classList.add('today');
             }
