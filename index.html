@@ -207,11 +207,9 @@
         }
         const TODAY_DATE = getTodayAgendaString(); 
         
+        // AGENDA_DATA ATUALIZADA
         const AGENDA_DATA = [
-            { "date": "23/Nov (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
-            { "date": "23/Nov (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Setor 3 – Bairro Mendanha (Pe. Erick)" },
-            { "date": "23/Nov (Domingo)", "dayOfWeek": "DOM", "time": "18:00", "title": "Santa Missa", "location": "Setor 1 – Bairro Retirinho (Pe. Edimilson)" },
-            { "date": "23/Nov (Domingo)", "dayOfWeek": "DOM", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
+            // Entradas de 24/Nov a 29/Nov mantidas
             { "date": "24/Nov (Segunda-feira)", "dayOfWeek": "SEG", "time": "18:00", "title": "Santa Missa", "location": "Igreja Sagrado Coração (Pe. Erick)" },
             { "date": "25/Nov (Terça-feira)", "dayOfWeek": "TER", "time": "19:00", "title": "Santa Missa", "location": "Setor 4 – Bairro Pereiras (Pe. Edimilson)" },
             { "date": "25/Nov (Terça-feira)", "dayOfWeek": "TER", "time": "20:00", "title": "Santa Missa", "location": "Setor 7 – Bairro Rio Acima II (Pe. Erick)" },
@@ -223,12 +221,32 @@
             { "date": "28/Nov (Sexta-feira)", "dayOfWeek": "SEX", "time": "19:00", "title": "Santa Missa", "location": "Setor 7 – Bairro Vargem Alegre (Pe. Edimilson)" },
             { "date": "29/Nov (Sábado)", "dayOfWeek": "SÁB", "time": "10:00", "title": "Santa Missa", "location": "Setor 1 – Bairro Virgem do Socorro (Pe. Erick)" },
             { "date": "29/Nov (Sábado)", "dayOfWeek": "SÁB", "time": "19:00", "title": "Santa Missa", "location": "Setor 7 – Bairro Roseirinha (Pe. Edimilson)" },
+
+            // Domigos na Matriz: 7h, 9h, 19h (ATÉ O FINAL DO ANO)
             { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
             { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
-            { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "09:30", "title": "Santa Missa", "location": "Setor 7 – Bairro Retiro dos Marins (Pe. Erick)" },
-            { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "11:00", "title": "Santa Missa", "location": "Setor 1 – Bairro Palmeiras (Pe. Erick)" },
-            { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "18:00", "title": "Santa Missa", "location": "Setor 5 – Bairro Roseira (Pe. Edimilson)" },
-            { "date": "01/Dec (Segunda-feira)", "dayOfWeek": "SEG", "time": "00:00", "title": "Folga", "location": "Nenhuma Missa" },
+            { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
+
+            { "date": "07/Dec (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
+            { "date": "07/Dec (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
+            { "date": "07/Dec (Domingo)", "dayOfWeek": "DOM", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
+
+            { "date": "14/Dec (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
+            { "date": "14/Dec (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
+            { "date": "14/Dec (Domingo)", "dayOfWeek": "DOM", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
+
+            // 4º Domingo do Advento - ROSA (Pedido do Senhor Supremo)
+            { "date": "21/Dec (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
+            { "date": "21/Dec (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
+            { "date": "21/Dec (Domingo)", "dayOfWeek": "DOM", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
+
+            // Natal (Extra)
+            { "date": "25/Dec (Quinta-feira)", "dayOfWeek": "QUI", "time": "19:00", "title": "Santa Missa Solene de Natal", "location": "Igreja Matriz (Pe. Erick)" },
+
+            // Sagrada Família
+            { "date": "28/Dec (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
+            { "date": "28/Dec (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
+            { "date": "28/Dec (Domingo)", "dayOfWeek": "DOM", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
         ];
         
         const SACRISTY_CHECKLIST = [
@@ -245,6 +263,7 @@
             6: ["Varrer o passeio e escadaria central", "Jogar água no passeio/escadaria", "Organizar Mala de missas (Diário)"]
         };
 
+        // LITURGICAL_INFO_MAP ATUALIZADO COM OS DOMINGOS DO ADVENTO E NATAL
         const LITURGICAL_INFO_MAP = { 
             "01/Nov": { color: "BRANCO", title: "Todos os Santos (Solenidade)" }, "02/Nov": { color: "ROXO", title: "Comemoração dos Fiéis Defuntos (Finados)" }, 
             "03/Nov": { color: "BRANCO", title: "São Martinho de Porres, Presbítero (MF)" }, "04/Nov": { color: "BRANCO", title: "São Carlos Borromeu, Bispo (MO)" }, 
@@ -261,15 +280,22 @@
             "25/Nov": { color: "VERMELHO", title: "Santa Catarina de Alexandria, Virgem e Mártir" }, "26/Nov": { color: "VERDE", title: "São Leonardo de Porto Maurício (Féria)" }, 
             "27/Nov": { color: "BRANCO", title: "Nossa Senhora das Graças / Medalha Milagrosa (MF)" }, "28/Nov": { color: "VERDE", title: "Santa Catarina Labouré (Féria)" }, 
             "29/Nov": { color: "VERMELHO", title: "São Saturnino de Tolosa (Memória)" }, 
-            "30/Nov": { color: "ROXO", title: "1º Domingo do Advento (Ano A)" }
+            // Início das novas datas
+            "30/Nov": { color: "ROXO", title: "1º Domingo do Advento (Ano A)" },
+            "07/Dec": { color: "ROXO", title: "2º Domingo do Advento" },
+            "14/Dec": { color: "ROXO", title: "3º Domingo do Advento" },
+            "21/Dec": { color: "ROSEO", title: "4º Domingo do Advento (Cor de Festejo)" }, // Cor ROSA solicitada
+            "25/Dec": { color: "BRANCO", title: "Natal do Senhor (Solenidade)" },
+            "28/Dec": { color: "BRANCO", title: "Sagrada Família de Jesus, Maria e José (Festa)" }
         };
 
-        // CORES LITÚRGICAS ATUALIZADAS CONFORME A IMAGEM!
+        // CORES LITÚRGICAS ATUALIZADAS (Adicionando o ROSEO)
         const LITURGICAL_COLORS = {
             "VERMELHO": ["#C0392B", "rgba(192, 57, 43, 0.9)", "#A82B1D", "rgba(192, 57, 43, 0.4)"], /* Vermelho da imagem */
             "BRANCO": ["#F1C40F", "rgba(241, 196, 15, 0.9)", "#D4AF0D", "rgba(241, 196, 15, 0.4)"],  /* Amarelo/Ouro da imagem */
             "VERDE": ["#27AE60", "rgba(39, 174, 96, 0.9)", "#1E8449", "rgba(39, 174, 96, 0.4)"],    /* Verde da imagem */
             "ROXO": ["#8E44AD", "rgba(142, 68, 173, 0.9)", "#6C3483", "rgba(142, 68, 173, 0.4)"],    /* Roxo/Azul da imagem */
+            "ROSEO": ["#E97451", "rgba(233, 116, 81, 0.9)", "#CC603C", "rgba(233, 116, 81, 0.4)"],    /* Rosa/Róseo de Gaudete/Laetare */
             "ROSA_CENTRO": "#FFE0E0" /* Nova cor base para fundo e transparência geral */
         };
 
@@ -354,7 +380,13 @@
             
             if (monthIndex === undefined) return new Date(NaN);
 
-            return new Date(currentYear, monthIndex, parseInt(day));
+            // Ajuste o ano para dezembro caso a data seja em dezembro e o mês atual seja janeiro
+            let year = currentYear;
+            if (monthIndex > new Date().getMonth() && monthIndex === 11 && new Date().getMonth() === 0) {
+                 year--; // Se estamos em janeiro e olhamos para dezembro, assumimos o ano anterior.
+            }
+
+            return new Date(year, monthIndex, parseInt(day));
         }
 
         function getUniqueDates() { 
