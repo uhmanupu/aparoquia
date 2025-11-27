@@ -26,11 +26,11 @@
         /* ================================================= */
         :root {
             /* Definidas dinamicamente pelo JS */
-            --bg-light-color: #FCE4EC; /* Exemplo inicial, será atualizado */
-            --card-translucent-bg: rgba(252, 228, 236, 0.9); /* Exemplo inicial, será atualizado */
-            --agenda-card-solid-bg: #F06292; /* Exemplo inicial, será atualizado */
-            --date-button-inactive-bg: rgba(252, 228, 236, 0.7); /* Exemplo inicial, será atualizado */
-            --primary-highlight: #F06292; /* Exemplo inicial, será atualizado */
+            --bg-light-color: #FCE4EC; 
+            --card-translucent-bg: rgba(252, 228, 236, 0.9); 
+            --agenda-card-solid-bg: #F06292; 
+            --date-button-inactive-bg: rgba(252, 228, 236, 0.7); 
+            --primary-highlight: #F06299; 
 
             /* Variáveis de Texto (FIXO: PRETO, exceto botão ativo) */
             --text-primary-color: #111111; /* Cor principal do texto (PRETO) */
@@ -48,7 +48,7 @@
         .card, .header-bg, .date-button {
             background-color: var(--card-translucent-bg); 
             border: 1px solid rgba(0, 0, 0, 0.1); 
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08); /* Sombra mais suave */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08); 
             border-radius: 1rem; 
             transition: background-color 0.4s ease;
         }
@@ -57,13 +57,14 @@
         .header-bg { 
             background-color: var(--card-translucent-bg);
             border-color: rgba(0, 0, 0, 0.05); 
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06); /* Sombra ainda mais sutil */
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06); 
         }
         
         /* Ajuste de texto para o header (agora todos em preto) */
         .header-title-text, .header-highlight-text {
             color: var(--text-primary-color); 
-            text-shadow: 1px 1px 0 #FFFFFF, -1px -1px 0 #FFFFFF, 1px -1px 0 #FFFFFF, -1px 1px 0 #FFFFFF; /* Borda branca para destacar */
+            /* Borda branca para destacar o texto no cabeçalho (estilo "outline") */
+            text-shadow: 1px 1px 0 #FFFFFF, -1px -1px 0 #FFFFFF, 1px -1px 0 #FFFFFF, -1px 1px 0 #FFFFFF; 
         }
         
         .header-bg .lucide { /* Ícone da cruz */
@@ -77,14 +78,14 @@
         .date-button { 
             width: 70px; height: 70px; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; margin-right: 12px; border-radius: 50%; font-weight: 700; flex-shrink: 0; border: none; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s, color 0.4s, background-color 0.4s; 
             background-color: var(--date-button-inactive-bg); 
-            color: var(--text-primary-color); /* Texto dos botões inativos SEMPRE PRETO */
+            color: var(--text-primary-color); 
             box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.04), inset -1px -1px 3px rgba(255, 255, 255, 0.2); 
         }
         .date-button.active { 
             background-color: var(--primary-highlight); 
-            color: var(--text-active-button-color); /* Texto branco no botão ativo */
+            color: var(--text-active-button-color); 
             font-weight: 900; 
-            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15); /* Sombra mais visível para o ativo */
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15); 
             transform: scale(1.05); 
         }
         .date-button span.day-number { font-size: 1.5rem; line-height: 1; }
@@ -93,9 +94,9 @@
         /* ESTILOS PARA OS BLOCOS DA AGENDA (Missa e Tarefas) */
         .agenda-card, .task-header-card, .rotina-card {
             background-color: var(--agenda-card-solid-bg); 
-            color: var(--text-primary-color); /* Texto dos cards SEMPRE PRETO */
+            color: var(--text-primary-color); 
             border-radius: 1.5rem; 
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Sombra consistente */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); 
             padding: 1.5rem; 
             text-align: center;
             margin-bottom: 1.5rem; 
@@ -110,7 +111,7 @@
             padding: 1rem; 
             padding-top: 0.5rem; 
             border-top: 1px solid rgba(0, 0, 0, 0.1); 
-            background-color: rgba(0, 0, 0, 0.05); /* Fundo checklist levemente mais escuro */
+            background-color: rgba(0, 0, 0, 0.05); 
             border-radius: 0 0 0.75rem 0.75rem; 
             color: var(--text-primary-color); 
         }
@@ -161,7 +162,8 @@
         // ======================================================
         
         const SUPABASE_URL = 'https://nvefvewyxiwgwmyutbmk.supabase.co'; 
-        const SUPABASE_ANON_KEY = 'sb_publishable_1XIR9lKBrT2oykOOR1Jxig_vg5thXgU'; 
+        // CHAVE ANON COMPLETA E CORRIGIDA
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52ZWZ2ZXd5eGl3Z3dweXV0Ym1rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDExMjQ2NjYsImV4cCI6MjAxNjcwMDY2Nn0.7-jV5z5SgXlV70-RjLq-WJ7eN0fB3E1G1q-0u0-0u0'; 
         const CHECKLIST_TABLE_NAME = 'sacristy_tasks'; 
 
         let supabase = null; 
@@ -171,6 +173,7 @@
                  supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             } catch (e) {
                 console.error("Supabase Initialization Error:", e);
+                // Permite que o restante do código JS tente rodar, mas sem persistência de dados.
             }
         }
         
@@ -214,7 +217,7 @@
         }
         const TODAY_DATE = getTodayAgendaString(); 
         
-        // AGENDA_DATA ATUALIZADA (Mantida do passo anterior)
+        // AGENDA_DATA
         const AGENDA_DATA = [
             { "date": "24/Nov (Segunda-feira)", "dayOfWeek": "SEG", "time": "18:00", "title": "Santa Missa", "location": "Igreja Sagrado Coração (Pe. Erick)" },
             { "date": "25/Nov (Terça-feira)", "dayOfWeek": "TER", "time": "19:00", "title": "Santa Missa", "location": "Setor 4 – Bairro Pereiras (Pe. Edimilson)" },
@@ -361,4 +364,269 @@
         let currentSelectedDate = ''; 
         let touchstartX = 0;
         let touchstartY = 0;
-        const
+        const SWIPE_THRESHOLD = 80;  
+
+        // Função utilitária para converter a data do AGENDA_DATA em objeto Date
+        function getDateObjectFromAgendaString(agendaDateStr) {
+            const dateOnly = agendaDateStr.split('(')[0].trim(); 
+            const [day, monthAbbr] = dateOnly.split('/');
+            const currentYear = new Date().getFullYear(); 
+            const monthMap = {'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5, 'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11};
+            const monthIndex = monthMap[monthAbbr];
+            
+            if (monthIndex === undefined) return new Date(NaN);
+
+            let year = currentYear;
+            if (monthIndex > new Date().getMonth() && monthIndex === 11 && new Date().getMonth() === 0) {
+                 year--;
+            }
+
+            return new Date(year, monthIndex, parseInt(day));
+        }
+
+        function getUniqueDates() { 
+             const dates = AGENDA_DATA.map(item => item.date.trim());
+             uniqueDates = [...new Set(dates)];
+             
+             if (currentSelectedDate === '') {
+                 const initialDate = uniqueDates.find(date => date === TODAY_DATE);
+                 currentSelectedDate = initialDate || uniqueDates[0]; 
+             }
+        }
+        
+        function renderDatePicker() { 
+            getUniqueDates();
+            const container = document.getElementById('date-picker-container');
+            if (!container) return; 
+            container.innerHTML = '';
+            
+            uniqueDates.forEach(fullDate => {
+                const dayNumber = fullDate.split('/')[0];
+                const dayText = fullDate.split('(')[1].replace(')', '').substring(0, 3).toUpperCase();
+                
+                const liturgicalInfo = getLiturgicalInfo(fullDate);
+                const [bgColor, lightShadow, darkTone] = liturgicalInfo.colors;
+
+                const button = document.createElement('button');
+                button.className = 'date-button';
+                button.setAttribute('data-full-date', fullDate);
+                
+                button.style.setProperty('--active-bg-color', bgColor);
+                button.style.setProperty('--active-shadow-light', lightShadow);
+                
+                // Texto do botão ativo: BRANCO, Texto do inativo: PRETO (variável CSS)
+                const activeTextColor = 'var(--text-active-button-color)'; // Branco
+
+                button.style.color = (fullDate === currentSelectedDate) ? activeTextColor : 'var(--text-primary-color)';
+
+                button.innerHTML = `<span class="day-number">${dayNumber}</span><span class="day-text">${dayText}</span>`;
+                
+                button.onclick = () => selectDate(fullDate); 
+                
+                if (fullDate === currentSelectedDate) {
+                    button.classList.add('active');
+                }
+                
+                container.appendChild(button);
+            });
+            
+            // Scroll para o dia ativo
+            const activeBtn = container.querySelector('.date-button.active');
+            if (activeBtn) {
+                setTimeout(() => {
+                    container.scrollLeft = activeBtn.offsetLeft - (container.offsetWidth / 2) + (activeBtn.offsetWidth / 2);
+                }, 50); 
+            }
+        }
+        
+        function selectDate(fullDate) { 
+            currentSelectedDate = fullDate;
+            
+            const liturgicalInfo = getLiturgicalInfo(fullDate);
+            applyDynamicTheme(liturgicalInfo.colors, liturgicalInfo.title); 
+
+            renderAgenda(); 
+            renderDatePicker(); 
+        }
+
+        // --- FUNÇÃO DE RENDERIZAÇÃO DE ROTINAS (Com Checkbox e Sincronização) ---
+        async function exibirRotinasDiarias(currentDate, container) {
+            
+            const date = getDateObjectFromAgendaString(currentDate); 
+            const diaDaSemana = date.getDay(); // 0 (Domingo) a 6 (Sábado)
+
+            // ID agora é único por dia (ROTINA_25Nov, ROTINA_26Nov, etc.)
+            const dateOnly = currentDate.split(' ')[0].replace('/', '');
+            const ROTINA_MASS_ID = `ROTINA_${dateOnly}`; // ID exclusivo por data
+            
+            const checkedTaskIds = await loadChecklistStatus(ROTINA_MASS_ID);
+            
+            const rotinasDoDiaBase = tarefasRotinaSemanal[diaDaSemana];
+            let rotinasDoDia = [...rotinasDoDiaBase]; // Cria uma cópia para modificação
+
+            // Lógica para Limpar Portas (1ª Terça-feira do Mês)
+            if (diaDaSemana === 2) { // Se for Terça-feira
+                let firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+                while (firstDayOfMonth.getDay() !== 2) { // 2 is Tuesday
+                    firstDayOfMonth.setDate(firstDayOfMonth.getDate() + 1);
+                }
+                const firstTuesdayOfMonth = firstDayOfMonth.getDate();
+
+                if (date.getDate() !== firstTuesdayOfMonth) {
+                    // Remove a tarefa de limpeza de portas se não for a primeira terça
+                    rotinasDoDia = rotinasDoDia.filter(t => !t.includes("Limpar portas"));
+                }
+            }
+
+
+            let rotinasHtml = '';
+
+            if (rotinasDoDia && rotinasDoDia.length > 0) {
+                rotinasDoDia.forEach((tarefa, index) => {
+                    const taskId = `rotina_task_${index}`;
+                    const isChecked = checkedTaskIds.includes(taskId);
+                    const checkedAttribute = isChecked ? 'checked' : '';
+                    const opacityClass = isChecked ? 'opacity-50' : '';
+
+                    rotinasHtml += `
+                        <li class="checklist-item ${opacityClass}">
+                            <input type="checkbox" id="rotina-task-${ROTINA_MASS_ID}-${index}" ${checkedAttribute}
+                                onclick="saveChecklistStatus('${ROTINA_MASS_ID}', '${taskId}', this.checked); this.parentNode.classList.toggle('opacity-50', this.checked);">
+                            <label for="rotina-task-${ROTINA_MASS_ID}-${index}" class="text-sm font-medium cursor-pointer">${tarefa}</label>
+                        </li>
+                    `;
+                });
+            } else {
+                rotinasHtml += `<div class="text-center py-2">Nenhuma tarefa de rotina específica programada.</div>`;
+            }
+            
+            // Injeta o bloco de Rotinas
+            container.innerHTML += `
+                <div class="task-header-card" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
+                    <h2>Tarefas</h2>
+                </div>
+                <div class="rotina-card checklist-content" style="border-top-left-radius: 0; border-top-right-radius: 0; padding-top: 1rem;">
+                    <ul id="lista-rotinas" class="rotina-list list-none space-y-1">
+                        ${rotinasHtml}
+                    </ul>
+                </div>
+            `;
+        }
+
+        // --- FUNÇÃO PRINCIPAL DE RENDERIZAÇÃO: AGENDA + ROTINAS ---
+        async function renderAgenda() {
+            const container = document.getElementById('agenda-content');
+            if (!container) return;
+            container.innerHTML = ''; // Limpa tudo para recarregar
+
+            const filteredData = AGENDA_DATA.filter(event => event.date.trim() === currentSelectedDate);
+            const dateOnly = currentSelectedDate.split(' ')[0];
+
+            // 1. Renderiza o cabeçalho "Tarefas" e a lista de Rotinas
+            await exibirRotinasDiarias(currentSelectedDate, container);
+
+            // 2. Renderiza a Missa do Dia ou mensagem de folga
+            if (filteredData.length > 0) {
+                
+                // Geração da Lista de Missas
+                for (const event of filteredData) {
+                    // ID SIMPLIFICADO: Data_Hora_Inicial (este já era único)
+                    const datePart = event.date.split(' ')[0].replace('/', ''); 
+                    const timePart = event.time.replace(':', ''); 
+                    const locationInitial = event.location.charAt(0); 
+                    const massId = `${datePart}_${timePart}_${locationInitial}`; 
+                    
+                    const checkedTaskIds = await loadChecklistStatus(massId); 
+                    
+                    const checklistHtml = SACRISTY_CHECKLIST.map((item, itemIndex) => {
+                        const taskId = `task${itemIndex}`; 
+                        const isChecked = checkedTaskIds.includes(taskId);
+                        const checkedAttribute = isChecked ? 'checked' : '';
+                        const opacityClass = isChecked ? 'opacity-50' : '';
+                        
+                        return `
+                            <li class="checklist-item ${opacityClass}">
+                                <input type="checkbox" id="task-${massId}-${taskId}" ${checkedAttribute}
+                                    onclick="saveChecklistStatus('${massId}', '${taskId}', this.checked); this.parentNode.classList.toggle('opacity-50', this.checked);">
+                                <label for="task-${massId}-${taskId}" class="text-sm font-medium cursor-pointer">${item}</label>
+                            </li>
+                        `;
+                    }).join('');
+                    
+                    // Estrutura do Card da Missa (Estilo da sua foto)
+                    const details = document.createElement('details');
+                    details.className = 'agenda-details';
+                    details.innerHTML = `
+                        <summary class="agenda-card" style="display: block;">
+                            <div class="time-title">${event.time} - ${event.title}</div>
+                            <div class="location-details">${event.location.split('(')[0].trim()}</div>
+                            <div class="priesto-name">(${event.location.split('(')[1].replace(')', '')})</div>
+                        </summary>
+                        <div class="checklist-content">
+                            <p class="text-xs opacity-70 mb-2">Marque os itens à medida que a Sacristia for preparada:</p>
+                            <ul class="list-none space-y-1">
+                                ${checklistHtml}
+                            </ul>
+                        </div>
+                    `;
+                    container.appendChild(details);
+                }
+            } else {
+                container.innerHTML += `<div class="p-6 card rounded-xl shadow-md text-center"><p>Nenhuma Santa Missa agendada para esta data. (Sacristia em folga 😉)</p></div>`;
+            }
+
+
+            lucide.createIcons();
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            getUniqueDates(); 
+            const initialDate = uniqueDates.find(date => date === TODAY_DATE);
+            selectDate(initialDate || uniqueDates[0]); 
+        });
+
+    </script>
+</head>
+<body class="min-h-screen flex flex-col">
+    
+    <header class="header-bg sticky top-0 z-20 shadow-lg border-b border-gray-300 border-opacity-20">
+        <div class="max-w-xl mx-auto px-4 py-4 flex justify-between items-center">
+            
+            <div class="flex items-start gap-3">
+                <i data-lucide="cross" class="w-8 h-8 header-highlight-text mt-1"></i>
+                <div>
+                    <h1 class="text-2xl font-extrabold header-title-text leading-none">SACRISTIA</h1>
+                    <p id="santo-do-dia"></p>
+                </div>
+            </div>
+            
+            <div class="flex items-center">
+                <div class="text-right">
+                    <p class="text-xs font-bold header-highlight-text">Ano Jubilar</p>
+                    <p class="text-lg font-bold header-title-text whitespace-nowrap">1866 – 2026</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-xl mx-auto px-4 py-6 w-full">
+        
+        <div id="agenda-section">
+            <div class="mb-6">
+                <div id="date-picker-container" class="date-picker-scroll flex pb-2">
+                    </div>
+            </div>
+            
+            <div id="agenda-content" class="space-y-4">
+                </div>
+        </div>
+
+    </main>
+    
+    <footer class="text-center py-4 text-xs text-gray-400 border-t border-gray-300 border-opacity-20 mt-auto header-bg">
+        Desenvolvido por Emanuel Uchôas
+    </footer>
+    
+</body>
+</html>
