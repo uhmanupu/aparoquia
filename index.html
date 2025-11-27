@@ -2,527 +2,615 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda Paróquia N. Sra. da Conceição - Virgínia/MG (Mobile First)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SACRISTIA - Agenda e Rotinas</title>
+    <meta name="theme-color" content="#501515"> 
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Sacristia">
+    <meta name="mobile-web-web-app-status-bar-style" content="black-translucent">
+    
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/12114/12114233.png">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/12114/12114233.png">
+    <link rel="manifest" href="./manifest.json">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
+    
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
+    
     <style>
-        /* Variáveis de Cores (O Palácio Real) */
+        /* ================================================= */
+        /* VARIÁVEIS DE COR */
+        /* ================================================= */
         :root {
-            --bg-deep: #0C0A2E; 
-            --glass-color: rgba(41, 30, 92, 0.45); 
-            --accent-light: #C5B4E3; 
-            --text-color: #F0F0F0; 
-            --shadow-color: rgba(0, 0, 0, 0.6); 
-            --gold: #FFD700; 
-            --border-light: rgba(197, 180, 227, 0.15); 
-        }
+            --bg-dark-color: #501515; 
+            --text-light-color: #FEEEEE; 
+            --primary-highlight: #DC2626; 
+            --secondary-contrast: #fcd34d; 
+            --card-transparent: rgba(80, 21, 21, 0.7); 
+            --primary-highlight-shadow: rgba(220, 38, 38, 0.4);
+            --agenda-card-bg: #DC2626; 
+            --agenda-card-text: #FEEEEE;
+            --agenda-card-shadow: rgba(0, 0, 0, 0.3);
 
-        /* Configuração Base */
-        body {
-            background-color: var(--bg-deep);
-            color: var(--text-color);
-            font-family: 'Georgia', serif; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 10px; /* Padding reduzido para telas pequenas */
-            background-image: radial-gradient(circle at top left, rgba(60, 40, 100, 0.2) 0%, transparent 50%),
-                              radial-gradient(circle at bottom right, rgba(20, 10, 50, 0.3) 0%, transparent 50%);
-        }
-
-        /* O Segredo do Liquid Glass */
-        .liquid-glass-panel {
-            background: var(--glass-color);
-            border: 1px solid var(--border-light);
-            border-radius: 25px; 
-            padding: 20px; /* Padding reduzido para caber mais na tela */
-            backdrop-filter: blur(12px) saturate(180%);
-            -webkit-backdrop-filter: blur(12px) saturate(180%);
-            box-shadow: 0 10px 40px 0 var(--shadow-color);
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .liquid-glass-panel:hover {
-            transform: none; /* Remove a animação de hover em touch screens para evitar cliques acidentais */
-            box-shadow: 0 10px 40px 0 var(--shadow-color);
-        }
-
-        /* Estrutura do Layout (MOBILE FIRST: Coluna Única) */
-        .agenda-container {
-            width: 100%; /* Largura total da tela móvel */
-            max-width: 1300px;
-            display: grid;
-            gap: 20px; /* Espaçamento menor no celular */
-        }
-
-        .header {
-            display: flex;
-            flex-direction: column; 
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 15px 10px;
-        }
-
-        /* Títulos menores para caber no celular */
-        .title {
-            font-size: 1.5em; 
-            letter-spacing: 2px; 
-        }
-
-        .subtitle {
-            font-size: 1.1em;
-            letter-spacing: 1px;
-        }
-
-        /* Layout Principal: Fica em coluna no Mobile */
-        .agenda-main {
-            display: grid;
-            grid-template-columns: 1fr; /* Coluna única no celular */
-            gap: 20px; 
-        }
-
-        h2 {
-            font-size: 1.5em;
-            padding-bottom: 10px;
-        }
-
-        /* ESTILO DO CALENDÁRIO para MOBILE */
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr); 
-            gap: 5px; /* Reduz o espaçamento entre os dias */
-            font-size: 0.8em; /* Fonte menor para caber */
-        }
-
-        .day-header {
-            padding: 5px 2px;
-            font-size: 0.9em;
-        }
-
-        .day-cell {
-            padding: 10px 2px; /* Reduz o padding da célula */
-            border-radius: 8px; /* Bordas mais suaves */
+            /* Cores para os botões do carrossel no estado inativo */
+            --date-button-inactive-bg: var(--bg-dark-color);
+            --date-button-inactive-color: var(--primary-highlight); 
         }
         
-        .day-cell[data-has-event="true"]::after {
-            width: 6px;
-            height: 6px;
-            top: 3px;
-            right: 3px;
+        body { 
+            font-family: 'Merriweather', serif;
+            background-color: var(--bg-dark-color); 
+            color: var(--text-light-color); 
+            transition: background-color 0.4s ease, color 0.4s ease; 
         }
 
-        /* Compromissos Hora a Hora (Modal) */
-        .schedule-modal {
-            padding: 10px;
-        }
-        .schedule-content {
-            width: 95%; /* O modal cobre quase toda a largura */
-            padding: 20px;
-        }
-
-        /* Ajustes para telas maiores (TABLETS E DESKTOP) */
-        @media (min-width: 768px) {
-            .liquid-glass-panel:hover {
-                transform: translateY(-7px); /* Volta a animação no desktop */
-                box-shadow: 0 15px 50px 0 rgba(197, 180, 227, 0.1), 0 10px 60px 0 var(--shadow-color);
-            }
-
-            .agenda-container {
-                padding: 20px;
-                gap: 40px;
-            }
-
-            .header {
-                padding: 20px 30px;
-            }
-
-            .title {
-                font-size: 2.2em;
-            }
-
-            .subtitle {
-                font-size: 1.5em;
-            }
-            
-            .agenda-main {
-                grid-template-columns: 3fr 2fr; /* Layout em duas colunas no desktop */
-                gap: 40px;
-            }
-
-            .calendar-grid {
-                font-size: 1em;
-                gap: 10px;
-            }
-
-            .day-cell {
-                padding: 15px 5px;
-            }
+        /* CARD STYLE - AGORA COM OPACIDADE SIMPLES (REMOVEMOS O BACKDROP-FILTER) */
+        .card, .header-bg, .agenda-card, .task-header-card, .rotina-card, .date-button { 
+            background-color: var(--card-transparent); 
+            /* REMOVIDO: backdrop-filter: blur(10px); */
+            /* REMOVIDO: -webkit-backdrop-filter: blur(10px); */
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Borda sutil */
+            box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3); /* Sombra mais suave */
+            border-radius: 1rem; 
+            transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
         }
 
-        /* --- Estilos do painel de Tarefas (Ajustados para Mobile) --- */
-        .task-list h2 { font-size: 1.2em; }
-        .task-item { font-size: 1em; }
+        /* Ajustes específicos para o header */
+        .header-bg { 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+        }
 
-        /* Footer */
-        .footer { padding: 10px; }
+        /* ESTILOS DE BLOCOS */
+        .date-picker-scroll { overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 8px; }
+        .date-picker-scroll::-webkit-scrollbar { display: none; }
+        .date-button { 
+            width: 70px; height: 70px; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; margin-right: 12px; border-radius: 50%; font-weight: 700; flex-shrink: 0; 
+            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s, color 0.4s, background-color 0.4s; 
+            color: var(--primary-highlight); /* Cor inativa do texto */
+            background-color: var(--card-transparent); /* Transparência para o botão inativo */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .date-button.active { 
+            background-color: var(--primary-highlight); /* Cor ativa sólida */
+            color: var(--text-light-color); 
+            font-weight: 900; 
+            box-shadow: 0 6px 15px var(--active-shadow-light); 
+            transform: scale(1.05); 
+            border-color: var(--primary-highlight); /* Borda da cor ativa */
+        }
+        .date-button span.day-number { font-size: 1.5rem; line-height: 1; }
+        .agenda-details { margin-bottom: 1.5rem; }
+        
+        /* ESTILOS PARA OS BLOCOS DA AGENDA (Layout "tipo assim") */
+        .agenda-card, .task-header-card {
+            border-radius: 1.5rem; 
+            padding: 1.5rem; 
+            text-align: center;
+            margin-bottom: 1.5rem; 
+        }
+
+        .task-header-card h2 { font-size: 2.5rem; font-weight: 900; line-height: 1; }
+        .agenda-card .time-title { font-size: 2rem; font-weight: 900; line-height: 1.1; margin-bottom: 0.5rem; }
+        .agenda-card .location-details { font-size: 1.25rem; font-weight: 700; line-height: 1.2; opacity: 0.9; }
+        .agenda-card .priest-name { font-size: 1rem; opacity: 0.8; margin-top: 0.25rem; }
+        
+        /* ESTILOS DO CHECKLIST (Comum para Rotina e Missa) */
+        .checklist-content { 
+            padding: 1rem; 
+            padding-top: 0.5rem; 
+            border-top: 1px solid rgba(255, 255, 255, 0.1); 
+            background-color: rgba(0, 0, 0, 0.2); /* Fundo sutilmente escuro para contraste */
+            border-radius: 0 0 0.75rem 0.75rem; 
+            /* REMOVIDO: backdrop-filter: blur(8px); */
+            /* REMOVIDO: -webkit-backdrop-filter: blur(8px); */
+        }
+        .checklist-item { 
+            display: flex; 
+            align-items: center; 
+            padding: 0.4rem 0; 
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1); 
+        }
+        .checklist-item input[type="checkbox"] { 
+            margin-right: 0.75rem; 
+            accent-color: var(--primary-highlight); 
+            width: 1.25rem; 
+            height: 1.25rem; 
+            cursor: pointer; 
+        }
+        .rotina-card {
+            /* Já herda de .card, mas precisa de ajustes de canto e margem */
+            text-align: left;
+            padding: 1rem 1.5rem;
+            margin-top: -1.5rem; 
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            margin-bottom: 1.5rem; 
+            background-color: var(--card-transparent) !important; /* Força transparência */
+        }
+        .rotina-list li {
+            padding: 0.4rem 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.2); 
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .rotina-list li:last-child {
+            border-bottom: none; 
+        }
+        #santo-do-dia {
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0.9;
+            margin-top: -0.25rem; 
+            color: var(--secondary-contrast); 
+        }
 
     </style>
-</head>
-<body>
-
-    <div class="agenda-container">
-        
-        <header class="liquid-glass-panel header">
-            <h1 class="title">PARÓQUIA NOSSA SENHORA DA CONCEIÇÃO-VIRGÍNIA-MG</h1>
-            <h2 class="subtitle">AGENDA MENSAL</h2>
-            <div class="profile-icon"></div>
-        </header>
-
-        <section class="agenda-main">
-            
-            <div class="liquid-glass-panel calendar-view">
-                <h2>Novembro 2025</h2>
-                
-                <div class="calendar-grid">
-                    <div class="day-header">DOM</div>
-                    <div class="day-header">SEG</div>
-                    <div class="day-header">TER</div>
-                    <div class="day-header">QUA</div>
-                    <div class="day-header">QUI</div>
-                    <div class="day-header">SEX</div>
-                    <div class="day-header">SÁB</div>
-
-                    <div class="day-cell" style="opacity: 0.3; cursor: default;"></div>
-                    <div class="day-cell" style="opacity: 0.3; cursor: default;"></div>
-                    <div class="day-cell" style="opacity: 0.3; cursor: default;"></div>
-                    <div class="day-cell" style="opacity: 0.3; cursor: default;"></div>
-                    <div class="day-cell" style="opacity: 0.3; cursor: default;"></div>
-                    <div class="day-cell" style="opacity: 0.3; cursor: default;"></div>
-                    
-                    <div class="day-cell" data-day="01" data-has-event="true" onclick="showSchedule(1)">1</div>
-                    
-                    <div class="day-cell" data-day="02" data-has-event="true" onclick="showSchedule(2)">2</div>
-                    <div class="day-cell" data-day="03" data-has-event="true" onclick="showSchedule(3)">3</div>
-                    <div class="day-cell" data-day="04" data-has-event="true" onclick="showSchedule(4)">4</div>
-                    <div class="day-cell" data-day="05" data-has-event="true" onclick="showSchedule(5)">5</div>
-                    <div class="day-cell" data-day="06" data-has-event="true" onclick="showSchedule(6)">6</div>
-                    <div class="day-cell" data-day="07" data-has-event="true" onclick="showSchedule(7)">7</div>
-                    <div class="day-cell" data-day="08" data-has-event="true" onclick="showSchedule(8)">8</div>
-                    
-                    <div class="day-cell" data-day="09" data-has-event="true" onclick="showSchedule(9)">9</div>
-                    <div class="day-cell" data-day="10" data-has-event="true" onclick="showSchedule(10)">10</div>
-                    <div class="day-cell" data-day="11" data-has-event="true" onclick="showSchedule(11)">11</div>
-                    <div class="day-cell" data-day="12" data-has-event="true" onclick="showSchedule(12)">12</div>
-                    <div class="day-cell" data-day="13" data-has-event="true" onclick="showSchedule(13)">13</div>
-                    <div class="day-cell" data-day="14" data-has-event="true" onclick="showSchedule(14)">14</div>
-                    <div class="day-cell" data-day="15" data-has-event="true" onclick="showSchedule(15)">15</div>
-
-                    <div class="day-cell" data-day="16" data-has-event="true" onclick="showSchedule(16)">16</div>
-                    <div class="day-cell" data-day="17" data-has-event="true" onclick="showSchedule(17)">17</div>
-                    <div class="day-cell" data-day="18" data-has-event="true" onclick="showSchedule(18)">18</div>
-                    <div class="day-cell" data-day="19" data-has-event="true" onclick="showSchedule(19)">19</div>
-                    <div class="day-cell" data-day="20" data-has-event="true" onclick="showSchedule(20)">20</div>
-                    <div class="day-cell" data-day="21" data-has-event="true" onclick="showSchedule(21)">21</div>
-                    <div class="day-cell" data-day="22" data-has-event="true" onclick="showSchedule(22)">22</div>
-
-                    <div class="day-cell" data-day="23" data-has-event="true" onclick="showSchedule(23)">23</div>
-                    <div class="day-cell today" data-day="24" data-has-event="true" onclick="showSchedule(24)">24</div>
-                    <div class="day-cell" data-day="25" data-has-event="true" onclick="showSchedule(25)">25</div>
-                    <div class="day-cell" data-day="26" data-has-event="true" onclick="showSchedule(26)">26</div>
-                    <div class="day-cell" data-day="27" data-has-event="true" onclick="showSchedule(27)">27</div>
-                    <div class="day-cell" data-day="28" data-has-event="true" onclick="showSchedule(28)">28</div>
-                    <div class="day-cell" data-day="29" data-has-event="true" onclick="showSchedule(29)">29</div>
-                    <div class="day-cell" data-day="30" data-has-event="true" onclick="showSchedule(30)">30</div>
-                    
-                </div>
-            </div>
-            
-            <div class="liquid-glass-panel task-list">
-                <h2>Próximos Destaques</h2>
-                <ul>
-                    <li class="task-item highlighted">Novena: Primeiro dia (Dia 28, 19:00)</li>
-                    <li class="task-item">Casamento: Dia 29, 11:00 (Igreja Matriz)</li>
-                    <li class="task-item">Formação MESC: Dia 25, 19:00</li>
-                    <li class="task-item">Missa Sertão: Dia 30, 09:30 (Retiro dos Marins)</li>
-                    <li class="task-item">Aniversário Paróquia: Dia 15 (159 anos)</li>
-                </ul>
-            </div>
-        </section>
-        
-        <footer class="liquid-glass-panel footer">
-            <p>Paróquia Nossa Senhora da Conceição - Virgínia/MG | Agenda desenvolvida para Vossa Supremacia — 2025</p>
-        </footer>
-    </div>
-
-    <div id="scheduleModal" class="schedule-modal" onclick="hideSchedule()">
-        <div class="schedule-content" onclick="event.stopPropagation()">
-            <span class="close-btn" onclick="hideSchedule()">&times;</span>
-            <h3 id="modalTitle">Agenda Detalhada</h3>
-            <ul id="scheduleList">
-                </ul>
-        </div>
-    </div>
 
     <script>
-        // Dados de Compromissos (ATUALIZADOS PARA 'Atendimentos com Hora Marcada')
-        const allAppointments = {
-            1: [
-                { time: "09:00", description: "Casamento - Igreja Matriz" },
-                { time: "10:00", description: "Bênção bairro Marques" },
-                { time: "11:00", description: "Casamento - Igreja Matriz" },
-                { time: "14:00", description: "Catequese - Igreja Matriz" },
-                { time: "16:00", description: "Santa Missa Igreja Matriz" },
-                { time: "18:00", description: "Vigília - Igreja Matriz" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz" }
-            ],
-            2: [
-                { time: "05:00", description: "Santa Missa no Cemitério" },
-                { time: "08:00", description: "Santa Missa Setor 6 – Bairro São José da Mantiqueira" },
-                { time: "09:00", description: "Santa Missa Igreja Matriz" },
-                { time: "11:00", description: "Santa Missa Setor 1 – Bairro Mendes" },
-                { time: "17:00", description: "Santa Missa Setor 3 – Bairro Correias" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz" }
-            ],
-            3: [
-                { time: "14:00", description: "Visita às obras" },
-                { time: "19:00", description: "Santa Missa Igreja Nossa Senhora Aparecida" }
-            ],
-            4: [
-                { time: "14:00", description: "Atendimentos com Hora Marcada" },
-                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Morangal" }
-            ],
-            5: [
-                { time: "09:00", description: "Atendimentos com Hora Marcada" },
-                { time: "16:00", description: "Visita aos enfermos" },
-                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Serra Verde" }
-            ],
-            6: [
-                { time: "09:00", description: "Atendimentos com Hora Marcada" },
-                { time: "09:00", description: "Visita às obras" },
-                { time: "14:00", description: "Atendimentos com Hora Marcada" },
-                { time: "14:00", description: "Visita aos enfermos" },
-                { time: "17:00", description: "Confissão - Igreja Matriz" },
-                { time: "18:00", description: "Adoração – Igreja Matriz" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz" },
-                { time: "19:00", description: "Santa Missa Setor 2 – Bairro Porto" },
-                { time: "20:00", description: "Reunião Irmandade do Santíssimo" }
-            ],
-            7: [
-                { time: "09:00", description: "Atendimentos com Hora Marcada" },
-                { time: "09:00", description: "Santa Missa Abrigo São Camilo" },
-                { time: "14:00", description: "Atendimentos com Hora Marcada" },
-                { time: "15:00", description: "Buscar seminarista" },
-                { time: "18:00", description: "Adoração – Igreja Matriz" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz" },
-                { time: "19:00", description: "Santa Missa Setor 4 – Bairro Moreiras" }
-            ],
-            8: [
-                { time: "09:00", description: "Casamento - Igreja Matriz" },
-                { time: "11:00", description: "Casamento - Igreja Matriz" },
-                { time: "16:00", description: "Santa Missa Igreja Matriz" },
-                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Marques" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz" }
-            ],
-            9: [
-                { time: "07:00", description: "Santa Missa Igreja Matriz" },
-                { time: "09:00", description: "Santa Missa Setor 2 – Bairro Mogiano" },
-                { time: "09:00", description: "Santa Missa Igreja Matriz" },
-                { time: "10:00", description: "Batizado – Igreja Matriz" },
-                { time: "18:00", description: "Santa Missa Setor 3 – Bairro Retirinho" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz" }
-            ],
-            10: [
-                { time: "09:00", description: "Visita às obras" },
-                { time: "16:00", description: "Atendimentos com Hora Marcada Confissão Primeira Eucaristia (Bairro Vargem Alegre e Retiro dos Marins)" },
-                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Pouso Frio" }
-            ],
-            11: [
-                { time: "09:00", description: "Atendimentos com Hora Marcada" },
-                { time: "14:00", description: "Atendimentos com Hora Marcada" },
-                { time: "16:00", description: "Atendimentos com Hora Marcada confissões Primeira Eucaristia (Serra Verde e Rio Acima II)" },
-                { time: "19:00", description: "Santa Missa Setor 2 – Bairro Ribeirão" },
-                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Roseirinha" }
-            ],
-            12: [
-                { time: "09:00", description: "Atendimentos com Hora Marcada" },
-                { time: "09:00", description: "Santa Missa Abrigo São Camilo" },
-                { time: "16:00", description: "Atendimentos com Hora Marcada confissão Primeira Eucaristia Bairro Marques" },
-                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Serra dos Fernandes" },
-                { time: "19:00", description: "Formação MESC" }
-            ],
-            13: [
-                { time: "09:00", description: "Visita às obras" },
-                { time: "09:00", description: "Atendimentos com Hora Marcada" },
-                { time: "14:00", description: "Atendimentos com Hora Marcada" },
-                { time: "17:00", description: "Confissão - Igreja Matriz" },
-                { time: "18:00", description: "Adoração – Igreja Matriz" },
-                { time: "18:00", description: "Confissão Primeira Eucaristia - Bairro Palmeiras (Retirinho e Lavras)" },
-                { time: "19:00", description: "Santa Missa Setor 1 – Bairro Palmeiras" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz" }
-            ],
-            14: [
-                { time: "09:00", description: "Atendimentos com Hora Marcada" },
-                { time: "09:00", description: "Confissão Primeira Eucaristia - Cidade" },
-                { time: "15:00", description: "Confissões Primeira Eucaristia Bairro Moreiras" },
-                { time: "19:00", description: "Santa Missa Setor 1 – Bairro Mato Dentro" },
-                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Vargem Alegre" }
-            ],
-            15: [
-                { time: "08:00", description: "Abertura Ano Jubilar - Pouso Alto" },
-                { time: "09:00", description: "Atendimentos com Hora Marcada" },
-                { time: "11:00", description: "Casamento - Igreja São José" },
-                { time: "16:00", description: "Santa Missa Igreja Matriz" },
-                { time: "19:00", description: "Santa Missa Setor 6 – Bairro São José da Mantiqueira" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz" }
-            ],
-            16: [
-                { time: "07:00", description: "Santa Missa Igreja Matriz" },
-                { time: "08:00", description: "Santa Missa Setor 5 – Bairro Roseira" },
-                { time: "10:30", description: "Santa Missa Setor 7 – Bairro Retiro dos Marins" },
-                { time: "18:00", description: "Santa Missa Setor 4 – Bairro Moreiras" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz" }
-            ],
-            17: [
-                { time: "09:00", description: "Atendimentos com Hora Marcada" },
-                { time: "14:00", description: "Confissão Primeira Eucaristia Cidade" },
-                { time: "19:00", description: "Santa Missa Setor 9 – Sertãozinho D. Rosalia" }
-            ],
-            18: [
-                { time: "09:00", description: "Santa Missa Abrigo São Camilo" },
-                { time: "14:00", description: "Atendimentos com Hora Marcada" },
-                { time: "14:00", description: "Visita às obras" },
-                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Felipes" }
-            ],
-            19: [
-                { time: "09:00", description: "Atendimentos com Hora Marcada" },
-                { time: "14:00", description: "Visita aos enfermos" },
-                { time: "19:00", description: "Santa Missa Setor 5 – Bairro Marques" }
-            ],
-            20: [
-                { time: "09:00", description: "Atendimentos com Hora Marcada" },
-                { time: "17:00", description: "Confissões - Igreja Matriz" },
-                { time: "18:00", description: "Adoração – Igreja Matriz" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz" },
-                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Gonçalves" }
-            ],
-            21: [
-                { time: "09:00", description: "Visita aos enfermos" },
-                { time: "09:00", description: "Atendimentos com Hora Marcada" },
-                { time: "14:00", description: "Atendimentos com Hora Marcada" },
-                { time: "19:00", description: "Santa Missa Setor 6 – Bairro Torres" },
-                { time: "19:00", description: "Santa Missa Setor 8 – Bairro Caeté" }
-            ],
-            22: [
-                { time: "11:00", description: "Casamento Igreja Matriz" },
-                { time: "16:00", description: "Casamento Bairro Retirinho" },
-                { time: "18:00", description: "Santa Missa hotel?" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz" }
-            ],
-            23: [
-                { time: "07:00", description: "Santa Missa Igreja Matriz" },
-                { time: "09:00", description: "Santa Missa Setor 3 – Bairro Mendanha" },
-                { time: "15:00", description: "Primeira Eucarística – Igreja Matriz" },
-                { time: "18:00", description: "Santa Missa Setor 1 – Bairro Retirinho" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz" }
-            ],
-            24: [
-                { time: "18:00", description: "Santa Missa Sagrado Coração" },
-                { time: "19:00", description: "Formação MESC" }
-            ],
-            25: [
-                { time: "09:00", description: "Atendimentos com Hora Marcada" },
-                { time: "14:00", description: "Atendimentos com Hora Marcada" },
-                { time: "19:00", description: "Santa Missa Setor 4 – Bairro Pereiras" },
-                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Rio Acima II" },
-                { time: "20:00", description: "Reunião Setor 7" }
-            ],
-            26: [
-                { time: "09:00", description: "Atendimentos com Hora Marcada" },
-                { time: "19:00", description: "Santa Missa Setor 1 – Bairro Mendes" },
-                { time: "19:00", description: "Santa Missa Setor 4 – Bairro Água Limpa" }
-            ],
-            27: [
-                { time: "05:00", description: "Santa Missa Pedra Santa" },
-                { time: "09:00", description: "Abrigo São Camilo" },
-                { time: "09:00", description: "Atendimentos com Hora Marcada" },
-                { time: "14:00", description: "Atendimentos com Hora Marcada" },
-                { time: "17:00", description: "Confissão - Igreja Matriz" },
-                { time: "18:00", description: "Adoração – Igreja Matriz" },
-                { time: "19:00", description: "Santa Missa Igreja Matriz" },
-                { time: "19:00", description: "Santa Missa Setor 1 – Bairro Muquém" }
-            ],
-            28: [
-                { time: "09:00", description: "Atendimentos com Hora Marcada" },
-                { time: "14:00", description: "Atendimentos com Hora Marcada" },
-                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Vargem Alegre" },
-                { time: "19:00", description: "Primeiro dia da Novena" }
-            ],
-            29: [
-                { time: "10:00", description: "Santa Missa Setor 1 – Bairro Virgem do Socorro" },
-                { time: "11:00", description: "Casamento - Igreja Matriz" },
-                { time: "19:00", description: "Santa Missa Setor 7 – Bairro Roseirinha" },
-                { time: "19:00", description: "Segundo dia da Novena" }
-            ],
-            30: [
-                { time: "07:00", description: "Santa Missa Igreja Matriz" },
-                { time: "09:00", description: "Santa Missa Igreja Matriz" },
-                { time: "09:30", description: "Santa Missa Setor 7 – Bairro Retiro dos Marins" },
-                { time: "11:00", description: "Santa Missa Setor 1 – Bairro Palmeiras" },
-                { time: "18:00", description: "Santa Missa Setor 5 – Bairro Roseira" },
-                { time: "19:00", description: "Terceiro dia da Novena" }
-            ]
+        // ======================================================
+        // ESTRUTURA SUPABASE PARA PERSISTÊNCIA DE DADOS
+        // ======================================================
+        
+        const SUPABASE_URL = 'https://nvefvewyxiwgwmyutbmk.supabase.co'; 
+        const SUPABASE_ANON_KEY = 'sb_publishable_1XIR9lKBrT2oykOOR1Jxig_vg5thXgU'; 
+        const CHECKLIST_TABLE_NAME = 'sacristy_tasks'; 
+
+        let supabase = null; 
+
+        if (typeof window !== 'undefined' && window.supabase && SUPABASE_URL.includes('.supabase.co')) {
+            try {
+                 supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            } catch (e) {
+                console.error("Supabase Initialization Error:", e);
+            }
+        }
+        
+        async function saveChecklistStatus(massId, taskId, isChecked) {
+            if (!supabase) {
+                console.warn("Supabase não configurado. O status não será salvo.");
+                return;
+            }
+            const dataToUpsert = { mass_id: massId, task_id: taskId, is_checked: isChecked };
+            const { error } = await supabase
+                .from(CHECKLIST_TABLE_NAME)
+                .upsert(dataToUpsert, { onConflict: 'mass_id, task_id' });
+            if (error) { console.error("Erro ao salvar status da tarefa:", error.message); }
+        }
+
+        async function loadChecklistStatus(massId) {
+            if (!supabase) return [];
+            const { data, error } = await supabase
+                .from(CHECKLIST_TABLE_NAME)
+                .select('task_id')
+                .eq('mass_id', massId)
+                .eq('is_checked', true); 
+            if (error) { console.error("Erro ao carregar status da tarefa:", error.message); return []; }
+            return data.map(item => item.task_id); 
+        }
+        
+        // ======================================================
+        // DADOS LITÚRGICOS E DA AGENDA
+        // ======================================================
+
+        // CRÍTICO: Função que pega a data atual do dispositivo
+        function getTodayAgendaString() {
+            const today = new Date();
+            const day = today.getDate().toString().padStart(2, '0');
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const dayNames = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+            
+            const monthAbbr = monthNames[today.getMonth()];
+            const dayOfWeek = dayNames[today.getDay()];
+            
+            return `${day}/${monthAbbr} (${dayOfWeek})`;
+        }
+        const TODAY_DATE = getTodayAgendaString(); 
+        
+        const AGENDA_DATA = [ /* ... (Dados da Agenda) ... */
+            { "date": "23/Nov (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
+            { "date": "23/Nov (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Setor 3 – Bairro Mendanha (Pe. Erick)" },
+            { "date": "23/Nov (Domingo)", "dayOfWeek": "DOM", "time": "18:00", "title": "Santa Missa", "location": "Setor 1 – Bairro Retirinho (Pe. Edimilson)" },
+            { "date": "23/Nov (Domingo)", "dayOfWeek": "DOM", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
+            { "date": "24/Nov (Segunda-feira)", "dayOfWeek": "SEG", "time": "18:00", "title": "Santa Missa", "location": "Igreja Sagrado Coração (Pe. Erick)" },
+            { "date": "25/Nov (Terça-feira)", "dayOfWeek": "TER", "time": "19:00", "title": "Santa Missa", "location": "Setor 4 – Bairro Pereiras (Pe. Edimilson)" },
+            { "date": "25/Nov (Terça-feira)", "dayOfWeek": "TER", "time": "20:00", "title": "Santa Missa", "location": "Setor 7 – Bairro Rio Acima II (Pe. Erick)" },
+            { "date": "26/Nov (Quarta-feira)", "dayOfWeek": "QUA", "time": "19:00", "title": "Santa Missa", "location": "Setor 1 – Bairro Mendes (Pe. Edimilson)" },
+            { "date": "26/Nov (Quarta-feira)", "dayOfWeek": "QUA", "time": "19:00", "title": "Santa Missa", "location": "Setor 4 – Bairro Água Limpa (Pe. Erick)" },
+            { "date": "27/Nov (Quinta-feira)", "dayOfWeek": "QUI", "time": "05:00", "title": "Santa Missa", "location": "Pedra Santa (Pe. Erick)" },
+            { "date": "27/Nov (Quinta-feira)", "dayOfWeek": "QUI", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
+            { "date": "27/Nov (Quinta-feira)", "dayOfWeek": "QUI", "time": "19:00", "title": "Santa Missa", "location": "Setor 1 – Bairro Muquém (Pe. Erick)" },
+            { "date": "28/Nov (Sexta-feira)", "dayOfWeek": "SEX", "time": "19:00", "title": "Santa Missa", "location": "Setor 7 – Bairro Vargem Alegre (Pe. Edimilson)" },
+            { "date": "29/Nov (Sábado)", "dayOfWeek": "SÁB", "time": "10:00", "title": "Santa Missa", "location": "Setor 1 – Bairro Virgem do Socorro (Pe. Erick)" },
+            { "date": "29/Nov (Sábado)", "dayOfWeek": "SÁB", "time": "19:00", "title": "Santa Missa", "location": "Setor 7 – Bairro Roseirinha (Pe. Edimilson)" },
+            { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
+            { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
+            { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "09:30", "title": "Santa Missa", "location": "Setor 7 – Bairro Retiro dos Marins (Pe. Erick)" },
+            { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "11:00", "title": "Santa Missa", "location": "Setor 1 – Bairro Palmeiras (Pe. Erick)" },
+            { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "18:00", "title": "Santa Missa", "location": "Setor 5 – Bairro Roseira (Pe. Edimilson)" },
+            // Blindagem: Adicionado para evitar crash se a data do dispositivo for 01/Dec e não houver data na agenda
+            { "date": "01/Dec (Segunda-feira)", "dayOfWeek": "SEG", "time": "00:00", "title": "Folga", "location": "Nenhuma Missa" },
+        ];
+        
+        // Checklist da Missa - FINAL
+        const SACRISTY_CHECKLIST = [
+            "Vinho", "Água", "Manustérgio", "Corporal", "Sanguíneo", "Hóstis G", "Hóstisa P", "Coleta", "Missal", "Lecionário"
+        ];
+        
+        // *** TAREFAS DE ROTINA POR DIA DA SEMANA (FINAL) ***
+        const tarefasRotinaSemanal = {
+            // 0: Domingo
+            0: ["Organizar Mala de missas (Diário)", "Organizar Mala do Hotel (Diário)", "Higienizar vasos sagrados (Após cada Missa)"],
+            // 1: Segunda-feira
+            1: ["Varrer e limpar a igreja", "Varrer o passeio e escadaria central", "Lavar banheiro (sacristia e social)", "Lavar e passar alfaias e toalhas", "Higienizar vasos sagrados das malas", "Organizar Mala de missas (Diário)"],
+            // 2: Terça-feira (Nova regra: Limpar bancos + Limpar Portas 1x/mês)
+            2: ["Lavar vestes de leitores", "Limpar bancos (Geral)", "Limpar portas (1ª Terça-feira do Mês)", "Organizar Mala de missas (Diário)"],
+            // 3: Quarta-feira
+            3: ["Organizar Armário sacristia", "Limpar imagens e altares (1ª e 3ª do mês)", "Organizar Mala de missas (Diário)"],
+            // 4: Quinta-feira (Nova regra: Limpar Coro)
+            4: ["Limpar coro (Geral)", "Varrer o passeio e escadaria central", "Limpar coro, escadaria e batistério", "Passar vestes de leitores e toalha do altar", "Higienizar vasos sagrados das malas", "Organizar Mala de missas (Diário)"],
+            // 5: Sexta-feira
+            5: ["Varrer e limpar a igreja", "Lavar banheiro (sacristia e social)", "Lavar alfaias e toalhas", "Higienização geral de vasos sagrados (Cálice, âmbulas, etc.)", "Organizar Mala de missas (Diário)"],
+            // 6: Sábado
+            6: ["Varrer o passeio e escadaria central", "Jogar água no passeio/escadaria", "Organizar Mala de missas (Diário)"]
         };
 
-        // Função para Mostrar a Agenda
-        function showSchedule(day) {
-            const modal = document.getElementById('scheduleModal');
-            const title = document.getElementById('modalTitle');
-            const list = document.getElementById('scheduleList');
-            
-            const dayKey = day < 10 ? `0${day}` : `${day}`;
-            const appointments = allAppointments[day] || allAppointments[dayKey] || [];
+        const LITURGICAL_INFO_MAP = { 
+            "01/Nov": { color: "BRANCO", title: "Todos os Santos (Solenidade)" }, "02/Nov": { color: "ROXO", title: "Comemoração dos Fiéis Defuntos (Finados)" }, 
+            "03/Nov": { color: "BRANCO", title: "São Martinho de Porres, Presbítero (MF)" }, "04/Nov": { color: "BRANCO", title: "São Carlos Borromeu, Bispo (MO)" }, 
+            "05/Nov": { color: "VERDE", title: "Santos Zacarias e Isabel (Féria)" }, "06/Nov": { color: "VERDE", title: "São Nuno Álvares Pereira (Féria)" }, 
+            "07/Nov": { color: "VERDE", title: "São Vilibrordo (Féria)" }, "08/Nov": { color: "BRANCO", title: "Santa Isabel da Trindade (N. Sra. no Sábado)" }, 
+            "09/Nov": { color: "BRANCO", title: "Dedicação da Basílica de Latrão (Festa)" }, "10/Nov": { color: "BRANCO", title: "São Leão Magno, Papa e Doutor da Igreja" }, 
+            "11/Nov": { color: "BRANCO", title: "São Martinho de Tours, Bispo" }, "12/Nov": { color: "VERMELHO", title: "São Josafá Kuncewicz, Bispo e Mártir" }, 
+            "13/Nov": { color: "VERDE", title: "São Diogo de Alcalá (Féria)" }, "14/Nov": { color: "VERDE", title: "São Gregório Palamas (Féria)" }, 
+            "15/Nov": { color: "BRANCO", title: "Santo Alberto Magno, Bispo e Doutor da Igreja" }, "16/Nov": { color: "BRANCO", title: "Santa Margarida da Escócia / Santa Gertrudes" }, 
+            "17/Nov": { color: "VERDE", title: "Santa Isabel da Hungria (Féria)" }, "18/Nov": { color: "BRANCO", title: "Dedicação das Basílicas de S. Pedro e S. Paulo" }, 
+            "19/Nov": { color: "VERMELHO", title: "Santos Roque G. e Comp., Mártires (MO)" }, "20/Nov": { color: "VERDE", title: "São Félix de Valois (Féria)" }, 
+            "21/Nov": { color: "BRANCO", title: "Apresentação de Nossa Senhora (Memória)" }, "22/Nov": { color: "VERMELHO", title: "Santa Cecília, Virgem e Mártir (Memória)" }, 
+            "23/Nov": { color: "BRANCO", title: "Nosso Senhor Jesus Cristo Rei do Universo (Solenidade)" }, "24/Nov": { color: "VERMELHO", title: "Santos André Dung-Lac e Comp., Mártires (MO)" }, 
+            "25/Nov": { color: "VERMELHO", title: "Santa Catarina de Alexandria, Virgem e Mártir" }, "26/Nov": { color: "VERDE", title: "São Leonardo de Porto Maurício (Féria)" }, 
+            "27/Nov": { color: "BRANCO", title: "Nossa Senhora das Graças / Medalha Milagrosa (MF)" }, "28/Nov": { color: "VERDE", title: "Santa Catarina Labouré (Féria)" }, 
+            "29/Nov": { color: "VERMELHO", title: "São Saturnino de Tolosa (Memória)" }, 
+            "30/Nov": { color: "ROXO", title: "1º Domingo do Advento (Ano A)" }, // CORREÇÃO LITÚRGICA SOLICITADA
+            "01/Dec": { color: "ROXO", title: "Féria do Advento" } 
+        };
 
-            title.innerText = `Agenda Detalhada do Dia ${day}`;
-            list.innerHTML = ''; 
+        const LITURGICAL_COLORS = {
+            "VERMELHO": ["#B02B28", "rgba(176, 43, 40, 0.6)", "#701A18", "rgba(176, 43, 40, 0.4)"], 
+            "BRANCO": ["#A68213", "rgba(166, 130, 19, 0.6)", "#66500B", "rgba(166, 130, 19, 0.4)"], 
+            "VERDE": ["#006041", "rgba(0, 96, 65, 0.6)", "#003020", "rgba(0, 96, 65, 0.4)"],
+            "ROXO": ["#3B3879", "rgba(59, 56, 121, 0.6)", "#1E1C3D", "rgba(59, 56, 121, 0.4)"],
+        };
 
-            if (appointments.length === 0) {
-                list.innerHTML = '<li>Nenhum evento solene programado para este dia. Paz e contemplação.</li>';
+        // Função para converter hex para RGBA
+        function hexToRgba(hex, alpha) {
+            let r = 0, g = 0, b = 0;
+            // Handle 3-digit hex
+            if (hex.length === 4) {
+                r = parseInt(hex[1] + hex[1], 16);
+                g = parseInt(hex[2] + hex[2], 16);
+                b = parseInt(hex[3] + hex[3], 16);
+            }
+            // Handle 6-digit hex
+            else if (hex.length === 7) {
+                r = parseInt(hex.substring(1, 3), 16);
+                g = parseInt(hex.substring(3, 5), 16);
+                b = parseInt(hex.substring(5, 7), 16);
             } else {
-                appointments.forEach(app => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `<strong>${app.time}</strong> ${app.description}`;
-                    list.appendChild(li);
-                });
+                return `rgba(0, 0, 0, ${alpha})`; // Fallback seguro
             }
-
-            modal.style.display = 'flex'; 
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
         }
 
-        // Função para Esconder a Agenda
-        function hideSchedule() {
-            document.getElementById('scheduleModal').style.display = 'none';
+
+        function getLiturgicalInfo(dateStr) { 
+            const dayMonth = dateStr.split(' ')[0];
+            const info = LITURGICAL_INFO_MAP[dayMonth];
+            
+            if (info) {
+                const colors = LITURGICAL_COLORS[info.color] || LITURGICAL_COLORS["VERDE"];
+                return { colorName: info.color, title: info.title, colors: colors };
+            }
+            return { colorName: "VERDE", title: "Féria (Dia Comum)", colors: LITURGICAL_COLORS["VERDE"] };
         }
 
-        // Função de Inicialização para marcar 'HOJE' e os dias com evento
-        document.addEventListener('DOMContentLoaded', () => {
-            const today = 24;
-            const todayKey = today < 10 ? `0${today}` : `${today}`;
-            const todayElement = document.querySelector(`.day-cell[data-day='${todayKey}']`);
-            if (todayElement) {
-                todayElement.classList.add('today');
+        function applyDynamicTheme(colors, liturgicalTitle) { 
+            const [primaryHex, shadowLight, darkToneHex, shadowBox] = colors;
+            
+            // Setar variáveis CSS para cores dinâmicas
+            document.documentElement.style.setProperty('--primary-highlight', primaryHex);
+            document.documentElement.style.setProperty('--secondary-contrast', (darkToneHex === "#66500B" ? "#A68213" : "#FEEEEE")); 
+            document.documentElement.style.setProperty('--primary-highlight-shadow', shadowBox);
+            
+            // CONFIGURAÇÃO DA TRANSPARÊNCIA FOSCA (SEM BLUR)
+            const cardBgRgba = hexToRgba(primaryHex, 0.7); // 70% de opacidade para Cartões da Agenda
+            const darkBgRgba = hexToRgba(darkToneHex, 0.9); // 90% de opacidade para Fundo/Header
+
+            document.documentElement.style.setProperty('--card-transparent', darkBgRgba); 
+            document.documentElement.style.setProperty('--bg-dark-color', darkToneHex); 
+            document.documentElement.style.setProperty('--agenda-card-bg', cardBgRgba); 
+
+            // Atualizar cor de fundo do body e meta tag
+            document.body.style.backgroundColor = darkToneHex; 
+            
+            // Blindagem da meta tag
+            const themeMeta = document.querySelector('meta[name="theme-color"]');
+            if (themeMeta) {
+                themeMeta.setAttribute('content', darkToneHex);
             }
 
-            Object.keys(allAppointments).forEach(day => {
-                const dayElement = document.querySelector(`.day-cell[data-day='${day}']`);
-                if (dayElement) {
-                    dayElement.setAttribute('data-has-event', 'true');
+            // Atualizar o santo do dia
+            const santoDoDiaElement = document.getElementById('santo-do-dia');
+            if (santoDoDiaElement) {
+                santoDoDiaElement.textContent = liturgicalTitle;
+            }
+        }
+        
+        let uniqueDates = [];
+        let currentSelectedDate = ''; 
+        let touchstartX = 0;
+        let touchstartY = 0;
+        const SWIPE_THRESHOLD = 80;  
+
+        // Função utilitária para converter a data do AGENDA_DATA em objeto Date
+        function getDateObjectFromAgendaString(agendaDateStr) {
+            const dateOnly = agendaDateStr.split('(')[0].trim(); // Ex: 25/Nov
+            const [day, monthAbbr] = dateOnly.split('/');
+            const currentYear = new Date().getFullYear(); 
+            // Mapeamento de abreviações de meses
+            const monthMap = {'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5, 'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11};
+            const monthIndex = monthMap[monthAbbr];
+            
+            // CRÍTICO: Se monthIndex for undefined (mês não mapeado), retorna uma data inválida
+            if (monthIndex === undefined) return new Date(NaN);
+
+            // Cria a data no ano atual
+            return new Date(currentYear, monthIndex, parseInt(day));
+        }
+
+        function getUniqueDates() { 
+             const dates = AGENDA_DATA.map(item => item.date.trim());
+             uniqueDates = [...new Set(dates)];
+             
+             // O inicializador usa a TODAY_DATE dinâmica
+             if (currentSelectedDate === '') {
+                 const initialDate = uniqueDates.find(date => date === TODAY_DATE);
+                 currentSelectedDate = initialDate || uniqueDates[0]; 
+             }
+        }
+        
+        function renderDatePicker() { 
+            getUniqueDates();
+            const container = document.getElementById('date-picker-container');
+            if (!container) return; 
+            container.innerHTML = '';
+            
+            uniqueDates.forEach(fullDate => {
+                const dayNumber = fullDate.split('/')[0];
+                const dayText = fullDate.split('(')[1].replace(')', '').substring(0, 3).toUpperCase();
+                
+                const liturgicalInfo = getLiturgicalInfo(fullDate);
+                const [bgColor, lightShadow, darkTone] = liturgicalInfo.colors;
+
+                const button = document.createElement('button');
+                button.className = 'date-button';
+                button.setAttribute('data-full-date', fullDate);
+                
+                button.style.setProperty('--active-bg-color', bgColor);
+                button.style.setProperty('--active-shadow-light', lightShadow);
+                button.style.color = (fullDate === currentSelectedDate) ? 'var(--text-light-color)' : 'var(--primary-highlight)';
+
+                button.innerHTML = `<span class="day-number">${dayNumber}</span><span class="day-text">${dayText}</span>`;
+                
+                button.onclick = () => selectDate(fullDate); 
+                
+                if (fullDate === currentSelectedDate) {
+                    button.classList.add('active');
                 }
+                
+                container.appendChild(button);
             });
+            
+            // Scroll para o dia ativo
+            const activeBtn = container.querySelector('.date-button.active');
+            if (activeBtn) {
+                setTimeout(() => {
+                    container.scrollLeft = activeBtn.offsetLeft - (container.offsetWidth / 2) + (activeBtn.offsetWidth / 2);
+                }, 50); 
+            }
+        }
+        
+        function selectDate(fullDate) { 
+            currentSelectedDate = fullDate;
+            
+            const liturgicalInfo = getLiturgicalInfo(fullDate);
+            applyDynamicTheme(liturgicalInfo.colors, liturgicalInfo.title); 
+
+            renderAgenda(); 
+            renderDatePicker(); 
+        }
+
+        // --- FUNÇÃO DE RENDERIZAÇÃO DE ROTINAS (Com Checkbox e Sincronização) ---
+        async function exibirRotinasDiarias(currentDate, container) {
+            
+            const date = getDateObjectFromAgendaString(currentDate); 
+            const diaDaSemana = date.getDay(); // 0 (Domingo) a 6 (Sábado)
+
+            // ID agora é único por dia (ROTINA_25Nov, ROTINA_26Nov, etc.)
+            const dateOnly = currentDate.split(' ')[0].replace('/', '');
+            const ROTINA_MASS_ID = `ROTINA_${dateOnly}`; // ID exclusivo por data
+            
+            const checkedTaskIds = await loadChecklistStatus(ROTINA_MASS_ID);
+            
+            const rotinasDoDiaBase = tarefasRotinaSemanal[diaDaSemana];
+            let rotinasDoDia = [...rotinasDoDiaBase]; // Cria uma cópia para modificação
+
+            // Lógica para Limpar Portas (1ª Terça-feira do Mês)
+            if (diaDaSemana === 2) { // Se for Terça-feira
+                let firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+                while (firstDayOfMonth.getDay() !== 2) { // 2 is Tuesday
+                    firstDayOfMonth.setDate(firstDayOfMonth.getDate() + 1);
+                }
+                const firstTuesdayOfMonth = firstDayOfMonth.getDate();
+
+                if (date.getDate() !== firstTuesdayOfMonth) {
+                    // Remove a tarefa de limpeza de portas se não for a primeira terça
+                    rotinasDoDia = rotinasDoDia.filter(t => !t.includes("Limpar portas"));
+                }
+            }
+
+
+            let rotinasHtml = '';
+
+            if (rotinasDoDia && rotinasDoDia.length > 0) {
+                rotinasDoDia.forEach((tarefa, index) => {
+                    const taskId = `rotina_task_${index}`;
+                    const isChecked = checkedTaskIds.includes(taskId);
+                    const checkedAttribute = isChecked ? 'checked' : '';
+                    const opacityClass = isChecked ? 'opacity-50' : '';
+
+                    rotinasHtml += `
+                        <li class="checklist-item ${opacityClass}">
+                            <input type="checkbox" id="rotina-task-${ROTINA_MASS_ID}-${index}" ${checkedAttribute}
+                                onclick="saveChecklistStatus('${ROTINA_MASS_ID}', '${taskId}', this.checked); this.parentNode.classList.toggle('opacity-50', this.checked);">
+                            <label for="rotina-task-${ROTINA_MASS_ID}-${index}" class="text-sm font-medium cursor-pointer">${tarefa}</label>
+                        </li>
+                    `;
+                });
+            } else {
+                rotinasHtml += `<div class="text-center py-2">Nenhuma tarefa de rotina específica programada.</div>`;
+            }
+            
+            // Injeta o bloco de Rotinas
+            container.innerHTML += `
+                <div class="task-header-card" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
+                    <h2>Tarefas</h2>
+                </div>
+                <div class="rotina-card checklist-content" style="border-top-left-radius: 0; border-top-right-radius: 0; padding-top: 1rem;">
+                    <ul id="lista-rotinas" class="rotina-list list-none space-y-1">
+                        ${rotinasHtml}
+                    </ul>
+                </div>
+            `;
+        }
+
+        // --- FUNÇÃO PRINCIPAL DE RENDERIZAÇÃO: AGENDA + ROTINAS ---
+        async function renderAgenda() {
+            const container = document.getElementById('agenda-content');
+            if (!container) return;
+            container.innerHTML = ''; // Limpa tudo para recarregar
+
+            const filteredData = AGENDA_DATA.filter(event => event.date.trim() === currentSelectedDate);
+            const dateOnly = currentSelectedDate.split(' ')[0];
+
+            // 1. Renderiza o cabeçalho "Tarefas" e a lista de Rotinas
+            await exibirRotinasDiarias(currentSelectedDate, container);
+
+            // 2. Renderiza a Missa do Dia ou mensagem de folga
+            if (filteredData.length > 0) {
+                
+                // Geração da Lista de Missas
+                for (const event of filteredData) {
+                    // ID SIMPLIFICADO: Data_Hora_Inicial (este já era único)
+                    const datePart = event.date.split(' ')[0].replace('/', ''); 
+                    const timePart = event.time.replace(':', ''); 
+                    const locationInitial = event.location.charAt(0); 
+                    const massId = `${datePart}_${timePart}_${locationInitial}`; 
+                    
+                    const checkedTaskIds = await loadChecklistStatus(massId); 
+                    
+                    const checklistHtml = SACRISTY_CHECKLIST.map((item, itemIndex) => {
+                        const taskId = `task${itemIndex}`; 
+                        const isChecked = checkedTaskIds.includes(taskId);
+                        const checkedAttribute = isChecked ? 'checked' : '';
+                        const opacityClass = isChecked ? 'opacity-50' : '';
+                        
+                        return `
+                            <li class="checklist-item ${opacityClass}">
+                                <input type="checkbox" id="task-${massId}-${taskId}" ${checkedAttribute}
+                                    onclick="saveChecklistStatus('${massId}', '${taskId}', this.checked); this.parentNode.classList.toggle('opacity-50', this.checked);">
+                                <label for="task-${massId}-${taskId}" class="text-sm font-medium cursor-pointer">${item}</label>
+                            </li>
+                        `;
+                    }).join('');
+                    
+                    // Estrutura do Card da Missa (Estilo da sua foto)
+                    const details = document.createElement('details');
+                    details.className = 'agenda-details';
+                    details.innerHTML = `
+                        <summary class="agenda-card" style="display: block;">
+                            <div class="time-title">${event.time} - ${event.title}</div>
+                            <div class="location-details">${event.location.split('(')[0].trim()}</div>
+                            <div class="priesto-name">(${event.location.split('(')[1].replace(')', '')})</div>
+                        </summary>
+                        <div class="checklist-content">
+                            <p class="text-xs opacity-70 mb-2">Marque os itens à medida que a Sacristia for preparada:</p>
+                            <ul class="list-none space-y-1">
+                                ${checklistHtml}
+                            </ul>
+                        </div>
+                    `;
+                    container.appendChild(details);
+                }
+            } else {
+                container.innerHTML += `<div class="p-6 card rounded-xl shadow-md text-center"><p>Nenhuma Santa Missa agendada para esta data. (Sacristia em folga 😉)</p></div>`;
+            }
+
+
+            lucide.createIcons();
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            getUniqueDates(); 
+            // O selectDate agora usa a TODAY_DATE dinâmica
+            const initialDate = uniqueDates.find(date => date === TODAY_DATE);
+            selectDate(initialDate || uniqueDates[0]); 
         });
 
     </script>
+</head>
+<body class="min-h-screen flex flex-col">
+    
+    <header class="header-bg sticky top-0 z-20 shadow-lg border-b border-gray-300 border-opacity-20">
+        <div class="max-w-xl mx-auto px-4 py-4 flex justify-between items-center">
+            
+            <div class="flex items-start gap-3">
+                <i data-lucide="cross" class="w-8 h-8 header-highlight-text mt-1"></i>
+                <div>
+                    <h1 class="text-2xl font-extrabold header-title-text leading-none">SACRISTIA</h1>
+                    <p id="santo-do-dia"></p>
+                </div>
+            </div>
+            
+            <div class="flex items-center">
+                <div class="text-right">
+                    <p class="text-xs font-bold header-highlight-text">Ano Jubilar</p>
+                    <p class="text-lg font-bold header-title-text whitespace-nowrap">1866 – 2026</p>
+                </div>
+            </div>
+        </div>
+    </header>
 
+    <main class="flex-1 max-w-xl mx-auto px-4 py-6 w-full">
+        
+        <div id="agenda-section">
+            <div class="mb-6">
+                <div id="date-picker-container" class="date-picker-scroll flex pb-2">
+                    </div>
+            </div>
+            
+            <div id="agenda-content" class="space-y-4">
+                </div>
+        </div>
+
+    </main>
+    
+    <footer class="text-center py-4 text-xs text-gray-400 border-t border-gray-300 border-opacity-20 mt-auto header-bg">
+        Desenvolvido por Emanuel Uchôas
+    </footer>
+    
 </body>
 </html>
