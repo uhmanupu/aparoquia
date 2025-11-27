@@ -47,44 +47,44 @@
             transition: background-color 0.4s ease, color 0.4s ease; 
         }
 
-        /* CARD STYLE - AGORA COM OPACIDADE SIMPLES (REMOVEMOS O BACKDROP-FILTER) */
-        .card, .header-bg, .agenda-card, .task-header-card, .rotina-card, .date-button { 
+        /* ESTILO ORIGINOS/SUAVE: BORDAS ARREDONDADAS E SOMBRAS SUAVES */
+        .card, .header-bg, .agenda-card, .task-header-card, .rotina-card, .date-button {
             background-color: var(--card-transparent); 
-            /* REMOVIDO: backdrop-filter: blur(10px); */
-            /* REMOVIDO: -webkit-backdrop-filter: blur(10px); */
             border: 1px solid rgba(255, 255, 255, 0.1); /* Borda sutil */
-            box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3); /* Sombra mais suave */
-            border-radius: 1rem; 
+            box-shadow: 0 8px 25px 0 rgba(0, 0, 0, 0.4); /* Sombra mais espalhada e suave */
+            border-radius: 1.5rem; /* Mais arredondado */
             transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
         }
 
         /* Ajustes específicos para o header */
         .header-bg { 
             border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+            border-bottom-left-radius: 0; /* Remove borda arredondada na base do header */
+            border-bottom-right-radius: 0;
         }
 
         /* ESTILOS DE BLOCOS */
         .date-picker-scroll { overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 8px; }
         .date-picker-scroll::-webkit-scrollbar { display: none; }
         .date-button { 
-            width: 70px; height: 70px; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; margin-right: 12px; border-radius: 50%; font-weight: 700; flex-shrink: 0; 
+            width: 70px; height: 70px; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; margin-right: 12px; border-radius: 50%; /* Mantido redondo */
+            font-weight: 700; flex-shrink: 0; 
             cursor: pointer; transition: transform 0.2s, box-shadow 0.2s, color 0.4s, background-color 0.4s; 
-            color: var(--primary-highlight); /* Cor inativa do texto */
-            background-color: var(--card-transparent); /* Transparência para o botão inativo */
+            color: var(--primary-highlight); 
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .date-button.active { 
-            background-color: var(--primary-highlight); /* Cor ativa sólida */
+            background-color: var(--primary-highlight); 
             color: var(--text-light-color); 
             font-weight: 900; 
             box-shadow: 0 6px 15px var(--active-shadow-light); 
             transform: scale(1.05); 
-            border-color: var(--primary-highlight); /* Borda da cor ativa */
+            border-color: var(--primary-highlight); 
         }
         .date-button span.day-number { font-size: 1.5rem; line-height: 1; }
         .agenda-details { margin-bottom: 1.5rem; }
         
-        /* ESTILOS PARA OS BLOCOS DA AGENDA (Layout "tipo assim") */
+        /* ESTILOS PARA OS BLOCOS DA AGENDA (Arredondamento Consistente) */
         .agenda-card, .task-header-card {
             border-radius: 1.5rem; 
             padding: 1.5rem; 
@@ -97,15 +97,13 @@
         .agenda-card .location-details { font-size: 1.25rem; font-weight: 700; line-height: 1.2; opacity: 0.9; }
         .agenda-card .priest-name { font-size: 1rem; opacity: 0.8; margin-top: 0.25rem; }
         
-        /* ESTILOS DO CHECKLIST (Comum para Rotina e Missa) */
+        /* ESTILOS DO CHECKLIST */
         .checklist-content { 
             padding: 1rem; 
             padding-top: 0.5rem; 
             border-top: 1px solid rgba(255, 255, 255, 0.1); 
-            background-color: rgba(0, 0, 0, 0.2); /* Fundo sutilmente escuro para contraste */
-            border-radius: 0 0 0.75rem 0.75rem; 
-            /* REMOVIDO: backdrop-filter: blur(8px); */
-            /* REMOVIDO: -webkit-backdrop-filter: blur(8px); */
+            background-color: rgba(0, 0, 0, 0.2); 
+            border-radius: 0 0 1.5rem 1.5rem; /* Segue o arredondamento externo */
         }
         .checklist-item { 
             display: flex; 
@@ -121,14 +119,13 @@
             cursor: pointer; 
         }
         .rotina-card {
-            /* Já herda de .card, mas precisa de ajustes de canto e margem */
             text-align: left;
             padding: 1rem 1.5rem;
             margin-top: -1.5rem; 
             border-top-left-radius: 0;
             border-top-right-radius: 0;
             margin-bottom: 1.5rem; 
-            background-color: var(--card-transparent) !important; /* Força transparência */
+            background-color: var(--card-transparent) !important; 
         }
         .rotina-list li {
             padding: 0.4rem 0;
@@ -271,9 +268,10 @@
             "21/Nov": { color: "BRANCO", title: "Apresentação de Nossa Senhora (Memória)" }, "22/Nov": { color: "VERMELHO", title: "Santa Cecília, Virgem e Mártir (Memória)" }, 
             "23/Nov": { color: "BRANCO", title: "Nosso Senhor Jesus Cristo Rei do Universo (Solenidade)" }, "24/Nov": { color: "VERMELHO", title: "Santos André Dung-Lac e Comp., Mártires (MO)" }, 
             "25/Nov": { color: "VERMELHO", title: "Santa Catarina de Alexandria, Virgem e Mártir" }, "26/Nov": { color: "VERDE", title: "São Leonardo de Porto Maurício (Féria)" }, 
-            "27/Nov": { color: "BRANCO", title: "Nossa Senhora das Graças / Medalha Milagrosa (MF)" }, "28/Nov": { color: "VERDE", title: "Santa Catarina Labouré (Féria)" }, 
+            "27/Nov": { color: "BRANCO", title: "Nossa Senhora das Graças / Medalha Milagrosa (MF)" }, 
+            "28/Nov": { color: "VERDE", title: "Santa Catarina Labouré (Féria)" }, // ESTA É A DATA DE HOJE (27/Nov é Quinta, 28/Nov é Sexta)
             "29/Nov": { color: "VERMELHO", title: "São Saturnino de Tolosa (Memória)" }, 
-            "30/Nov": { color: "ROXO", title: "1º Domingo do Advento (Ano A)" }, // CORREÇÃO LITÚRGICA SOLICITADA
+            "30/Nov": { color: "ROXO", title: "1º Domingo do Advento (Ano A)" }, 
             "01/Dec": { color: "ROXO", title: "Féria do Advento" } 
         };
 
@@ -485,10 +483,10 @@
             
             // Injeta o bloco de Rotinas
             container.innerHTML += `
-                <div class="task-header-card" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
+                <div class="task-header-card" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-radius: 1.5rem 1.5rem 0 0;">
                     <h2>Tarefas</h2>
                 </div>
-                <div class="rotina-card checklist-content" style="border-top-left-radius: 0; border-top-right-radius: 0; padding-top: 1rem;">
+                <div class="rotina-card checklist-content" style="border-top-left-radius: 0; border-top-right-radius: 0; border-radius: 0 0 1.5rem 1.5rem; padding-top: 1rem;">
                     <ul id="lista-rotinas" class="rotina-list list-none space-y-1">
                         ${rotinasHtml}
                     </ul>
