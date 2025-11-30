@@ -26,28 +26,30 @@
         /* ================================================= */
         :root {
             /* Definidas dinamicamente pelo JS */
-            --bg-light-color: #FCE4EC; 
-            --card-translucent-bg: rgba(252, 228, 236, 0.9); 
-            --agenda-card-solid-bg: #F06292; 
-            --date-button-inactive-bg: rgba(252, 228, 236, 0.7); 
-            --primary-highlight: #F06299; 
+            --bg-light-color: #FCE4EC; /* Cor Litúrgica Mais Clara */
+            --card-translucent-bg: rgba(252, 228, 236, 0.9); /* Base Translúcida */
+            --agenda-card-solid-bg: #F06292; /* Cor Principal do Card da Agenda */
+            --date-button-inactive-bg: rgba(252, 228, 236, 0.7); /* Fundo dos Botões Inativos */
+            --primary-highlight: #F06299; /* Cor do Botão Ativo */
 
             /* Variáveis de Texto (FIXO: PRETO, exceto botão ativo) */
-            --text-primary-color: #111111; 
-            --text-active-button-color: #FFFFFF; 
+            --text-primary-color: #111111; /* Cor principal do texto (PRETO) */
+            --text-active-button-color: #FFFFFF; /* Cor do texto no botão de data ATIVO (BRANCO) */
+            --text-footer-color: #CCCCCC; /* Cor clara para o footer no fundo preto */
         }
         
         body { 
             font-family: 'Merriweather', serif;
-            background: linear-gradient(135deg, var(--bg-light-color) 0%, var(--card-translucent-bg) 100%);
+            /* NOVO FUNDO: DEGRADÊ DA COR LITÚRGICA CLARA PARA O PRETO */
+            background: linear-gradient(to bottom, var(--bg-light-color) 0%, #000000 100%);
             color: var(--text-primary-color); 
             min-height: 100vh;
             margin: 0;
             padding: 0;
-            transition: background 0.4s ease;
+            transition: background 0.6s ease;
         }
 
-        /* LIQUID GLASS CARD */
+        /* LIQUID GLASS CARD (Mantendo opacidade para mostrar o degradê) */
         .liquid-glass {
             background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(12px);
@@ -75,6 +77,7 @@
             padding-top: env(safe-area-inset-top);
         }
 
+        /* Títulos e Ícones do Header */
         .header-title-text, .header-highlight-text {
             color: var(--text-primary-color); 
             text-shadow: 1px 1px 0 #FFFFFF, -1px -1px 0 #FFFFFF, 1px -1px 0 #FFFFFF, -1px 1px 0 #FFFFFF; 
@@ -213,14 +216,15 @@
             display: none;
         }
 
+        /* FOOTER NOVO ESTILO */
         footer {
             text-align: center;
             padding: 1rem;
             font-size: 0.8rem;
-            color: #777;
-            border-top: 1px solid rgba(0,0,0,0.05);
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
+            color: var(--text-footer-color); /* Usando a nova cor clara */
+            border-top: 1px solid rgba(255, 255, 255, 0.1); /* Borda mais clara */
+            background: rgba(0, 0, 0, 0.4); /* Fundo preto semi-transparente */
+            backdrop-filter: blur(5px); /* Suaviza a transição */
         }
     </style>
 
@@ -283,7 +287,7 @@
         }
         const TODAY_DATE = getTodayAgendaString(); 
         
-        // AGENDA_DATA ATUALIZADA COM COMPROMISSOS DE DEZEMBRO
+        // AGENDA_DATA
         const AGENDA_DATA = [
             // Entradas de Novembro
             { "date": "24/Nov (Segunda-feira)", "dayOfWeek": "SEG", "time": "18:00", "title": "Santa Missa", "location": "Igreja Sagrado Coração (Pe. Erick)" },
@@ -384,7 +388,7 @@
             6: ["Varrer o passeio e escadaria central", "Jogar água no passeio/escadaria", "Organizar Mala de missas (Diário)"]
         };
 
-        // LITURGICAL_INFO_MAP ATUALIZADO
+        // LITURGICAL_INFO_MAP
         const LITURGICAL_INFO_MAP = { 
             "24/Nov": { color: "VERMELHO", title: "Santos André Dung-Lac e Comp., Mártires (MO)" }, 
             "25/Nov": { color: "VERMELHO", title: "Santa Catarina de Alexandria, Virgem e Mártir" }, 
@@ -414,7 +418,7 @@
 
         // CORES LITÚRGICAS (Principal, Suave/Translúcido, Mais Clara/Fundo) - PALETA FINAL
         const LITURGICAL_COLORS = {
-            // [Cor Principal (para Cards Sólidos e Botão Ativo), Cor Suave (para Cards Translúcidos), Cor Mais Clara (para Fundo da Página)]
+            // [Cor Principal, Cor Suave/Translúcida, Cor Mais Clara (Para Base do Degradê)]
             "VERMELHO": ["#DC5F5F", "#FF8C8C", "#FFDCDC"], 
             "BRANCO": ["#FDD835", "#FFF176", "#FFFDE7"],  
             "VERDE": ["#8BC34A", "#C5E1A5", "#F1F8E9"],    
@@ -453,19 +457,19 @@
         function applyDynamicTheme(colors, liturgicalTitle) { 
             const [mainColorHex, translucentColorHex, lightBgColorHex] = colors; 
             
-            // 1. Fundo Geral da Página (Cor mais clara)
+            // 1. Fundo Geral da Página (Degradê Litúrgico -> Preto)
             document.documentElement.style.setProperty('--bg-light-color', lightBgColorHex); 
-            document.body.style.background = `linear-gradient(135deg, ${lightBgColorHex} 0%, ${translucentColorHex} 100%)`;
+            document.body.style.background = `linear-gradient(to bottom, ${lightBgColorHex} 0%, #000000 100%)`; // Degradê para o Preto
             const themeMeta = document.querySelector('meta[name="theme-color"]');
             if (themeMeta) {
                 themeMeta.setAttribute('content', lightBgColorHex);
             }
 
-            // 2. Cor Principal (Botões Ativos, Fundo dos Cards Sólidos)
+            // 2. Cores Principais
             document.documentElement.style.setProperty('--primary-highlight', mainColorHex);
             document.documentElement.style.setProperty('--agenda-card-solid-bg', mainColorHex); 
 
-            // 3. Cor Transparente (Cards Translúcidos, Header, Botões Inativos)
+            // 3. Cores Translúcidas (para Header e Botões Inativos)
             document.documentElement.style.setProperty('--card-translucent-bg', hexToRgba(translucentColorHex, 0.95)); 
             document.documentElement.style.setProperty('--date-button-inactive-bg', hexToRgba(translucentColorHex, 0.7)); 
             
@@ -541,10 +545,9 @@
                 container.appendChild(button);
             });
             
-            // CORREÇÃO FINAL: Usa scrollIntoView para centralizar o botão ativo de forma nativa e robusta
+            // CORREÇÃO: Usa scrollIntoView para centralizar o botão ativo de forma nativa
             const activeBtn = container.querySelector('.date-button.active');
             if (activeBtn) {
-                // Rola o elemento para o centro da área de visualização horizontalmente
                 setTimeout(() => {
                     activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
                 }, 100); 
