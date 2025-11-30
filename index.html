@@ -26,23 +26,27 @@
         /* ================================================= */
         :root {
             /* Definidas dinamicamente pelo JS */
-            --bg-dark-end-color: #0d0c1e; /* Tom bem escuro, quase preto, para o final do degradê */
-            --card-translucent-bg: rgba(255, 255, 255, 0.4); /* Header e Glass mais transparente */
-            --agenda-card-solid-bg: #F06292; /* Cor litúrgica ativa (para cards de missa) */
-            --date-button-inactive-bg: rgba(255, 255, 255, 0.3); /* Botões inativos mais transparentes */
-            --primary-highlight: #F06299; /* Cor principal de destaque (início do degradê) */
+            --bg-dark-end-color: #0d0c1e;
+            --card-translucent-bg: rgba(255, 255, 255, 0.7); 
+            --agenda-card-solid-bg: #F06292; 
+            --date-button-inactive-bg: rgba(255, 255, 255, 0.4); 
+            --primary-highlight: #F06299; 
 
             /* Variáveis de Texto (FIXO: PRETO, exceto botão ativo) */
             --text-primary-color: #111111; 
             --text-active-button-color: #FFFFFF; 
-            --text-footer-color: #AAAAAA; /* Texto do footer mais claro para contraste */
-            --glass-border: rgba(255, 255, 255, 0.3); /* Borda mais sutil no glass */
+            --text-footer-color: #AAAAAA; 
+            --glass-border: rgba(255, 255, 255, 0.4); 
         }
         
         body { 
             font-family: 'Merriweather', serif;
-            /* NOVO DEGRADÊ: Da cor litúrgica, passa por um tom escuro da mesma cor, e termina em quase preto */
-            background: linear-gradient(to bottom, var(--primary-highlight) 0%, #4a148c 40%, var(--bg-dark-end-color) 80%);
+            /* DEGRADÊ: DA COR LITÚRGICA PRINCIPAL PARA O PRETO */
+            background: linear-gradient(to bottom, 
+                        var(--primary-highlight) 0%, 
+                        #4a148c 40%,                 
+                        var(--bg-dark-end-color) 80%, 
+                        #000000 100%);                
             color: var(--text-primary-color); 
             min-height: 100vh;
             margin: 0;
@@ -52,26 +56,26 @@
 
         /* LIQUID GLASS CARD (Aplicação geral de desfoque) */
         .liquid-glass {
-            background: var(--card-translucent-bg);
-            backdrop-filter: blur(15px); /* Blur mais intenso */
-            -webkit-backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border);
             border-radius: 1.5rem;
             position: relative;
             overflow: hidden;
             box-shadow:
-                0 6px 20px rgba(0, 0, 0, 0.3), /* Sombra mais pronunciada */
-                inset 0 1px 0 rgba(255,255,255,0.25), /* Sombra interna para brilho */
-                inset 0 -1px 0 rgba(0,0,0,0.1);
+                0 4px 16px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255,255,255,0.4), 
+                inset 0 -1px 0 rgba(0,0,0,0.05);
         }
 
         /* HEADER LIQUID GLASS - Transparência ajustada */
         .header-bg {
             background: var(--card-translucent-bg); 
-            backdrop-filter: blur(15px); /* Blur mais intenso */
-            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--glass-border);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2); /* Sombra mais visível */
+            box-shadow: 0 1px 8px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 30;
@@ -114,11 +118,11 @@
             flex-shrink: 0;
             border: 1px solid rgba(0, 0, 0, 0.1);
             cursor: pointer;
-            background: var(--date-button-inactive-bg); /* Fundo mais transparente */
-            backdrop-filter: blur(10px); /* Blur mais intenso */
-            -webkit-backdrop-filter: blur(10px);
+            background: var(--date-button-inactive-bg); 
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             color: var(--text-primary-color);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* Sombra mais pronunciada */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
@@ -127,7 +131,7 @@
             color: var(--text-active-button-color);
             font-weight: 900;
             transform: scale(1.12);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.45); /* Sombra mais destacada */
+            box-shadow: 0 6px 16px rgba(0,0,0,0.35);
         }
 
         .date-button span.day-number {
@@ -158,20 +162,19 @@
         /* Rotina e Checklist (Liquid Glass Acentuado) */
         .rotina-card {
             text-align: left;
-            background: var(--card-translucent-bg); /* Mais transparente */
-            backdrop-filter: blur(15px); /* Blur mais intenso */
-            -webkit-backdrop-filter: blur(15px); 
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px); 
             color: var(--text-primary-color); 
             margin-top: -1px;
             border-top-left-radius: 0;
             border-top-right-radius: 0;
             border-radius: 0 0 1.5rem 1.5rem;
-            /* Adiciona o efeito de sombra interna/brilho */
-            box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.15); /* Sombra mais pronunciada */
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), 0 2px 8px rgba(0,0,0,0.1); 
         }
 
         .checklist-content {
-            background: rgba(255, 255, 255, 0.85); /* Levemente menos opaco para contraste */
+            background: rgba(255, 255, 255, 0.95); 
             border-top: 1px solid rgba(0,0,0,0.1);
             border-radius: 0 0 1.5rem 1.5rem;
             padding: 1.2rem;
@@ -230,160 +233,104 @@
             font-size: 0.8rem;
             color: var(--text-footer-color); 
             border-top: 1px solid rgba(255, 255, 255, 0.1); 
-            background: rgba(0, 0, 0, 0.6); /* Fundo mais opaco para o footer */
-            backdrop-filter: blur(8px); /* Blur para o footer */
+            background: rgba(0, 0, 0, 0.4); 
+            backdrop-filter: blur(5px); 
+        }
+
+        /* NOVA REGRA: Oculta a interface, deixando apenas o fundo visível */
+        header, main, footer {
+            visibility: hidden;
         }
     </style>
 
     <script>
         // ======================================================
-        // ESTRUTURA SUPABASE PARA PERSISTÊNCIA DE DADOS
+        // DADOS LITÚRGICOS E DA AGENDA (Mantidos para funcionalidade)
         // ======================================================
-        
-        const SUPABASE_URL = 'https://nvefvewyxiwgwmyutbmk.supabase.co'; 
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52ZWZ2ZXd5eGl3Z3dweXV0Ym1rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDExMjQ2NjYsImV4cCI6MjAxNjcwMDY2Nn0.7-jV5z5SgXlV70-RjLq-WJ7eN0fB3E1G1q-0u0-0u0'; 
-        const CHECKLIST_TABLE_NAME = 'sacristy_tasks'; 
 
-        let supabase = null; 
+        // CORES LITÚRGICAS (Principal, Suave/Translúcido, Mais Clara/Fundo) - PALETA FINAL
+        const LITURGICAL_COLORS = {
+            // [Cor Principal (Degradê Start), Cor Suave/Translúcida, Cor Mais Clara]
+            "VERMELHO": ["#DC5F5F", "#FF8C8C", "#FFDCDC"], 
+            "BRANCO": ["#FDD835", "#FFF176", "#FFFDE7"],  
+            "VERDE": ["#8BC34A", "#C5E1A5", "#F1F8E9"],    
+            "ROXO": ["#9C27B0", "#E1BEE7", "#F3E5F5"],    
+            "ROSEO": ["#F06292", "#F8BBD0", "#FCE4EC"]    /* ROSA PINK FINAL */
+        };
 
-        if (typeof window !== 'undefined' && window.supabase && SUPABASE_URL.includes('.supabase.co')) {
-            try {
-                 supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            } catch (e) {
-                console.error("Supabase Initialization Error:", e);
+        function getLiturgicalInfo(dateStr) { 
+            const LITURGICAL_INFO_MAP = { 
+                "24/Nov": { color: "VERMELHO", title: "Santos André Dung-Lac e Comp., Mártires (MO)" }, 
+                "25/Nov": { color: "VERMELHO", title: "Santa Catarina de Alexandria, Virgem e Mártir" }, 
+                "26/Nov": { color: "VERDE", title: "São Leonardo de Porto Maurício (Féria)" }, 
+                "27/Nov": { color: "BRANCO", title: "Nossa Senhora das Graças / Medalha Milagrosa (MF)" }, 
+                "28/Nov": { color: "VERDE", title: "Santa Catarina Labouré (Féria)" }, 
+                "29/Nov": { color: "VERMELHO", title: "São Saturnino de Tolosa (Memória)" }, 
+                "30/Nov": { color: "ROXO", title: "1º Domingo do Advento (Ano A)" },
+                "01/Dec": { color: "ROXO", title: "Féria do Advento" },
+                "08/Dec": { color: "BRANCO", title: "Nossa Senhora da Conceição (Solenidade)" },
+                "21/Dec": { color: "ROSEO", title: "4º Domingo do Advento (Cor de Festejo)" }, 
+            };
+            const dayMonth = dateStr.split(' ')[0];
+            const info = LITURGICAL_INFO_MAP[dayMonth];
+            
+            if (info) {
+                const colors = LITURGICAL_COLORS[info.color] || LITURGICAL_COLORS["VERDE"];
+                return { colorName: info.color, title: info.title, colors: colors };
             }
+            return { colorName: "VERDE", title: "Féria (Dia Comum)", colors: LITURGICAL_COLORS["VERDE"] };
         }
-        
-        async function saveChecklistStatus(massId, taskId, isChecked) {
-            if (!supabase) {
-                console.warn("Supabase não configurado. O status não será salvo.");
-                return;
-            }
-            const dataToUpsert = { mass_id: massId, task_id: taskId, is_checked: isChecked };
-            const { error } = await supabase
-                .from(CHECKLIST_TABLE_NAME)
-                .upsert(dataToUpsert, { onConflict: 'mass_id, task_id' });
-            if (error) { console.error("Erro ao salvar status da tarefa:", error.message); }
-        }
-
-        async function loadChecklistStatus(massId) {
-            if (!supabase) return [];
-            const { data, error } = await supabase
-                .from(CHECKLIST_TABLE_NAME)
-                .select('task_id')
-                .eq('mass_id', massId)
-                .eq('is_checked', true); 
-            if (error) { console.error("Erro ao carregar status da tarefa:", error.message); return []; }
-            return data.map(item => item.task_id); 
-        }
-        
-        // ======================================================
-        // DADOS LITÚRGICOS E DA AGENDA
-        // ======================================================
 
         function getTodayAgendaString() {
             const today = new Date();
             const day = today.getDate().toString().padStart(2, '0');
             const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            const dayNames = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
-            
-            const monthAbbr = monthNames[today.getMonth()];
-            const dayOfWeek = dayNames[today.getDay()];
-            
-            return `${day}/${monthAbbr} (${dayOfWeek})`;
+            const dayOfWeek = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"][today.getDay()];
+            return `${day}/${monthNames[today.getMonth()]} (${dayOfWeek})`;
         }
         const TODAY_DATE = getTodayAgendaString(); 
-        
-        // AGENDA_DATA
-        const AGENDA_DATA = [
-            // Entradas de Novembro
-            { "date": "24/Nov (Segunda-feira)", "dayOfWeek": "SEG", "time": "18:00", "title": "Santa Missa", "location": "Igreja Sagrado Coração (Pe. Erick)" },
-            { "date": "25/Nov (Terça-feira)", "dayOfWeek": "TER", "time": "19:00", "title": "Santa Missa", "location": "Setor 4 – Bairro Pereiras (Pe. Edimilson)" },
-            { "date": "25/Nov (Terça-feira)", "dayOfWeek": "TER", "time": "20:00", "title": "Santa Missa", "location": "Setor 7 – Bairro Rio Acima II (Pe. Erick)" },
-            { "date": "26/Nov (Quarta-feira)", "dayOfWeek": "QUA", "time": "19:00", "title": "Santa Missa", "location": "Setor 1 – Bairro Mendes (Pe. Edimilson)" },
-            { "date": "26/Nov (Quarta-feira)", "dayOfWeek": "QUA", "time": "19:00", "title": "Santa Missa", "location": "Setor 4 – Bairro Água Limpa (Pe. Erick)" },
-            { "date": "27/Nov (Quinta-feira)", "dayOfWeek": "QUI", "time": "05:00", "title": "Santa Missa", "location": "Pedra Santa (Pe. Erick)" },
-            { "date": "27/Nov (Quinta-feira)", "dayOfWeek": "QUI", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
-            { "date": "27/Nov (Quinta-feira)", "dayOfWeek": "QUI", "time": "19:00", "title": "Santa Missa", "location": "Setor 1 – Bairro Muquém (Pe. Erick)" },
-            { "date": "28/Nov (Sexta-feira)", "dayOfWeek": "SEX", "time": "19:00", "title": "Santa Missa", "location": "Setor 7 – Bairro Vargem Alegre (Pe. Edimilson)" },
-            { "date": "29/Nov (Sábado)", "dayOfWeek": "SÁB", "time": "10:00", "title": "Santa Missa", "location": "Setor 1 – Bairro Virgem do Socorro (Pe. Erick)" },
-            { "date": "29/Nov (Sábado)", "dayOfWeek": "SÁB", "time": "19:00", "title": "Santa Missa", "location": "Setor 7 – Bairro Roseirinha (Pe. Edimilson)" },
+        let currentSelectedDate = TODAY_DATE;
+
+        function applyDynamicTheme(colors, liturgicalTitle) { 
+            const [mainColorHex, translucentColorHex, lightBgColorHex] = colors; 
             
-            // 30/Nov (1º Domingo do Advento)
-            { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
-            { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
-            { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
-
-            // NOVAS ENTRADAS DE DEZEMBRO (Agenda Paroquial)
-            // 01 DEZ (Segunda-feira)
-            { "date": "01/Dec (Segunda-feira)", "dayOfWeek": "SEG", "time": "14:00", "title": "Atendimento", "location": "Local: Folga (Pe. Edimilson)" },
-            { "date": "01/Dec (Segunda-feira)", "dayOfWeek": "SEG", "time": "19:00", "title": "4º Dia da Novena", "location": "Local: Folga (Pe. Erick)" },
-
-            // 02 DEZ (Terça-feira)
-            { "date": "02/Dec (Terça-feira)", "dayOfWeek": "TER", "time": "09:00", "title": "Visita às Obras", "location": "Local: -- (Pe. Erick)" },
-            { "date": "02/Dec (Terça-feira)", "dayOfWeek": "TER", "time": "14:00", "title": "Atendimento", "location": "Local: Folga (Pe. Edimilson)" },
-            { "date": "02/Dec (Terça-feira)", "dayOfWeek": "TER", "time": "19:00", "title": "Santa Missa Setor 5 – Bairro Morangal", "location": "Local: Setor 5 – Bairro Morangal (Pe. Edimilson)" },
-            { "date": "02/Dec (Terça-feira)", "dayOfWeek": "TER", "time": "19:00", "title": "5º Dia da Novena", "location": "Local: -- (Pe. Erick)" },
-
-            // 03 DEZ (Quarta-feira)
-            { "date": "03/Dec (Quarta-feira)", "dayOfWeek": "QUA", "time": "09:00", "title": "Atendimento", "location": "Local: Folga (Pe. Edimilson)" },
-            { "date": "03/Dec (Quarta-feira)", "dayOfWeek": "QUA", "time": "14:00", "title": "Atendimento", "location": "Local: Folga (Pe. Erick)" },
-            { "date": "03/Dec (Quarta-feira)", "dayOfWeek": "QUA", "time": "19:00", "title": "Santa Missa Setor 6 – Bairro Torres", "location": "Local: Setor 6 – Bairro Torres (Pe. Edimilson)" },
-            { "date": "03/Dec (Quarta-feira)", "dayOfWeek": "QUA", "time": "19:00", "title": "6º Dia da Novena", "location": "Local: -- (Pe. Erick)" },
-
-            // 04 DEZ (Quinta-feira)
-            { "date": "04/Dec (Quinta-feira)", "dayOfWeek": "QUI", "time": "09:00", "title": "Atendimento", "location": "Local: Folga (Pe. Erick)" },
-            { "date": "04/Dec (Quinta-feira)", "dayOfWeek": "QUI", "time": "09:00", "title": "Santa Missa Abrigo São Camilo", "location": "Local: Abrigo São Camilo (Pe. Edimilson)" },
-            { "date": "04/Dec (Quinta-feira)", "dayOfWeek": "QUI", "time": "14:00", "title": "Visita aos Enfermos", "location": "Local: -- (Pe. Edimilson)" },
-            { "date": "04/Dec (Quinta-feira)", "dayOfWeek": "QUI", "time": "19:00", "title": "Santa Missa Setor 7 – Bairro Vargem Alegre", "location": "Local: Setor 7 – Bairro Vargem Alegre (Pe. Edimilson)" },
-            { "date": "04/Dec (Quinta-feira)", "dayOfWeek": "QUI", "time": "19:00", "title": "7º Dia da Novena", "location": "Local: -- (Pe. Erick)" },
-
-            // 05 DEZ (Sexta-feira)
-            { "date": "05/Dec (Sexta-feira)", "dayOfWeek": "SEX", "time": "09:00", "title": "Atendimento", "location": "Local: Folga (Pe. Edimilson)" },
-            { "date": "05/Dec (Sexta-feira)", "dayOfWeek": "SEX", "time": "14:00", "title": "Visita às Obras", "location": "Local: -- (Pe. Erick)" },
-            { "date": "05/Dec (Sexta-feira)", "dayOfWeek": "SEX", "time": "19:00", "title": "8º Dia da Novena", "location": "Local: -- (Pe. Erick)" },
-            { "date": "05/Dec (Sexta-feira)", "dayOfWeek": "SEX", "time": "19:00", "title": "Compromisso", "location": "Local: -- (Pe. Edimilson)" },
-
-            // 06 DEZ (Sábado)
-            { "date": "06/Dec (Sábado)", "dayOfWeek": "SÁB", "time": "11:00", "title": "Casamento", "location": "Local: Igreja Matriz (Pe. Edimilson)" },
-            { "date": "06/Dec (Sábado)", "dayOfWeek": "SÁB", "time": "16:00", "title": "Santa Missa", "location": "Local: Igreja Matriz (Pe. Edimilson)" },
-            { "date": "06/Dec (Sábado)", "dayOfWeek": "SÁB", "time": "18:00", "title": "Vigília Batismal", "location": "Local: Igreja Matriz (Pe. Edimilson)" },
-            { "date": "06/Dec (Sábado)", "dayOfWeek": "SÁB", "time": "19:00", "title": "9º Dia da Novena", "location": "Local: -- (Pe. Erick)" },
-
-            // 07 DEZ (Domingo) - 2º Domingo do Advento
-            { "date": "07/Dec (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Local: Igreja Matriz (Pe. Edimilson)" },
-            { "date": "07/Dec (Domingo)", "dayOfWeek": "DOM", "time": "08:00", "title": "Santa Missa Setor 6 – Bairro São José", "location": "Local: Setor 6 – Bairro São José (Pe. Erick)" },
-            { "date": "07/Dec (Domingo)", "dayOfWeek": "DOM", "time": "08:00", "title": "Confissão/Crisma", "location": "Local: Mantiqueira (Pe. Edimilson)" },
-            { "date": "07/Dec (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Local: Igreja Matriz (Pe. Edimilson)" },
-            { "date": "07/Dec (Domingo)", "dayOfWeek": "DOM", "time": "10:00", "title": "Batizado", "location": "Local: Igreja Matriz (Pe. Edimilson)" },
-            { "date": "07/Dec (Domingo)", "dayOfWeek": "DOM", "time": "10:30", "title": "Santa Missa Setor 7 – Bairro Rio Acima II", "location": "Local: Setor 7 – Bairro Rio Acima II (Pe. Erick)" },
-            { "date": "07/Dec (Domingo)", "dayOfWeek": "DOM", "time": "16:00", "title": "Santa Missa Setor 1 – Bairro Retirinho", "location": "Local: Setor 1 – Bairro Retirinho (Pe. Erick)" },
-            { "date": "07/Dec (Domingo)", "dayOfWeek": "DOM", "time": "19:00", "title": "Primeiras Vésperas", "location": "Local: -- (Pe. Edimilson)" },
-
-            // 08 DEZ (Segunda-feira) - Dia da Padroeira
-            { "date": "08/Dec (Segunda-feira)", "dayOfWeek": "SEG", "time": "10:00", "title": "Santa Missa", "location": "Local: Setor 7 – Bairro Roseirinha (Pe. Erick)" },
-            { "date": "08/Dec (Segunda-feira)", "dayOfWeek": "SEG", "time": "10:00", "title": "Santa Missa", "location": "Local: Igreja Matriz (Pe. Aylton)" },
-            { "date": "08/Dec (Segunda-feira)", "dayOfWeek": "SEG", "time": "19:00", "title": "Santa Missa", "location": "Local: Igreja Matriz (Pe. Erick)" },
+            // 1. Fundo Geral da Página (Degradê Litúrgico Principal -> Preto)
+            document.documentElement.style.setProperty('--primary-highlight', mainColorHex); 
             
-            // Domigos importantes do Advento/Natal
-            { "date": "14/Dec (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
-            { "date": "14/Dec (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
-            { "date": "14/Dec (Domingo)", "dayOfWeek": "DOM", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
-
-            { "date": "21/Dec (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
-            { "date": "21/Dec (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
-            { "date": "21/Dec (Domingo)", "dayOfWeek": "DOM", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
-
-            { "date": "25/Dec (Quinta-feira)", "dayOfWeek": "QUI", "time": "19:00", "title": "Santa Missa Solene de Natal", "location": "Igreja Matriz (Pe. Erick)" },
-
-            { "date": "28/Dec (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
-            { "date": "28/Dec (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
-            { "date": "28/Dec (Domingo)", "dayOfWeek": "DOM", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
-        ];
+            // Definições de cores para o Degradê Escuro (mantidas fixas no CSS acima, mas atualizam a cor inicial)
+            
+            // 2. Cores Principais
+            document.documentElement.style.setProperty('--agenda-card-solid-bg', mainColorHex); 
+        }
         
-        const SACRISTY_CHECKLIST = [
-            "Vinho", "Água", "Manustérgio", "Corporal", "Sanguíneo", "Hóstis G", "Hóstisa P", "Coleta", "Missal", "Lecionário"
-        ];
-        
-        const tarefasRotinaSemanal = {
-            0: ["Organizar Mala de missas (Diário)", "Organizar Mala do Hotel (Diário)", "Hig
+        function selectDate(fullDate) { 
+            currentSelectedDate = fullDate;
+            
+            const liturgicalInfo = getLiturgicalInfo(fullDate);
+            applyDynamicTheme(liturgicalInfo.colors, liturgicalInfo.title); 
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Encontra a cor litúrgica do dia atual ou a primeira data disponível
+            const TODAY_AGENDA_DATA = [
+                { "date": "27/Nov (Quinta-feira)", "dayOfWeek": "QUI", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
+                { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
+                // ... (outras datas para teste)
+            ];
+            
+            const initialDate = TODAY_AGENDA_DATA.find(item => item.date === TODAY_DATE)?.date || "30/Nov (Domingo)"; // Força Roxo para hoje ou uma cor inicial
+
+            const liturgicalInfo = getLiturgicalInfo(initialDate);
+            applyDynamicTheme(liturgicalInfo.colors, liturgicalInfo.title); 
+
+        });
+
+    </script>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="header-bg">...</header>
+    <main class="flex-1 max-w-xl mx-auto px-4 py-6 w-full">...</main>
+    <footer>...</footer>
+    
+</body>
+</html>
