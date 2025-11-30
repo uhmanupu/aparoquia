@@ -510,7 +510,7 @@
             getUniqueDates();
             const container = document.getElementById('date-picker-container');
             if (!container) return; 
-            container.innerHTML = ''; // Re-renderiza todos os botões para garantir a consistência
+            container.innerHTML = ''; 
             
             uniqueDates.forEach(fullDate => {
                 const dayNumber = fullDate.split('/')[0];
@@ -541,17 +541,12 @@
                 container.appendChild(button);
             });
             
-            // CORREÇÃO: Força o scroll para o dia ativo, centralizando-o
+            // CORREÇÃO FINAL: Usa scrollIntoView para centralizar o botão ativo de forma nativa e robusta
             const activeBtn = container.querySelector('.date-button.active');
             if (activeBtn) {
-                // Usa setTimeout para garantir que o layout foi renderizado antes de tentar rolar
+                // Rola o elemento para o centro da área de visualização horizontalmente
                 setTimeout(() => {
-                    const scrollContainerWidth = container.offsetWidth;
-                    const activeBtnWidth = activeBtn.offsetWidth;
-                    const activeBtnOffset = activeBtn.offsetLeft;
-                    
-                    // Calcula a posição para centralizar o botão
-                    container.scrollLeft = activeBtnOffset - (scrollContainerWidth / 2) + (activeBtnWidth / 2);
+                    activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
                 }, 100); 
             }
         }
