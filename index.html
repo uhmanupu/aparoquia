@@ -185,6 +185,42 @@
             justify-content: center;
         }
 
+        /* Seção de tarefas */
+        .tasks-section {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .task-category {
+            margin: 15px 0;
+        }
+
+        .task-category h3 {
+            margin: 10px 0 5px;
+            color: #ffd700;
+            font-size: 1.1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 5px;
+        }
+
+        .task-item {
+            padding: 8px 12px;
+            margin: 5px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task-name {
+            flex-grow: 1;
+            font-size: 0.9rem;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
@@ -232,6 +268,14 @@
                 <!-- Será preenchido dinamicamente -->
             </tbody>
         </table>
+
+        <!-- Seção de tarefas diárias -->
+        <div class="tasks-section" id="tasks-section">
+            <h2>📋 Tarefas da Sacristia</h2>
+            <div id="tasks-list">
+                <!-- Será preenchido dinamicamente -->
+            </div>
+        </div>
 
         <div class="footer">
             ✝️ Mantenha a agenda atualizada! As tarefas marcadas são salvas automaticamente.
@@ -299,13 +343,87 @@
         const diasNovena = ["01", "02", "03", "04", "05", "06", "07"];
         const corAdvento = "#6a4c93"; // Roxo
 
+        // Tarefas por responsável e dia da semana
+        const tarefasPorDia = {
+            "Segunda-feira": [
+                { responsavel: "Emanuel", categoria: "Igreja", descricao: "Varrer e limpar" },
+                { responsavel: "Emanuel", categoria: "Igreja", descricao: "Lavar banheiro sacristia" },
+                { responsavel: "Emanuel", categoria: "Roupas", descricao: "Lavar alfaia e toalhas" },
+                { responsavel: "Emanuel", categoria: "Vasos Sagrados", descricao: "Higienizar sempre depois da missa" },
+                { responsavel: "Pietro", categoria: "Igreja", descricao: "Varrer passeio da matriz e escadaria da porta central" },
+                { responsavel: "Pietro", categoria: "Igreja", descricao: "Lavar banheiro social (salão)" },
+                { responsavel: "Pietro", categoria: "Roupas", descricao: "Passar alfaia" },
+                { responsavel: "Pietro", categoria: "Organizar", descricao: "Mala de missas" },
+                { responsavel: "Pietro", categoria: "Vasos Sagrados", descricao: "Higienizar vasos sagrados das malas" },
+                { responsavel: "Pietro", categoria: "Jardim", descricao: "Na seca, aguar jardim" }
+            ],
+            "Terça-feira": [
+                { responsavel: "Emanuel", categoria: "Roupas", descricao: "Lavar vestes de leitores" },
+                { responsavel: "Emanuel", categoria: "Vasos Sagrados", descricao: "Higienizar sempre depois da missa" },
+                { responsavel: "Pietro", categoria: "Igreja", descricao: "Manter trancado durante a semana (exceto quinta)" },
+                { responsavel: "Pietro", categoria: "Roupas", descricao: "Passar túnicas (quando for preciso)" },
+                { responsavel: "Pietro", categoria: "Organizar", descricao: "Mala de missas" },
+                { responsavel: "Pietro", categoria: "Vasos Sagrados", descricao: "Higienizar vasos sagrados das malas" }
+            ],
+            "Quarta-feira": [
+                { responsavel: "Emanuel", categoria: "Igreja", descricao: "Folga" },
+                { responsavel: "Emanuel", categoria: "Vasos Sagrados", descricao: "Higienizar sempre depois da missa" },
+                { responsavel: "Pietro", categoria: "Igreja", descricao: "Varrer passeio da matriz e escadaria da porta central" },
+                { responsavel: "Pietro", categoria: "Igreja", descricao: "Limpar imagens e altares (se for 1ª ou 3ª quarta do mês)" },
+                { responsavel: "Pietro", categoria: "Roupas", descricao: "Passar alfaia" },
+                { responsavel: "Pietro", categoria: "Organizar", descricao: "Mala de missas" },
+                { responsavel: "Pietro", categoria: "Organizar", descricao: "Armário sacristia" },
+                { responsavel: "Pietro", categoria: "Vasos Sagrados", descricao: "Higienizar vasos sagrados das malas" },
+                { responsavel: "Pietro", categoria: "Jardim", descricao: "Na seca, aguar jardim" }
+            ],
+            "Quinta-feira": [
+                { responsavel: "Emanuel", categoria: "Igreja", descricao: "Limpar o coro, escadaria e batistério" },
+                { responsavel: "Emanuel", categoria: "Roupas", descricao: "Passar vestes de leitores e toalha do altar" },
+                { responsavel: "Emanuel", categoria: "Vasos Sagrados", descricao: "Higienizar sempre depois da missa" },
+                { responsavel: "Pietro", categoria: "Igreja", descricao: "Varrer passeio da matriz e escadaria da porta central" },
+                { responsavel: "Pietro", categoria: "Igreja", descricao: "Manter trancado durante a semana (exceto hoje)" },
+                { responsavel: "Pietro", categoria: "Igreja", descricao: "Limpar imagens e altares (se for 1ª ou 3ª quarta do mês)" },
+                { responsavel: "Pietro", categoria: "Roupas", descricao: "Passar alfaia" },
+                { responsavel: "Pietro", categoria: "Organizar", descricao: "Mala de missas" },
+                { responsavel: "Pietro", categoria: "Vasos Sagrados", descricao: "Higienizar vasos sagrados das malas" },
+                { responsavel: "Pietro", categoria: "Jardim", descricao: "Na seca, aguar jardim" }
+            ],
+            "Sexta-feira": [
+                { responsavel: "Emanuel", categoria: "Igreja", descricao: "Varrer e limpar" },
+                { responsavel: "Emanuel", categoria: "Igreja", descricao: "Lavar banheiro sacristia" },
+                { responsavel: "Emanuel", categoria: "Roupas", descricao: "Lavar alfaia e toalhas" },
+                { responsavel: "Emanuel", categoria: "Vasos Sagrados", descricao: "Higienizar sempre depois da missa" },
+                { responsavel: "Emanuel", categoria: "Vasos Sagrados", descricao: "Higienização geral (cálice, âmbulas, bacia, jarros, galhetas, castiçais, cruz, turíbulo, naveta...)" },
+                { responsavel: "Pietro", categoria: "Igreja", descricao: "Lavar banheiro social (salão)" },
+                { responsavel: "Pietro", categoria: "Roupas", descricao: "Passar alfaia" },
+                { responsavel: "Pietro", categoria: "Organizar", descricao: "Mala de missas" },
+                { responsavel: "Pietro", categoria: "Vasos Sagrados", descricao: "Higienizar vasos sagrados das malas" },
+                { responsavel: "Pietro", categoria: "Jardim", descricao: "Na seca, aguar jardim" }
+            ],
+            "Sábado": [
+                { responsavel: "Emanuel", categoria: "Igreja", descricao: "Rastelar o jardim em torno da Igreja, quando roçar" },
+                { responsavel: "Emanuel", categoria: "Vasos Sagrados", descricao: "Higienizar sempre depois da missa" },
+                { responsavel: "Pietro", categoria: "Igreja", descricao: "Varrer passeio da matriz e escadaria da porta central (jogar água)" },
+                { responsavel: "Pietro", categoria: "Roupas", descricao: "Passar alfaia" },
+                { responsavel: "Pietro", categoria: "Organizar", descricao: "Mala de missas" },
+                { responsavel: "Pietro", categoria: "Vasos Sagrados", descricao: "Higienizar vasos sagrados das malas" }
+            ],
+            "Domingo": [
+                { responsavel: "Emanuel", categoria: "Vasos Sagrados", descricao: "Higienizar sempre depois da missa" },
+                { responsavel: "Pietro", categoria: "Organizar", descricao: "Mala de missas" }
+            ]
+        };
+
+        // Dias da semana
+        const diasSemana = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+
         // Renderizar carrossel de datas
         function renderDateCarousel() {
             const carousel = document.getElementById('date-carousel');
             let html = '';
             for (let dia in agenda) {
                 const date = new Date(2025, 11, parseInt(dia)); // Dezembro 2025
-                const dayName = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"][date.getDay()];
+                const dayName = diasSemana[date.getDay()];
                 html += `<div class="date-item" data-dia="${dia}" title="${dayName}">${dia} ${dayName.slice(0,3)}</div>`;
             }
             carousel.innerHTML = html;
@@ -333,6 +451,10 @@
             const items = agenda[dia] || [];
             let html = '';
 
+            // Obter dia da semana
+            const date = new Date(2025, 11, parseInt(dia));
+            const diaSemana = diasSemana[date.getDay()];
+
             // Aplicar cor litúrgica ao container
             let corLiturgica = santos[dia]?.cor || "#ffffff";
             if (diasNovena.includes(dia)) {
@@ -349,6 +471,7 @@
             document.getElementById('saint-name').textContent = santo.nome;
             document.getElementById('saint-of-day').style.borderLeft = `5px solid ${corLiturgica}`;
 
+            // Renderizar eventos da agenda
             items.forEach(item => {
                 const isHighlighted = item.local.includes('Novena') || item.local.includes('Batizado') || item.local.includes('Casamento') || item.local.includes('Vigília');
                 const highlightClass = isHighlighted ? 'highlight' : '';
@@ -368,8 +491,45 @@
 
             tbody.innerHTML = html;
 
+            // Renderizar tarefas do dia
+            renderTasks(diaSemana);
+
             // Restaurar estados dos checkboxes
             restoreCheckStates();
+        }
+
+        // Renderizar tarefas do dia
+        function renderTasks(diaSemana) {
+            const tasksList = document.getElementById('tasks-list');
+            const tarefasDoDia = tarefasPorDia[diaSemana] || [];
+            let html = '';
+
+            // Agrupar por categoria
+            const categorias = {};
+            tarefasDoDia.forEach(t => {
+                if (!categorias[t.categoria]) categorias[t.categoria] = [];
+                categorias[t.categoria].push(t);
+            });
+
+            // Renderizar cada categoria
+            for (let cat in categorias) {
+                html += `<div class="task-category"><h3>${cat}</h3>`;
+                categorias[cat].forEach(task => {
+                    const taskId = `${task.responsavel}-${task.categoria}-${task.descricao.replace(/\s+/g, '-')}`;
+                    html += `
+                    <div class="task-item">
+                        <span class="task-name">${task.responsavel}: ${task.descricao}</span>
+                        <button class="check-btn" data-id="task-${taskId}">☐</button>
+                    </div>
+                    `;
+                });
+                html += `</div>`;
+            }
+
+            tasksList.innerHTML = html;
+
+            // Restaurar estados dos checkboxes das tarefas
+            restoreTaskCheckStates();
         }
 
         // Converter hex para RGB
@@ -380,15 +540,28 @@
             return `${r}, ${g}, ${b}`;
         }
 
-        // Restaurar estados dos checkboxes
+        // Restaurar estados dos checkboxes da agenda
         function restoreCheckStates() {
-            const buttons = document.querySelectorAll('.check-btn');
+            const buttons = document.querySelectorAll('.check-btn:not([data-id^="task-"])');
             buttons.forEach(btn => {
                 const id = btn.getAttribute('data-id');
                 if (localStorage.getItem(id) === 'true') {
                     btn.textContent = '✓';
                     btn.classList.add('checked');
                     btn.parentElement.parentElement.classList.add('completed');
+                }
+            });
+        }
+
+        // Restaurar estados dos checkboxes das tarefas
+        function restoreTaskCheckStates() {
+            const taskButtons = document.querySelectorAll('.check-btn[data-id^="task-"]');
+            taskButtons.forEach(btn => {
+                const id = btn.getAttribute('data-id');
+                if (localStorage.getItem(id) === 'true') {
+                    btn.textContent = '✓';
+                    btn.classList.add('checked');
+                    btn.parentElement.classList.add('completed');
                 }
             });
         }
@@ -404,13 +577,21 @@
                     btn.textContent = '☐';
                     btn.classList.remove('checked');
                     localStorage.setItem(id, 'false');
+                    if (btn.parentElement.classList.contains('task-item')) {
+                        btn.parentElement.classList.remove('completed');
+                    } else {
+                        btn.parentElement.parentElement.classList.remove('completed');
+                    }
                 } else {
                     btn.textContent = '✓';
                     btn.classList.add('checked');
                     localStorage.setItem(id, 'true');
+                    if (btn.parentElement.classList.contains('task-item')) {
+                        btn.parentElement.classList.add('completed');
+                    } else {
+                        btn.parentElement.parentElement.classList.add('completed');
+                    }
                 }
-                
-                btn.parentElement.parentElement.classList.toggle('completed');
             }
         });
 
