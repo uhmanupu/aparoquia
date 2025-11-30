@@ -327,19 +327,19 @@
             ]
         };
 
-        // Santos e cores litúrgicas
+        // Santos e cores litúrgicas (baseado no Diretório da Canção Nova)
         const santos = {
-            "01": { nome: "Santa Bárbara", cor: "#d43f3f", tipo: "mártir" }, // Vermelho
-            "02": { nome: "São Bibiano", cor: "#ffffff", tipo: "santo" }, // Branco
-            "03": { nome: "Santo Francisco Xavier", cor: "#ffffff", tipo: "santo" }, // Branco
-            "04": { nome: "Santa Bárbara (Transl.)", cor: "#d43f3f", tipo: "mártir" }, // Vermelho
-            "05": { nome: "Santo Sabino", cor: "#ffffff", tipo: "santo" }, // Branco
-            "06": { nome: "Santo Nicolau de Mira", cor: "#ffffff", tipo: "santo" }, // Branco
-            "07": { nome: "Santa Maria da Graça", cor: "#ffffff", tipo: "santa" }, // Branco
-            "08": { nome: "Imaculada Conceição", cor: "#ffffff", tipo: "solene" } // Branco (Solenidade)
+            "01": { nome: "2ª-feira da 1ª Semana do Advento", cor: "#6a4c93", tipo: "ferial" }, // Roxo
+            "02": { nome: "S. Cromácio de Aquileia (Memória)", cor: "#6a4c93", tipo: "memoria" }, // Roxo
+            "03": { nome: "S. Francisco Xavier (Memória)", cor: "#6a4c93", tipo: "memoria" }, // Roxo
+            "04": { nome: "5ª-feira da 1ª Semana do Advento", cor: "#6a4c93", tipo: "ferial" }, // Roxo
+            "05": { nome: "S. Sabas (Memória)", cor: "#6a4c93", tipo: "memoria" }, // Roxo
+            "06": { nome: "Sábado da 1ª Semana do Advento", cor: "#6a4c93", tipo: "ferial" }, // Roxo
+            "07": { nome: "2º Domingo do Advento", cor: "#6a4c93", tipo: "dominical" }, // Roxo
+            "08": { nome: "Imaculada Conceição de Maria Santíssima (Solenidade)", cor: "#ffffff", tipo: "solenidade" } // Branco
         };
 
-        // Dias de Novena (Advento) → cor roxa
+        // Dias de Novena (Advento) → cor roxa (todos até dia 7)
         const diasNovena = ["01", "02", "03", "04", "05", "06", "07"];
         const corAdvento = "#6a4c93"; // Roxo
 
@@ -456,7 +456,7 @@
             const diaSemana = diasSemana[date.getDay()];
 
             // Aplicar cor litúrgica ao container
-            let corLiturgica = santos[dia]?.cor || "#ffffff";
+            let corLiturgica = santos[dia]?.cor || "#6a4c93";
             if (diasNovena.includes(dia)) {
                 corLiturgica = corAdvento; // Roxo para dias de novena (Advento)
             }
