@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+            background: url('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
             background-size: cover;
             margin: 0;
             padding: 0;
@@ -21,10 +21,10 @@
 
         .container {
             backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
             width: 95%;
             max-width: 1000px;
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -36,7 +36,7 @@
             color: #fff;
             font-size: 2rem;
             margin-bottom: 10px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
         .agenda-title {
@@ -45,7 +45,42 @@
             font-weight: bold;
             color: #fff;
             margin: 15px 0 25px;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+        /* Carrossel de datas */
+        .date-carousel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            padding: 10px 0;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.3) transparent;
+        }
+
+        .date-item {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-weight: bold;
+        }
+
+        .date-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.05);
+        }
+
+        .date-item.selected {
+            background: #ffd700;
+            color: #333;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
         }
 
         table {
@@ -53,22 +88,22 @@
             border-collapse: collapse;
             margin: 20px 0;
             font-size: 0.95rem;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
             border-radius: 12px;
             overflow: hidden;
         }
 
         th, td {
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 12px;
             text-align: left;
         }
 
         th {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.1);
             font-weight: bold;
             color: #fff;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.4);
         }
 
         tr:nth-child(even) {
@@ -130,13 +165,17 @@
 
         @media (max-width: 768px) {
             .container {
-                padding: 20px;
+                padding: 15px;
             }
             table {
                 font-size: 0.85rem;
             }
             .agenda-title {
                 font-size: 1.5rem;
+            }
+            .date-item {
+                padding: 8px 12px;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -146,68 +185,23 @@
         <h1>⛪ Sacristia - Agenda Paroquial</h1>
         <div class="agenda-title">Dezembro 2025</div>
 
+        <!-- Carrossel de datas -->
+        <div class="date-carousel" id="date-carousel">
+            <!-- Será preenchido dinamicamente -->
+        </div>
+
+        <!-- Tabela de agenda -->
         <table id="agenda-table">
             <thead>
                 <tr>
-                    <th>Dia</th>
-                    <th>Dia da semana</th>
                     <th>Horário</th>
                     <th>Local / Atividade</th>
                     <th>Padre</th>
                     <th>Feito?</th>
                 </tr>
             </thead>
-            <tbody>
-                <!-- Dia 01 -->
-                <tr><td rowspan="3">01</td><td rowspan="3">Segunda-feira</td><td>-----</td><td>Folga</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="01-1">☐</button></td></tr>
-                <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="01-2">☐</button></td></tr>
-                <tr><td>19:00</td><td class="highlight">4º dia da Novena</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="01-3">☐</button></td></tr>
-
-                <!-- Dia 02 -->
-                <tr><td rowspan="4">02</td><td rowspan="4">Terça-feira</td><td>09:00</td><td>Visita às obras</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="02-1">☐</button></td></tr>
-                <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="02-2">☐</button></td></tr>
-                <tr><td>19:00</td><td>Santa Missa Setor 5 – Bairro Morangal</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="02-3">☐</button></td></tr>
-                <tr><td>19:00</td><td class="highlight">5º dia da Novena</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="02-4">☐</button></td></tr>
-
-                <!-- Dia 03 -->
-                <tr><td rowspan="4">03</td><td rowspan="4">Quarta-feira</td><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="03-1">☐</button></td></tr>
-                <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="03-2">☐</button></td></tr>
-                <tr><td>19:00</td><td>Santa Missa Setor 6 – Bairro Torres</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="03-3">☐</button></td></tr>
-                <tr><td>19:00</td><td class="highlight">6º dia da Novena</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="03-4">☐</button></td></tr>
-
-                <!-- Dia 04 -->
-                <tr><td rowspan="5">04</td><td rowspan="5">Quinta-feira</td><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="04-1">☐</button></td></tr>
-                <tr><td>09:00</td><td>Santa Missa Abrigo São Camilo</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="04-2">☐</button></td></tr>
-                <tr><td>14:00</td><td>Visita aos enfermos</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="04-3">☐</button></td></tr>
-                <tr><td>19:00</td><td>Santa Missa Setor 7 – Bairro Vargem Alegre – Formatura</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="04-4">☐</button></td></tr>
-                <tr><td>19:00</td><td class="highlight">7º dia da Novena</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="04-5">☐</button></td></tr>
-
-                <!-- Dia 05 -->
-                <tr><td rowspan="4">05</td><td rowspan="4">Sexta-feira</td><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="05-1">☐</button></td></tr>
-                <tr><td>14:00</td><td>Visita às obras</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="05-2">☐</button></td></tr>
-                <tr><td>19:00</td><td class="highlight">8º dia da Novena</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="05-3">☐</button></td></tr>
-                <tr><td>-----</td><td>Compromisso</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="05-4">☐</button></td></tr>
-
-                <!-- Dia 06 -->
-                <tr><td rowspan="4">06</td><td rowspan="4">Sábado</td><td>11:00</td><td>Casamento - Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="06-1">☐</button></td></tr>
-                <tr><td>16:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="06-2">☐</button></td></tr>
-                <tr><td>18:00</td><td>Vigília Batismal</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="06-3">☐</button></td></tr>
-                <tr><td>19:00</td><td class="highlight">9º dia da Novena</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="06-4">☐</button></td></tr>
-
-                <!-- Dia 07 -->
-                <tr><td rowspan="6">07</td><td rowspan="6">Domingo</td><td>07:00</td><td class="highlight">Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="07-1">☐</button></td></tr>
-                <tr><td>08:00</td><td>Santa Missa Setor 6 – Bairro São José da Mantiqueira - Confissão Crismando</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="07-2">☐</button></td></tr>
-                <tr><td>09:00</td><td class="highlight">Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="07-3">☐</button></td></tr>
-                <tr><td>10:00</td><td class="highlight">Batizado – Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="07-4">☐</button></td></tr>
-                <tr><td>10:30</td><td>Santa Missa Setor 7 – Bairro Rio Acima II</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="07-5">☐</button></td></tr>
-                <tr><td>16:00</td><td>Santa Missa Setor 1 – Bairro Retirinho</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="07-6">☐</button></td></tr>
-                <tr><td></td><td></td><td>19:00</td><td class="highlight">Primeiras Vésperas</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="07-7">☐</button></td></tr>
-
-                <!-- Dia 08 -->
-                <tr><td rowspan="4">08</td><td rowspan="4">Segunda-feira<br><small>(Dia Padroeira)</small></td><td>-----</td><td>Folga</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="08-1">☐</button></td></tr>
-                <tr><td>10:00</td><td>Santa Missa Setor 7 – Bairro Roseirinha</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="08-2">☐</button></td></tr>
-                <tr><td>10:00</td><td class="highlight">Santa Missa Igreja Matriz</td><td class="padre">Pe. Aylton</td><td class="checkbox-cell"><button class="check-btn" data-id="08-3">☐</button></td></tr>
-                <tr><td>19:00</td><td class="highlight">Santa Missa Igreja Matriz</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="08-4">☐</button></td></tr>
+            <tbody id="agenda-body">
+                <!-- Será preenchido dinamicamente -->
             </tbody>
         </table>
 
@@ -217,10 +211,111 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        // Dados da agenda filtrados (sem folga, atendimento, visita)
+        const agenda = {
+            "01": [
+                { horario: "19:00", local: "4º dia da Novena", padre: "Pe. Erick", id: "01-1" }
+            ],
+            "02": [
+                { horario: "19:00", local: "Santa Missa Setor 5 – Bairro Morangal", padre: "Pe. Edimilson", id: "02-1" },
+                { horario: "19:00", local: "5º dia da Novena", padre: "Pe. Erick", id: "02-2" }
+            ],
+            "03": [
+                { horario: "19:00", local: "Santa Missa Setor 6 – Bairro Torres", padre: "Pe. Edimilson", id: "03-1" },
+                { horario: "19:00", local: "6º dia da Novena", padre: "Pe. Erick", id: "03-2" }
+            ],
+            "04": [
+                { horario: "09:00", local: "Santa Missa Abrigo São Camilo", padre: "Pe. Edimilson", id: "04-1" },
+                { horario: "19:00", local: "Santa Missa Setor 7 – Bairro Vargem Alegre – Formatura", padre: "Pe. Edimilson", id: "04-2" },
+                { horario: "19:00", local: "7º dia da Novena", padre: "Pe. Erick", id: "04-3" }
+            ],
+            "05": [
+                { horario: "19:00", local: "8º dia da Novena", padre: "Pe. Erick", id: "05-1" },
+                { horario: "-----", local: "Compromisso", padre: "Pe. Edimilson", id: "05-2" }
+            ],
+            "06": [
+                { horario: "11:00", local: "Casamento - Igreja Matriz", padre: "Pe. Edimilson", id: "06-1" },
+                { horario: "16:00", local: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson", id: "06-2" },
+                { horario: "18:00", local: "Vigília Batismal", padre: "Pe. Edimilson", id: "06-3" },
+                { horario: "19:00", local: "9º dia da Novena", padre: "Pe. Erick", id: "06-4" }
+            ],
+            "07": [
+                { horario: "07:00", local: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson", id: "07-1" },
+                { horario: "08:00", local: "Santa Missa Setor 6 – Bairro São José da Mantiqueira - Confissão Crismando", padre: "Pe. Erick", id: "07-2" },
+                { horario: "09:00", local: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson", id: "07-3" },
+                { horario: "10:00", local: "Batizado – Igreja Matriz", padre: "Pe. Edimilson", id: "07-4" },
+                { horario: "10:30", local: "Santa Missa Setor 7 – Bairro Rio Acima II", padre: "Pe. Erick", id: "07-5" },
+                { horario: "16:00", local: "Santa Missa Setor 1 – Bairro Retirinho", padre: "Pe. Edimilson", id: "07-6" },
+                { horario: "19:00", local: "Primeiras Vésperas", padre: "Pe. Erick", id: "07-7" }
+            ],
+            "08": [
+                { horario: "10:00", local: "Santa Missa Setor 7 – Bairro Roseirinha", padre: "Pe. Erick", id: "08-1" },
+                { horario: "10:00", local: "Santa Missa Igreja Matriz", padre: "Pe. Aylton", id: "08-2" },
+                { horario: "19:00", local: "Santa Missa Igreja Matriz", padre: "Pe. Erick", id: "08-3" }
+            ]
+        };
+
+        // Dias da semana
+        const diasSemana = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+
+        // Renderizar carrossel de datas
+        function renderDateCarousel() {
+            const carousel = document.getElementById('date-carousel');
+            let html = '';
+            for (let dia in agenda) {
+                const date = new Date(2025, 11, parseInt(dia)); // Dezembro 2025
+                const dayName = diasSemana[date.getDay()];
+                html += `<div class="date-item" data-dia="${dia}" title="${dayName}">${dia} ${dayName.slice(0,3)}</div>`;
+            }
+            carousel.innerHTML = html;
+
+            // Selecionar primeiro dia por padrão
+            const firstItem = carousel.querySelector('.date-item');
+            if (firstItem) {
+                firstItem.classList.add('selected');
+                renderAgenda(firstItem.getAttribute('data-dia'));
+            }
+
+            // Evento de clique nos dias
+            carousel.querySelectorAll('.date-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.querySelectorAll('.date-item').forEach(i => i.classList.remove('selected'));
+                    this.classList.add('selected');
+                    renderAgenda(this.getAttribute('data-dia'));
+                });
+            });
+        }
+
+        // Renderizar agenda para o dia selecionado
+        function renderAgenda(dia) {
+            const tbody = document.getElementById('agenda-body');
+            const items = agenda[dia] || [];
+            let html = '';
+
+            items.forEach(item => {
+                const isHighlighted = item.local.includes('Novena') || item.local.includes('Batizado') || item.local.includes('Casamento') || item.local.includes('Vigília');
+                const highlightClass = isHighlighted ? 'highlight' : '';
+                html += `
+                <tr>
+                    <td>${item.horario}</td>
+                    <td class="${highlightClass}">${item.local}</td>
+                    <td class="padre">${item.padre}</td>
+                    <td class="checkbox-cell">
+                        <button class="check-btn" data-id="${item.id}">☐</button>
+                    </td>
+                </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+
+            // Restaurar estados dos checkboxes
+            restoreCheckStates();
+        }
+
+        // Restaurar estados dos checkboxes
+        function restoreCheckStates() {
             const buttons = document.querySelectorAll('.check-btn');
-            
-            // Carrega estados salvos
             buttons.forEach(btn => {
                 const id = btn.getAttribute('data-id');
                 if (localStorage.getItem(id) === 'true') {
@@ -229,26 +324,32 @@
                     btn.parentElement.parentElement.classList.add('completed');
                 }
             });
+        }
 
-            // Salva estado ao clicar
-            buttons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const id = this.getAttribute('data-id');
-                    const isChecked = localStorage.getItem(id) === 'true';
-                    
-                    if (isChecked) {
-                        this.textContent = '☐';
-                        this.classList.remove('checked');
-                        localStorage.setItem(id, 'false');
-                    } else {
-                        this.textContent = '✓';
-                        this.classList.add('checked');
-                        localStorage.setItem(id, 'true');
-                    }
-                    
-                    this.parentElement.parentElement.classList.toggle('completed');
-                });
-            });
+        // Salvar estado ao clicar
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('check-btn')) {
+                const btn = e.target;
+                const id = btn.getAttribute('data-id');
+                const isChecked = localStorage.getItem(id) === 'true';
+                
+                if (isChecked) {
+                    btn.textContent = '☐';
+                    btn.classList.remove('checked');
+                    localStorage.setItem(id, 'false');
+                } else {
+                    btn.textContent = '✓';
+                    btn.classList.add('checked');
+                    localStorage.setItem(id, 'true');
+                }
+                
+                btn.parentElement.parentElement.classList.toggle('completed');
+            }
+        });
+
+        // Iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            renderDateCarousel();
         });
     </script>
 </body>
