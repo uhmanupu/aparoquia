@@ -236,21 +236,199 @@
             background: rgba(0, 0, 0, 0.4); 
             backdrop-filter: blur(5px); 
         }
-
-        /* NOVA REGRA: Oculta a interface, deixando apenas o fundo visível */
-        header, main, footer {
-            visibility: hidden;
-        }
     </style>
 
     <script>
         // ======================================================
-        // DADOS LITÚRGICOS E DA AGENDA (Mantidos para funcionalidade)
+        // ESTRUTURA SUPABASE PARA PERSISTÊNCIA DE DADOS
         // ======================================================
+        
+        const SUPABASE_URL = 'https://nvefvewyxiwgwmyutbmk.supabase.co'; 
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52ZWZ2ZXd5eGl3Z3dweXV0Ym1rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDExMjQ2NjYsImV4cCI6MjAxNjcwMDY2Nn0.7-jV5z5SgXlV70-RjLq-WJ7eN0fB3E1G1q-0u0-0u0'; 
+        const CHECKLIST_TABLE_NAME = 'sacristy_tasks'; 
+
+        let supabase = null; 
+
+        if (typeof window !== 'undefined' && window.supabase && SUPABASE_URL.includes('.supabase.co')) {
+            try {
+                 supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            } catch (e) {
+                console.error("Supabase Initialization Error:", e);
+            }
+        }
+        
+        async function saveChecklistStatus(massId, taskId, isChecked) {
+            if (!supabase) {
+                console.warn("Supabase não configurado. O status não será salvo.");
+                return;
+            }
+            const dataToUpsert = { mass_id: massId, task_id: taskId, is_checked: isChecked };
+            const { error } = await supabase
+                .from(CHECKLIST_TABLE_NAME)
+                .upsert(dataToUpsert, { onConflict: 'mass_id, task_id' });
+            if (error) { console.error("Erro ao salvar status da tarefa:", error.message); }
+        }
+
+        async function loadChecklistStatus(massId) {
+            if (!supabase) return [];
+            const { data, error } = await supabase
+                .from(CHECKLIST_TABLE_NAME)
+                .select('task_id')
+                .eq('mass_id', massId)
+                .eq('is_checked', true); 
+            if (error) { console.error("Erro ao carregar status da tarefa:", error.message); return []; }
+            return data.map(item => item.task_id); 
+        }
+        
+        // ======================================================
+        // DADOS LITÚRGICOS E DA AGENDA
+        // ======================================================
+
+        function getTodayAgendaString() {
+            const today = new Date();
+            const day = today.getDate().toString().padStart(2, '0');
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const dayNames = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+            
+            const monthAbbr = monthNames[today.getMonth()];
+            const dayOfWeek = dayNames[today.getDay()];
+            
+            return `${day}/${monthAbbr} (${dayOfWeek})`;
+        }
+        const TODAY_DATE = getTodayAgendaString(); 
+        
+        // AGENDA_DATA
+        const AGENDA_DATA = [
+            // Entradas de Novembro
+            { "date": "24/Nov (Segunda-feira)", "dayOfWeek": "SEG", "time": "18:00", "title": "Santa Missa", "location": "Igreja Sagrado Coração (Pe. Erick)" },
+            { "date": "25/Nov (Terça-feira)", "dayOfWeek": "TER", "time": "19:00", "title": "Santa Missa", "location": "Setor 4 – Bairro Pereiras (Pe. Edimilson)" },
+            { "date": "25/Nov (Terça-feira)", "dayOfWeek": "TER", "time": "20:00", "title": "Santa Missa", "location": "Setor 7 – Bairro Rio Acima II (Pe. Erick)" },
+            { "date": "26/Nov (Quarta-feira)", "dayOfWeek": "QUA", "time": "19:00", "title": "Santa Missa", "location": "Setor 1 – Bairro Mendes (Pe. Edimilson)" },
+            { "date": "26/Nov (Quarta-feira)", "dayOfWeek": "QUA", "time": "19:00", "title": "Santa Missa", "location": "Setor 4 – Bairro Água Limpa (Pe. Erick)" },
+            { "date": "27/Nov (Quinta-feira)", "dayOfWeek": "QUI", "time": "05:00", "title": "Santa Missa", "location": "Pedra Santa (Pe. Erick)" },
+            { "date": "27/Nov (Quinta-feira)", "dayOfWeek": "QUI", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
+            { "date": "27/Nov (Quinta-feira)", "dayOfWeek": "QUI", "time": "19:00", "title": "Santa Missa", "location": "Setor 1 – Bairro Muquém (Pe. Erick)" },
+            { "date": "28/Nov (Sexta-feira)", "dayOfWeek": "SEX", "time": "19:00", "title": "Santa Missa", "location": "Setor 7 – Bairro Vargem Alegre (Pe. Edimilson)" },
+            { "date": "29/Nov (Sábado)", "dayOfWeek": "SÁB", "time": "10:00", "title": "Santa Missa", "location": "Setor 1 – Bairro Virgem do Socorro (Pe. Erick)" },
+            { "date": "29/Nov (Sábado)", "dayOfWeek": "SÁB", "time": "19:00", "title": "Santa Missa", "location": "Setor 7 – Bairro Roseirinha (Pe. Edimilson)" },
+            
+            // 30/Nov (1º Domingo do Advento)
+            { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
+            { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
+            { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
+
+            // NOVAS ENTRADAS DE DEZEMBRO (Agenda Paroquial)
+            // 01 DEZ (Segunda-feira)
+            { "date": "01/Dec (Segunda-feira)", "dayOfWeek": "SEG", "time": "14:00", "title": "Atendimento", "location": "Local: Folga (Pe. Edimilson)" },
+            { "date": "01/Dec (Segunda-feira)", "dayOfWeek": "SEG", "time": "19:00", "title": "4º Dia da Novena", "location": "Local: Folga (Pe. Erick)" },
+
+            // 02 DEZ (Terça-feira)
+            { "date": "02/Dec (Terça-feira)", "dayOfWeek": "TER", "time": "09:00", "title": "Visita às Obras", "location": "Local: -- (Pe. Erick)" },
+            { "date": "02/Dec (Terça-feira)", "dayOfWeek": "TER", "time": "14:00", "title": "Atendimento", "location": "Local: Folga (Pe. Edimilson)" },
+            { "date": "02/Dec (Terça-feira)", "dayOfWeek": "TER", "time": "19:00", "title": "Santa Missa Setor 5 – Bairro Morangal", "location": "Local: Setor 5 – Bairro Morangal (Pe. Edimilson)" },
+            { "date": "02/Dec (Terça-feira)", "dayOfWeek": "TER", "time": "19:00", "title": "5º Dia da Novena", "location": "Local: -- (Pe. Erick)" },
+
+            // 03 DEZ (Quarta-feira)
+            { "date": "03/Dec (Quarta-feira)", "dayOfWeek": "QUA", "time": "09:00", "title": "Atendimento", "location": "Local: Folga (Pe. Edimilson)" },
+            { "date": "03/Dec (Quarta-feira)", "dayOfWeek": "QUA", "time": "14:00", "title": "Atendimento", "location": "Local: Folga (Pe. Erick)" },
+            { "date": "03/Dec (Quarta-feira)", "dayOfWeek": "QUA", "time": "19:00", "title": "Santa Missa Setor 6 – Bairro Torres", "location": "Local: Setor 6 – Bairro Torres (Pe. Edimilson)" },
+            { "date": "03/Dec (Quarta-feira)", "dayOfWeek": "QUA", "time": "19:00", "title": "6º Dia da Novena", "location": "Local: -- (Pe. Erick)" },
+
+            // 04 DEZ (Quinta-feira)
+            { "date": "04/Dec (Quinta-feira)", "dayOfWeek": "QUI", "time": "09:00", "title": "Atendimento", "location": "Local: Folga (Pe. Erick)" },
+            { "date": "04/Dec (Quinta-feira)", "dayOfWeek": "QUI", "time": "09:00", "title": "Santa Missa Abrigo São Camilo", "location": "Local: Abrigo São Camilo (Pe. Edimilson)" },
+            { "date": "04/Dec (Quinta-feira)", "dayOfWeek": "QUI", "time": "14:00", "title": "Visita aos Enfermos", "location": "Local: -- (Pe. Edimilson)" },
+            { "date": "04/Dec (Quinta-feira)", "dayOfWeek": "QUI", "time": "19:00", "title": "Santa Missa Setor 7 – Bairro Vargem Alegre", "location": "Local: Setor 7 – Bairro Vargem Alegre (Pe. Edimilson)" },
+            { "date": "04/Dec (Quinta-feira)", "dayOfWeek": "QUI", "time": "19:00", "title": "7º Dia da Novena", "location": "Local: -- (Pe. Erick)" },
+
+            // 05 DEZ (Sexta-feira)
+            { "date": "05/Dec (Sexta-feira)", "dayOfWeek": "SEX", "time": "09:00", "title": "Atendimento", "location": "Local: Folga (Pe. Edimilson)" },
+            { "date": "05/Dec (Sexta-feira)", "dayOfWeek": "SEX", "time": "14:00", "title": "Visita às Obras", "location": "Local: -- (Pe. Erick)" },
+            { "date": "05/Dec (Sexta-feira)", "dayOfWeek": "SEX", "time": "19:00", "title": "8º Dia da Novena", "location": "Local: -- (Pe. Erick)" },
+            { "date": "05/Dec (Sexta-feira)", "dayOfWeek": "SEX", "time": "19:00", "title": "Compromisso", "location": "Local: -- (Pe. Edimilson)" },
+
+            // 06 DEZ (Sábado)
+            { "date": "06/Dec (Sábado)", "dayOfWeek": "SÁB", "time": "11:00", "title": "Casamento", "location": "Local: Igreja Matriz (Pe. Edimilson)" },
+            { "date": "06/Dec (Sábado)", "dayOfWeek": "SÁB", "time": "16:00", "title": "Santa Missa", "location": "Local: Igreja Matriz (Pe. Edimilson)" },
+            { "date": "06/Dec (Sábado)", "dayOfWeek": "SÁB", "time": "18:00", "title": "Vigília Batismal", "location": "Local: Igreja Matriz (Pe. Edimilson)" },
+            { "date": "06/Dec (Sábado)", "dayOfWeek": "SÁB", "time": "19:00", "title": "9º Dia da Novena", "location": "Local: -- (Pe. Erick)" },
+
+            // 07 DEZ (Domingo) - 2º Domingo do Advento
+            { "date": "07/Dec (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Local: Igreja Matriz (Pe. Edimilson)" },
+            { "date": "07/Dec (Domingo)", "dayOfWeek": "DOM", "time": "08:00", "title": "Santa Missa Setor 6 – Bairro São José", "location": "Local: Setor 6 – Bairro São José (Pe. Erick)" },
+            { "date": "07/Dec (Domingo)", "dayOfWeek": "DOM", "time": "08:00", "title": "Confissão/Crisma", "location": "Local: Mantiqueira (Pe. Edimilson)" },
+            { "date": "07/Dec (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Local: Igreja Matriz (Pe. Edimilson)" },
+            { "date": "07/Dec (Domingo)", "dayOfWeek": "DOM", "time": "10:00", "title": "Batizado", "location": "Local: Igreja Matriz (Pe. Edimilson)" },
+            { "date": "07/Dec (Domingo)", "dayOfWeek": "DOM", "time": "10:30", "title": "Santa Missa Setor 7 – Bairro Rio Acima II", "location": "Local: Setor 7 – Bairro Rio Acima II (Pe. Erick)" },
+            { "date": "07/Dec (Domingo)", "dayOfWeek": "DOM", "time": "16:00", "title": "Santa Missa Setor 1 – Bairro Retirinho", "location": "Local: Setor 1 – Bairro Retirinho (Pe. Erick)" },
+            { "date": "07/Dec (Domingo)", "dayOfWeek": "DOM", "time": "19:00", "title": "Primeiras Vésperas", "location": "Local: -- (Pe. Edimilson)" },
+
+            // 08 DEZ (Segunda-feira) - Dia da Padroeira
+            { "date": "08/Dec (Segunda-feira)", "dayOfWeek": "SEG", "time": "10:00", "title": "Santa Missa", "location": "Local: Setor 7 – Bairro Roseirinha (Pe. Erick)" },
+            { "date": "08/Dec (Segunda-feira)", "dayOfWeek": "SEG", "time": "10:00", "title": "Santa Missa", "location": "Local: Igreja Matriz (Pe. Aylton)" },
+            { "date": "08/Dec (Segunda-feira)", "dayOfWeek": "SEG", "time": "19:00", "title": "Santa Missa", "location": "Local: Igreja Matriz (Pe. Erick)" },
+            
+            // Domigos importantes do Advento/Natal
+            { "date": "14/Dec (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
+            { "date": "14/Dec (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
+            { "date": "14/Dec (Domingo)", "dayOfWeek": "DOM", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
+
+            { "date": "21/Dec (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
+            { "date": "21/Dec (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
+            { "date": "21/Dec (Domingo)", "dayOfWeek": "DOM", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
+
+            { "date": "25/Dec (Quinta-feira)", "dayOfWeek": "QUI", "time": "19:00", "title": "Santa Missa Solene de Natal", "location": "Igreja Matriz (Pe. Erick)" },
+
+            { "date": "28/Dec (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
+            { "date": "28/Dec (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
+            { "date": "28/Dec (Domingo)", "dayOfWeek": "DOM", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
+        ];
+        
+        const SACRISTY_CHECKLIST = [
+            "Vinho", "Água", "Manustérgio", "Corporal", "Sanguíneo", "Hóstis G", "Hóstisa P", "Coleta", "Missal", "Lecionário"
+        ];
+        
+        const tarefasRotinaSemanal = {
+            0: ["Organizar Mala de missas (Diário)", "Organizar Mala do Hotel (Diário)", "Higienizar vasos sagrados (Após cada Missa)"],
+            1: ["Varrer e limpar a igreja", "Varrer o passeio e escadaria central", "Lavar banheiro (sacristia e social)", "Lavar e passar alfaias e toalhas", "Higienizar vasos sagrados das malas", "Organizar Mala de missas (Diário)"],
+            2: ["Lavar vestes de leitores", "Limpar bancos (Geral)", "Limpar portas (1ª Terça-feira do Mês)", "Organizar Mala de missas (Diário)"],
+            3: ["Organizar Armário sacristia", "Limpar imagens e altares (1ª e 3ª do mês)", "Organizar Mala de missas (Diário)"],
+            4: ["Limpar coro (Geral)", "Varrer o passeio e escadaria central", "Limpar coro, escadaria e batistério", "Passar vestes de leitores e toalha do altar", "Higienizar vasos sagrados das malas", "Organizar Mala de missas (Diário)"],
+            5: ["Varrer e limpar a igreja", "Lavar banheiro (sacristia e social)", "Lavar alfaias e toalhas", "Higienização geral de vasos sagrados (Cálice, âmbulas, etc.)", "Organizar Mala de missas (Diário)"],
+            6: ["Varrer o passeio e escadaria central", "Jogar água no passeio/escadaria", "Organizar Mala de missas (Diário)"]
+        };
+
+        // LITURGICAL_INFO_MAP
+        const LITURGICAL_INFO_MAP = { 
+            "24/Nov": { color: "VERMELHO", title: "Santos André Dung-Lac e Comp., Mártires (MO)" }, 
+            "25/Nov": { color: "VERMELHO", title: "Santa Catarina de Alexandria, Virgem e Mártir" }, 
+            "26/Nov": { color: "VERDE", title: "São Leonardo de Porto Maurício (Féria)" }, 
+            "27/Nov": { color: "BRANCO", title: "Nossa Senhora das Graças / Medalha Milagrosa (MF)" }, 
+            "28/Nov": { color: "VERDE", title: "Santa Catarina Labouré (Féria)" }, 
+            "29/Nov": { color: "VERMELHO", title: "São Saturnino de Tolosa (Memória)" }, 
+            
+            "30/Nov": { color: "ROXO", title: "1º Domingo do Advento (Ano A)" },
+
+            "01/Dec": { color: "ROXO", title: "Féria do Advento" },
+            "02/Dec": { color: "ROXO", title: "Féria do Advento" },
+            "03/Dec": { color: "ROXO", title: "São Francisco Xavier, Presbítero (MF)" },
+            "04/Dec": { color: "ROXO", title: "São João Damasceno, Presbítero (MF)" },
+            "05/Dec": { color: "ROXO", title: "Féria do Advento" },
+            "06/Dec": { color: "ROXO", title: "Féria do Advento" },
+            
+            "07/Dec": { color: "ROXO", title: "2º Domingo do Advento" },
+            
+            "08/Dec": { color: "BRANCO", title: "Nossa Senhora da Conceição (Solenidade)" },
+            
+            "14/Dec": { color: "ROXO", title: "3º Domingo do Advento" },
+            "21/Dec": { color: "ROSEO", title: "4º Domingo do Advento (Cor de Festejo)" }, 
+            "25/Dec": { color: "BRANCO", title: "Natal do Senhor (Solenidade)" },
+            "28/Dec": { color: "BRANCO", title: "Sagrada Família de Jesus, Maria e José (Festa)" }
+        };
 
         // CORES LITÚRGICAS (Principal, Suave/Translúcido, Mais Clara/Fundo) - PALETA FINAL
         const LITURGICAL_COLORS = {
-            // [Cor Principal (Degradê Start), Cor Suave/Translúcida, Cor Mais Clara]
+            // [Cor Principal (Degradê Start), Cor Suave/Translúcido, Cor Mais Clara]
             "VERMELHO": ["#DC5F5F", "#FF8C8C", "#FFDCDC"], 
             "BRANCO": ["#FDD835", "#FFF176", "#FFFDE7"],  
             "VERDE": ["#8BC34A", "#C5E1A5", "#F1F8E9"],    
@@ -258,19 +436,24 @@
             "ROSEO": ["#F06292", "#F8BBD0", "#FCE4EC"]    /* ROSA PINK FINAL */
         };
 
+        function hexToRgba(hex, alpha) {
+            let r = 0, g = 0, b = 0;
+            if (hex.length === 4) {
+                r = parseInt(hex[1] + hex[1], 16);
+                g = parseInt(hex[2] + hex[2], 16);
+                b = parseInt(hex[3] + hex[3], 16);
+            }
+            else if (hex.length === 7) {
+                r = parseInt(hex.substring(1, 3), 16);
+                g = parseInt(hex.substring(3, 5), 16);
+                b = parseInt(hex.substring(5, 7), 16);
+            } else {
+                return `rgba(0, 0, 0, ${alpha})`; 
+            }
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
         function getLiturgicalInfo(dateStr) { 
-            const LITURGICAL_INFO_MAP = { 
-                "24/Nov": { color: "VERMELHO", title: "Santos André Dung-Lac e Comp., Mártires (MO)" }, 
-                "25/Nov": { color: "VERMELHO", title: "Santa Catarina de Alexandria, Virgem e Mártir" }, 
-                "26/Nov": { color: "VERDE", title: "São Leonardo de Porto Maurício (Féria)" }, 
-                "27/Nov": { color: "BRANCO", title: "Nossa Senhora das Graças / Medalha Milagrosa (MF)" }, 
-                "28/Nov": { color: "VERDE", title: "Santa Catarina Labouré (Féria)" }, 
-                "29/Nov": { color: "VERMELHO", title: "São Saturnino de Tolosa (Memória)" }, 
-                "30/Nov": { color: "ROXO", title: "1º Domingo do Advento (Ano A)" },
-                "01/Dec": { color: "ROXO", title: "Féria do Advento" },
-                "08/Dec": { color: "BRANCO", title: "Nossa Senhora da Conceição (Solenidade)" },
-                "21/Dec": { color: "ROSEO", title: "4º Domingo do Advento (Cor de Festejo)" }, 
-            };
             const dayMonth = dateStr.split(' ')[0];
             const info = LITURGICAL_INFO_MAP[dayMonth];
             
@@ -281,26 +464,110 @@
             return { colorName: "VERDE", title: "Féria (Dia Comum)", colors: LITURGICAL_COLORS["VERDE"] };
         }
 
-        function getTodayAgendaString() {
-            const today = new Date();
-            const day = today.getDate().toString().padStart(2, '0');
-            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            const dayOfWeek = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"][today.getDay()];
-            return `${day}/${monthNames[today.getMonth()]} (${dayOfWeek})`;
-        }
-        const TODAY_DATE = getTodayAgendaString(); 
-        let currentSelectedDate = TODAY_DATE;
-
         function applyDynamicTheme(colors, liturgicalTitle) { 
             const [mainColorHex, translucentColorHex, lightBgColorHex] = colors; 
             
             // 1. Fundo Geral da Página (Degradê Litúrgico Principal -> Preto)
             document.documentElement.style.setProperty('--primary-highlight', mainColorHex); 
             
-            // Definições de cores para o Degradê Escuro (mantidas fixas no CSS acima, mas atualizam a cor inicial)
-            
+            // Aplica o Degradê Escuro (Cor Principal -> Preto)
+            document.body.style.background = `linear-gradient(to bottom, 
+                        ${mainColorHex} 0%, 
+                        #4a148c 40%,                 
+                        var(--bg-dark-end-color) 80%, 
+                        #000000 100%)`; 
+
+            const themeMeta = document.querySelector('meta[name="theme-color"]');
+            if (themeMeta) {
+                themeMeta.setAttribute('content', mainColorHex); 
+            }
+
             // 2. Cores Principais
             document.documentElement.style.setProperty('--agenda-card-solid-bg', mainColorHex); 
+
+            // 3. Cores Translúcidas (MANTÉM O LIQUID GLASS BRANCO SOBRE O FUNDO ESCURO)
+            document.documentElement.style.setProperty('--card-translucent-bg', 'rgba(255, 255, 255, 0.7)'); // Header
+            document.documentElement.style.setProperty('--date-button-inactive-bg', 'rgba(255, 255, 255, 0.4)'); // Botões
+            
+            // 4. Atualizar o santo do dia
+            const santoDoDiaElement = document.getElementById('santo-do-dia');
+            if (santoDoDiaElement) {
+                santoDoDiaElement.textContent = liturgicalTitle;
+            }
+        }
+        
+        let uniqueDates = [];
+        let currentSelectedDate = ''; 
+        
+        function getDateObjectFromAgendaString(agendaDateStr) {
+            const dateOnly = agendaDateStr.split('(')[0].trim(); 
+            const [day, monthAbbr] = dateOnly.split('/');
+            const currentYear = new Date().getFullYear(); 
+            const monthMap = {'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5, 'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11};
+            const monthIndex = monthMap[monthAbbr];
+            
+            if (monthIndex === undefined) return new Date(NaN);
+
+            let year = currentYear;
+            if (monthIndex > new Date().getMonth() && monthIndex === 11 && new Date().getMonth() === 0) {
+                 year--;
+            }
+
+            return new Date(year, monthIndex, parseInt(day));
+        }
+
+        function getUniqueDates() { 
+             const dates = AGENDA_DATA.map(item => item.date.trim());
+             uniqueDates = [...new Set(dates)];
+             
+             if (currentSelectedDate === '') {
+                 const initialDate = uniqueDates.find(date => date === TODAY_DATE);
+                 currentSelectedDate = initialDate || uniqueDates[0]; 
+             }
+        }
+        
+        function renderDatePicker() { 
+            getUniqueDates();
+            const container = document.getElementById('date-picker-container');
+            if (!container) return; 
+            container.innerHTML = ''; 
+            
+            uniqueDates.forEach(fullDate => {
+                const dayNumber = fullDate.split('/')[0];
+                const dayText = fullDate.split('(')[1].replace(')', '').substring(0, 3).toUpperCase();
+                
+                const liturgicalInfo = getLiturgicalInfo(fullDate);
+                const [bgColor, lightShadow, darkTone] = liturgicalInfo.colors;
+
+                const button = document.createElement('button');
+                button.className = 'date-button';
+                button.setAttribute('data-full-date', fullDate);
+                
+                button.style.setProperty('--active-bg-color', bgColor);
+                button.style.setProperty('--active-shadow-light', lightShadow);
+                
+                const activeTextColor = 'var(--text-active-button-color)'; 
+
+                button.style.color = (fullDate === currentSelectedDate) ? activeTextColor : 'var(--text-primary-color)';
+
+                button.innerHTML = `<span class="day-number">${dayNumber}</span><span class="day-text">${dayText}</span>`;
+                
+                button.onclick = () => selectDate(fullDate); 
+                
+                if (fullDate === currentSelectedDate) {
+                    button.classList.add('active');
+                }
+                
+                container.appendChild(button);
+            });
+            
+            // Centralização: Usa scrollIntoView para centralizar o botão ativo de forma nativa
+            const activeBtn = container.querySelector('.date-button.active');
+            if (activeBtn) {
+                setTimeout(() => {
+                    activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                }, 100); 
+            }
         }
         
         function selectDate(fullDate) { 
@@ -308,29 +575,180 @@
             
             const liturgicalInfo = getLiturgicalInfo(fullDate);
             applyDynamicTheme(liturgicalInfo.colors, liturgicalInfo.title); 
+
+            renderAgenda(); 
+            renderDatePicker(); 
+        }
+
+        // --- FUNÇÃO DE RENDERIZAÇÃO DE ROTINAS (Com Checkbox e Sincronização) ---
+        async function exibirRotinasDiarias(currentDate, container) {
+            
+            const date = getDateObjectFromAgendaString(currentDate); 
+            const diaDaSemana = date.getDay(); // 0 (Domingo) a 6 (Sábado)
+
+            // ID agora é único por dia (ROTINA_25Nov, ROTINA_26Nov, etc.)
+            const dateOnly = currentDate.split(' ')[0].replace('/', '');
+            const ROTINA_MASS_ID = `ROTINA_${dateOnly}`; // ID exclusivo por data
+            
+            const checkedTaskIds = await loadChecklistStatus(ROTINA_MASS_ID);
+            
+            const rotinasDoDiaBase = tarefasRotinaSemanal[diaDaSemana];
+            let rotinasDoDia = [...(rotinasDoDiaBase || [])]; 
+
+            // Lógica para Limpar Portas (1ª Terça-feira do Mês)
+            if (diaDaSemana === 2) { // Se for Terça-feira
+                let firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+                while (firstDayOfMonth.getDay() !== 2) { // 2 is Tuesday
+                    firstDayOfMonth.setDate(firstDayOfMonth.getDate() + 1);
+                }
+                const firstTuesdayOfMonth = firstDayOfMonth.getDate();
+
+                if (date.getDate() !== firstTuesdayOfMonth) {
+                    // Remove a tarefa de limpeza de portas se não for a primeira terça
+                    rotinasDoDia = rotinasDoDia.filter(t => !t.includes("Limpar portas"));
+                }
+            }
+
+
+            let rotinasHtml = '';
+
+            if (rotinasDoDia && rotinasDoDia.length > 0) {
+                rotinasDoDia.forEach((tarefa, index) => {
+                    const taskId = `rotina_task_${index}`;
+                    const isChecked = checkedTaskIds.includes(taskId);
+                    const checkedAttribute = isChecked ? 'checked' : '';
+                    const opacityClass = isChecked ? 'opacity-50' : '';
+
+                    rotinasHtml += `
+                        <li class="checklist-item ${opacityClass}">
+                            <input type="checkbox" id="rotina-task-${ROTINA_MASS_ID}-${index}" ${checkedAttribute}
+                                onclick="saveChecklistStatus('${ROTINA_MASS_ID}', '${taskId}', this.checked); this.parentNode.classList.toggle('opacity-50', this.checked);">
+                            <label for="rotina-task-${ROTINA_MASS_ID}-${index}" class="text-sm font-medium cursor-pointer">${tarefa}</label>
+                        </li>
+                    `;
+                });
+            } else {
+                rotinasHtml += `<div class="text-center py-2">Nenhuma tarefa de rotina específica programada.</div>`;
+            }
+            
+            // Injeta o bloco de Rotinas
+            container.innerHTML += `
+                <div class="task-header-card" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
+                    <h2>Tarefas</h2>
+                </div>
+                <div class="rotina-card checklist-content" style="border-top-left-radius: 0; border-top-right-radius: 0; padding-top: 1rem;">
+                    <ul id="lista-rotinas" class="rotina-list list-none space-y-1">
+                        ${rotinasHtml}
+                    </ul>
+                </div>
+            `;
+        }
+
+        // --- FUNÇÃO PRINCIPAL DE RENDERIZAÇÃO: AGENDA + ROTINAS ---
+        async function renderAgenda() {
+            const container = document.getElementById('agenda-content');
+            if (!container) return;
+            container.innerHTML = ''; // Limpa tudo para recarregar
+
+            const filteredData = AGENDA_DATA.filter(event => event.date.trim() === currentSelectedDate);
+            const dateOnly = currentSelectedDate.split(' ')[0];
+
+            // 1. Renderiza o cabeçalho "Tarefas" e a lista de Rotinas
+            await exibirRotinasDiarias(currentSelectedDate, container);
+
+            // 2. Renderiza a Missa do Dia ou mensagem de folga
+            if (filteredData.length > 0) {
+                
+                // Geração da Lista de Missas
+                for (const event of filteredData) {
+                    // ID SIMPLIFICADO: Data_Hora_Inicial (este já era único)
+                    const datePart = event.date.split(' ')[0].replace('/', ''); 
+                    const timePart = event.time.replace(':', ''); 
+                    const locationInitial = event.location.charAt(0); 
+                    const massId = `${datePart}_${timePart}_${locationInitial}`; 
+                    
+                    const checkedTaskIds = await loadChecklistStatus(massId); 
+                    
+                    const checklistHtml = SACRISTY_CHECKLIST.map((item, itemIndex) => {
+                        const taskId = `task${itemIndex}`; 
+                        const isChecked = checkedTaskIds.includes(taskId);
+                        const checkedAttribute = isChecked ? 'checked' : '';
+                        const opacityClass = isChecked ? 'opacity-50' : '';
+                        
+                        return `
+                            <li class="checklist-item ${opacityClass}">
+                                <input type="checkbox" id="task-${massId}-${taskId}" ${checkedAttribute}
+                                    onclick="saveChecklistStatus('${massId}', '${taskId}', this.checked); this.parentNode.classList.toggle('opacity-50', this.checked);">
+                                <label for="task-${massId}-${taskId}" class="text-sm font-medium cursor-pointer">${item}</label>
+                            </li>
+                        `;
+                    }).join('');
+                    
+                    // Estrutura do Card da Missa (Estilo da sua foto)
+                    const details = document.createElement('details');
+                    details.className = 'agenda-details';
+                    details.innerHTML = `
+                        <summary class="agenda-card" style="display: block;">
+                            <div class="time-title">${event.time} - ${event.title}</div>
+                            <div class="location-details">${event.location.split('(')[0].trim()}</div>
+                            <div class="priesto-name">(${event.location.split('(')[1].replace(')', '')})</div>
+                        </summary>
+                        <div class="checklist-content">
+                            <p class="text-xs opacity-70 mb-2">Marque os itens à medida que a Sacristia for preparada:</p>
+                            <ul class="list-none space-y-1">
+                                ${checklistHtml}
+                            </ul>
+                        </div>
+                    `;
+                    container.appendChild(details);
+                }
+            } else {
+                container.innerHTML += `<div class="liquid-glass p-6 rounded-xl text-center"><p>Nenhuma Santa Missa agendada. (Sacristia em folga 😉)</p></div>`;
+            }
+
+            lucide.createIcons();
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Encontra a cor litúrgica do dia atual ou a primeira data disponível
-            const TODAY_AGENDA_DATA = [
-                { "date": "27/Nov (Quinta-feira)", "dayOfWeek": "QUI", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
-                { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
-                // ... (outras datas para teste)
-            ];
-            
-            const initialDate = TODAY_AGENDA_DATA.find(item => item.date === TODAY_DATE)?.date || "30/Nov (Domingo)"; // Força Roxo para hoje ou uma cor inicial
-
-            const liturgicalInfo = getLiturgicalInfo(initialDate);
-            applyDynamicTheme(liturgicalInfo.colors, liturgicalInfo.title); 
-
+            getUniqueDates(); 
+            const initialDate = uniqueDates.find(date => date === TODAY_DATE);
+            selectDate(initialDate || uniqueDates[0]); 
         });
 
     </script>
 </head>
 <body class="min-h-screen flex flex-col">
-    <header class="header-bg">...</header>
-    <main class="flex-1 max-w-xl mx-auto px-4 py-6 w-full">...</main>
-    <footer>...</footer>
+    
+    <header class="header-bg">
+        <div class="max-w-xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-start gap-3">
+                <i data-lucide="cross" class="w-8 h-8 header-highlight-text mt-1"></i>
+                <div>
+                    <h1 class="text-2xl font-extrabold header-title-text leading-none">SACRISTIA</h1>
+                    <p id="santo-do-dia"></p>
+                </div>
+            </div>
+            <div class="flex items-center">
+                <div class="text-right">
+                    <p class="text-xs font-bold header-highlight-text">Ano Jubilar</p>
+                    <p class="text-lg font-bold header-title-text whitespace-nowrap">1866 – 2026</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-xl mx-auto px-4 py-6 w-full">
+        <div id="agenda-section">
+            <div class="mb-6">
+                <div id="date-picker-container" class="date-picker-scroll"></div>
+            </div>
+            <div id="agenda-content" class="space-y-4"></div>
+        </div>
+    </main>
+    
+    <footer>
+        Desenvolvido por Emanuel Uchôas
+    </footer>
     
 </body>
 </html>
