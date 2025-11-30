@@ -3,84 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sacristia - Agenda Paroquial</title>
+    <title>⛪ Sacristia - Agenda Paroquial</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f9f7f4;
-            color: #333;
+            background: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+            background-size: cover;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #fff;
             line-height: 1.6;
         }
+
         .container {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            width: 95%;
             max-width: 1000px;
-            margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow-x: auto;
         }
+
         h1 {
             text-align: center;
-            color: #5a3d2b;
-            border-bottom: 2px solid #8b5e3c;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+            color: #fff;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
+
         .agenda-title {
             text-align: center;
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: bold;
-            color: #5a3d2b;
-            margin: 20px 0;
+            color: #fff;
+            margin: 15px 0 25px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.4);
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
             font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
         }
+
         th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px;
             text-align: left;
         }
+
         th {
-            background-color: #f2f2f2;
+            background: rgba(255, 255, 255, 0.15);
             font-weight: bold;
-            color: #5a3d2b;
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
+
         tr:nth-child(even) {
-            background-color: #fafafa;
+            background: rgba(255, 255, 255, 0.05);
         }
+
         .checkbox-cell {
             text-align: center;
         }
-        input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
+
+        .check-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            color: #fff;
+            font-size: 1.2rem;
         }
-        .completed {
-            text-decoration: line-through;
-            color: #888;
+
+        .check-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
         }
+
+        .check-btn.checked {
+            background: #ffd700;
+            color: #333;
+        }
+
         .padre {
-            color: #2c5aa0;
+            color: #ffd700;
             font-weight: bold;
         }
+
         .highlight {
-            background-color: #fffacd;
+            background-color: rgba(255, 255, 255, 0.2);
             font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
         }
+
+        .completed td {
+            opacity: 0.7;
+            text-decoration: line-through;
+        }
+
         .footer {
             text-align: center;
             margin-top: 30px;
             font-size: 0.85rem;
-            color: #777;
+            color: rgba(255, 255, 255, 0.7);
         }
+
         @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
             table {
                 font-size: 0.85rem;
             }
@@ -108,55 +159,55 @@
             </thead>
             <tbody>
                 <!-- Dia 01 -->
-                <tr><td rowspan="3">01</td><td rowspan="3">Segunda-feira</td><td>-----</td><td>Folga</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><input type="checkbox" data-id="01-1"></td></tr>
-                <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><input type="checkbox" data-id="01-2"></td></tr>
-                <tr><td>19:00</td><td class="highlight">4º dia da Novena</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><input type="checkbox" data-id="01-3"></td></tr>
+                <tr><td rowspan="3">01</td><td rowspan="3">Segunda-feira</td><td>-----</td><td>Folga</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="01-1">☐</button></td></tr>
+                <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="01-2">☐</button></td></tr>
+                <tr><td>19:00</td><td class="highlight">4º dia da Novena</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="01-3">☐</button></td></tr>
 
                 <!-- Dia 02 -->
-                <tr><td rowspan="4">02</td><td rowspan="4">Terça-feira</td><td>09:00</td><td>Visita às obras</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><input type="checkbox" data-id="02-1"></td></tr>
-                <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><input type="checkbox" data-id="02-2"></td></tr>
-                <tr><td>19:00</td><td>Santa Missa Setor 5 – Bairro Morangal</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><input type="checkbox" data-id="02-3"></td></tr>
-                <tr><td>19:00</td><td class="highlight">5º dia da Novena</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><input type="checkbox" data-id="02-4"></td></tr>
+                <tr><td rowspan="4">02</td><td rowspan="4">Terça-feira</td><td>09:00</td><td>Visita às obras</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="02-1">☐</button></td></tr>
+                <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="02-2">☐</button></td></tr>
+                <tr><td>19:00</td><td>Santa Missa Setor 5 – Bairro Morangal</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="02-3">☐</button></td></tr>
+                <tr><td>19:00</td><td class="highlight">5º dia da Novena</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="02-4">☐</button></td></tr>
 
                 <!-- Dia 03 -->
-                <tr><td rowspan="4">03</td><td rowspan="4">Quarta-feira</td><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><input type="checkbox" data-id="03-1"></td></tr>
-                <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><input type="checkbox" data-id="03-2"></td></tr>
-                <tr><td>19:00</td><td>Santa Missa Setor 6 – Bairro Torres</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><input type="checkbox" data-id="03-3"></td></tr>
-                <tr><td>19:00</td><td class="highlight">6º dia da Novena</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><input type="checkbox" data-id="03-4"></td></tr>
+                <tr><td rowspan="4">03</td><td rowspan="4">Quarta-feira</td><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="03-1">☐</button></td></tr>
+                <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="03-2">☐</button></td></tr>
+                <tr><td>19:00</td><td>Santa Missa Setor 6 – Bairro Torres</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="03-3">☐</button></td></tr>
+                <tr><td>19:00</td><td class="highlight">6º dia da Novena</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="03-4">☐</button></td></tr>
 
                 <!-- Dia 04 -->
-                <tr><td rowspan="5">04</td><td rowspan="5">Quinta-feira</td><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><input type="checkbox" data-id="04-1"></td></tr>
-                <tr><td>09:00</td><td>Santa Missa Abrigo São Camilo</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><input type="checkbox" data-id="04-2"></td></tr>
-                <tr><td>14:00</td><td>Visita aos enfermos</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><input type="checkbox" data-id="04-3"></td></tr>
-                <tr><td>19:00</td><td>Santa Missa Setor 7 – Bairro Vargem Alegre – Formatura</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><input type="checkbox" data-id="04-4"></td></tr>
-                <tr><td>19:00</td><td class="highlight">7º dia da Novena</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><input type="checkbox" data-id="04-5"></td></tr>
+                <tr><td rowspan="5">04</td><td rowspan="5">Quinta-feira</td><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="04-1">☐</button></td></tr>
+                <tr><td>09:00</td><td>Santa Missa Abrigo São Camilo</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="04-2">☐</button></td></tr>
+                <tr><td>14:00</td><td>Visita aos enfermos</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="04-3">☐</button></td></tr>
+                <tr><td>19:00</td><td>Santa Missa Setor 7 – Bairro Vargem Alegre – Formatura</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="04-4">☐</button></td></tr>
+                <tr><td>19:00</td><td class="highlight">7º dia da Novena</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="04-5">☐</button></td></tr>
 
                 <!-- Dia 05 -->
-                <tr><td rowspan="4">05</td><td rowspan="4">Sexta-feira</td><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><input type="checkbox" data-id="05-1"></td></tr>
-                <tr><td>14:00</td><td>Visita às obras</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><input type="checkbox" data-id="05-2"></td></tr>
-                <tr><td>19:00</td><td class="highlight">8º dia da Novena</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><input type="checkbox" data-id="05-3"></td></tr>
-                <tr><td>-----</td><td>Compromisso</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><input type="checkbox" data-id="05-4"></td></tr>
+                <tr><td rowspan="4">05</td><td rowspan="4">Sexta-feira</td><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="05-1">☐</button></td></tr>
+                <tr><td>14:00</td><td>Visita às obras</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="05-2">☐</button></td></tr>
+                <tr><td>19:00</td><td class="highlight">8º dia da Novena</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="05-3">☐</button></td></tr>
+                <tr><td>-----</td><td>Compromisso</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="05-4">☐</button></td></tr>
 
                 <!-- Dia 06 -->
-                <tr><td rowspan="4">06</td><td rowspan="4">Sábado</td><td>11:00</td><td>Casamento - Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><input type="checkbox" data-id="06-1"></td></tr>
-                <tr><td>16:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><input type="checkbox" data-id="06-2"></td></tr>
-                <tr><td>18:00</td><td>Vigília Batismal</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><input type="checkbox" data-id="06-3"></td></tr>
-                <tr><td>19:00</td><td class="highlight">9º dia da Novena</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><input type="checkbox" data-id="06-4"></td></tr>
+                <tr><td rowspan="4">06</td><td rowspan="4">Sábado</td><td>11:00</td><td>Casamento - Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="06-1">☐</button></td></tr>
+                <tr><td>16:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="06-2">☐</button></td></tr>
+                <tr><td>18:00</td><td>Vigília Batismal</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="06-3">☐</button></td></tr>
+                <tr><td>19:00</td><td class="highlight">9º dia da Novena</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="06-4">☐</button></td></tr>
 
                 <!-- Dia 07 -->
-                <tr><td rowspan="6">07</td><td rowspan="6">Domingo</td><td>07:00</td><td class="highlight">Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><input type="checkbox" data-id="07-1"></td></tr>
-                <tr><td>08:00</td><td>Santa Missa Setor 6 – Bairro São José da Mantiqueira - Confissão Crismando</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><input type="checkbox" data-id="07-2"></td></tr>
-                <tr><td>09:00</td><td class="highlight">Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><input type="checkbox" data-id="07-3"></td></tr>
-                <tr><td>10:00</td><td class="highlight">Batizado – Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><input type="checkbox" data-id="07-4"></td></tr>
-                <tr><td>10:30</td><td>Santa Missa Setor 7 – Bairro Rio Acima II</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><input type="checkbox" data-id="07-5"></td></tr>
-                <tr><td>16:00</td><td>Santa Missa Setor 1 – Bairro Retirinho</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><input type="checkbox" data-id="07-6"></td></tr>
-                <tr><td></td><td></td><td>19:00</td><td class="highlight">Primeiras Vésperas</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><input type="checkbox" data-id="07-7"></td></tr>
+                <tr><td rowspan="6">07</td><td rowspan="6">Domingo</td><td>07:00</td><td class="highlight">Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="07-1">☐</button></td></tr>
+                <tr><td>08:00</td><td>Santa Missa Setor 6 – Bairro São José da Mantiqueira - Confissão Crismando</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="07-2">☐</button></td></tr>
+                <tr><td>09:00</td><td class="highlight">Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="07-3">☐</button></td></tr>
+                <tr><td>10:00</td><td class="highlight">Batizado – Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="07-4">☐</button></td></tr>
+                <tr><td>10:30</td><td>Santa Missa Setor 7 – Bairro Rio Acima II</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="07-5">☐</button></td></tr>
+                <tr><td>16:00</td><td>Santa Missa Setor 1 – Bairro Retirinho</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="07-6">☐</button></td></tr>
+                <tr><td></td><td></td><td>19:00</td><td class="highlight">Primeiras Vésperas</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="07-7">☐</button></td></tr>
 
                 <!-- Dia 08 -->
-                <tr><td rowspan="4">08</td><td rowspan="4">Segunda-feira<br><small>(Dia Padroeira)</small></td><td>-----</td><td>Folga</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><input type="checkbox" data-id="08-1"></td></tr>
-                <tr><td>10:00</td><td>Santa Missa Setor 7 – Bairro Roseirinha</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><input type="checkbox" data-id="08-2"></td></tr>
-                <tr><td>10:00</td><td class="highlight">Santa Missa Igreja Matriz</td><td class="padre">Pe. Aylton</td><td class="checkbox-cell"><input type="checkbox" data-id="08-3"></td></tr>
-                <tr><td>19:00</td><td class="highlight">Santa Missa Igreja Matriz</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><input type="checkbox" data-id="08-4"></td></tr>
+                <tr><td rowspan="4">08</td><td rowspan="4">Segunda-feira<br><small>(Dia Padroeira)</small></td><td>-----</td><td>Folga</td><td class="padre">Pe. Edimilson</td><td class="checkbox-cell"><button class="check-btn" data-id="08-1">☐</button></td></tr>
+                <tr><td>10:00</td><td>Santa Missa Setor 7 – Bairro Roseirinha</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="08-2">☐</button></td></tr>
+                <tr><td>10:00</td><td class="highlight">Santa Missa Igreja Matriz</td><td class="padre">Pe. Aylton</td><td class="checkbox-cell"><button class="check-btn" data-id="08-3">☐</button></td></tr>
+                <tr><td>19:00</td><td class="highlight">Santa Missa Igreja Matriz</td><td class="padre">Pe. Erick</td><td class="checkbox-cell"><button class="check-btn" data-id="08-4">☐</button></td></tr>
             </tbody>
         </table>
 
@@ -167,27 +218,35 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const buttons = document.querySelectorAll('.check-btn');
             
             // Carrega estados salvos
-            checkboxes.forEach(cb => {
-                const id = cb.getAttribute('data-id');
+            buttons.forEach(btn => {
+                const id = btn.getAttribute('data-id');
                 if (localStorage.getItem(id) === 'true') {
-                    cb.checked = true;
-                    cb.parentElement.parentElement.classList.add('completed');
+                    btn.textContent = '✓';
+                    btn.classList.add('checked');
+                    btn.parentElement.parentElement.classList.add('completed');
                 }
             });
 
             // Salva estado ao clicar
-            checkboxes.forEach(cb => {
-                cb.addEventListener('change', function() {
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function() {
                     const id = this.getAttribute('data-id');
-                    localStorage.setItem(id, this.checked);
-                    if (this.checked) {
-                        this.parentElement.parentElement.classList.add('completed');
+                    const isChecked = localStorage.getItem(id) === 'true';
+                    
+                    if (isChecked) {
+                        this.textContent = '☐';
+                        this.classList.remove('checked');
+                        localStorage.setItem(id, 'false');
                     } else {
-                        this.parentElement.parentElement.classList.remove('completed');
+                        this.textContent = '✓';
+                        this.classList.add('checked');
+                        localStorage.setItem(id, 'true');
                     }
+                    
+                    this.parentElement.parentElement.classList.toggle('completed');
                 });
             });
         });
