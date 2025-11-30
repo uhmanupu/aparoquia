@@ -285,7 +285,7 @@
         
         // AGENDA_DATA ATUALIZADA COM COMPROMISSOS DE DEZEMBRO
         const AGENDA_DATA = [
-            // Entradas de Novembro (Mantidas)
+            // Entradas de Novembro
             { "date": "24/Nov (Segunda-feira)", "dayOfWeek": "SEG", "time": "18:00", "title": "Santa Missa", "location": "Igreja Sagrado Coração (Pe. Erick)" },
             { "date": "25/Nov (Terça-feira)", "dayOfWeek": "TER", "time": "19:00", "title": "Santa Missa", "location": "Setor 4 – Bairro Pereiras (Pe. Edimilson)" },
             { "date": "25/Nov (Terça-feira)", "dayOfWeek": "TER", "time": "20:00", "title": "Santa Missa", "location": "Setor 7 – Bairro Rio Acima II (Pe. Erick)" },
@@ -298,7 +298,7 @@
             { "date": "29/Nov (Sábado)", "dayOfWeek": "SÁB", "time": "10:00", "title": "Santa Missa", "location": "Setor 1 – Bairro Virgem do Socorro (Pe. Erick)" },
             { "date": "29/Nov (Sábado)", "dayOfWeek": "SÁB", "time": "19:00", "title": "Santa Missa", "location": "Setor 7 – Bairro Roseirinha (Pe. Edimilson)" },
             
-            // 30/Nov (1º Domingo do Advento) - Mantido
+            // 30/Nov (1º Domingo do Advento)
             { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
             { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
             { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
@@ -354,7 +354,7 @@
             { "date": "08/Dec (Segunda-feira)", "dayOfWeek": "SEG", "time": "10:00", "title": "Santa Missa", "location": "Local: Igreja Matriz (Pe. Aylton)" },
             { "date": "08/Dec (Segunda-feira)", "dayOfWeek": "SEG", "time": "19:00", "title": "Santa Missa", "location": "Local: Igreja Matriz (Pe. Erick)" },
             
-            // Domigos importantes do Advento/Natal (Mantidos)
+            // Domigos importantes do Advento/Natal
             { "date": "14/Dec (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
             { "date": "14/Dec (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
             { "date": "14/Dec (Domingo)", "dayOfWeek": "DOM", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
@@ -478,11 +478,7 @@
         
         let uniqueDates = [];
         let currentSelectedDate = ''; 
-        let touchstartX = 0;
-        let touchstartY = 0;
-        const SWIPE_THRESHOLD = 80;  
-
-        // Função utilitária para converter a data do AGENDA_DATA em objeto Date
+        
         function getDateObjectFromAgendaString(agendaDateStr) {
             const dateOnly = agendaDateStr.split('(')[0].trim(); 
             const [day, monthAbbr] = dateOnly.split('/');
@@ -514,7 +510,7 @@
             getUniqueDates();
             const container = document.getElementById('date-picker-container');
             if (!container) return; 
-            container.innerHTML = ''; // CORREÇÃO: Limpa o container para re-renderizar todos os botões, incluindo o ativo
+            container.innerHTML = ''; // Re-renderiza todos os botões para garantir a consistência
             
             uniqueDates.forEach(fullDate => {
                 const dayNumber = fullDate.split('/')[0];
@@ -545,12 +541,18 @@
                 container.appendChild(button);
             });
             
-            // Scroll para o dia ativo
+            // CORREÇÃO: Força o scroll para o dia ativo, centralizando-o
             const activeBtn = container.querySelector('.date-button.active');
             if (activeBtn) {
+                // Usa setTimeout para garantir que o layout foi renderizado antes de tentar rolar
                 setTimeout(() => {
-                    container.scrollLeft = activeBtn.offsetLeft - (container.offsetWidth / 2) + (activeBtn.offsetWidth / 2);
-                }, 50); 
+                    const scrollContainerWidth = container.offsetWidth;
+                    const activeBtnWidth = activeBtn.offsetWidth;
+                    const activeBtnOffset = activeBtn.offsetLeft;
+                    
+                    // Calcula a posição para centralizar o botão
+                    container.scrollLeft = activeBtnOffset - (scrollContainerWidth / 2) + (activeBtnWidth / 2);
+                }, 100); 
             }
         }
         
