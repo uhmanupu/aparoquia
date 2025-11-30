@@ -26,22 +26,22 @@
         /* ================================================= */
         :root {
             /* Definidas dinamicamente pelo JS */
-            --bg-light-color: #FCE4EC; /* Cor Litúrgica Mais Clara */
-            --card-translucent-bg: rgba(255, 255, 255, 0.8); /* Fundo Liquid Glass (Branco Translúcido) */
-            --agenda-card-solid-bg: #F06292; /* Cor Principal do Card da Agenda */
-            --date-button-inactive-bg: rgba(255, 255, 255, 0.7); /* Fundo dos Botões Inativos (Liquid Glass) */
-            --primary-highlight: #F06299; /* Cor do Botão Ativo e Base do Degradê Escuro */
+            --bg-light-color: #FCE4EC; 
+            --card-translucent-bg: rgba(255, 255, 255, 0.7); /* MAIS TRANSPARENTE: Base Liquid Glass para Header */
+            --agenda-card-solid-bg: #F06292; 
+            --date-button-inactive-bg: rgba(255, 255, 255, 0.5); /* MAIS TRANSPARENTE: Liquid Glass para Botões */
+            --primary-highlight: #F06299; 
 
             /* Variáveis de Texto (FIXO: PRETO, exceto botão ativo) */
-            --text-primary-color: #111111; /* Cor principal do texto (PRETO) */
-            --text-active-button-color: #FFFFFF; /* Cor do texto no botão de data ATIVO (BRANCO) */
-            --text-footer-color: #CCCCCC; /* Cor clara para o footer no fundo preto */
-            --glass-border: rgba(255, 255, 255, 0.2); /* Borda mais suave para Liquid Glass */
+            --text-primary-color: #111111; 
+            --text-active-button-color: #FFFFFF; 
+            --text-footer-color: #CCCCCC; 
+            --glass-border: rgba(255, 255, 255, 0.2); 
         }
         
         body { 
             font-family: 'Merriweather', serif;
-            /* DEGRADÊ NOVO: DA COR LITÚRGICA PRINCIPAL PARA O PRETO */
+            /* DEGRADÊ: DA COR LITÚRGICA PRINCIPAL PARA O PRETO */
             background: linear-gradient(to bottom, var(--primary-highlight) 0%, #000000 80%);
             color: var(--text-primary-color); 
             min-height: 100vh;
@@ -50,7 +50,7 @@
             transition: background 0.6s ease;
         }
 
-        /* LIQUID GLASS CARD (Branco Translúcido sobre o fundo degradê escuro) */
+        /* LIQUID GLASS CARD (Aplicação geral de desfoque) */
         .liquid-glass {
             background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(12px);
@@ -65,9 +65,9 @@
                 inset 0 -1px 0 rgba(0,0,0,0.05);
         }
 
-        /* HEADER LIQUID GLASS */
+        /* HEADER LIQUID GLASS - Transparência ajustada */
         .header-bg {
-            background: var(--card-translucent-bg);
+            background: var(--card-translucent-bg); /* Usando a variável de Glass mais transparente */
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--glass-border);
@@ -89,7 +89,7 @@
             filter: drop-shadow(1px 1px 0 #FFFFFF) drop-shadow(-1px -1px 0 #FFFFFF) drop-shadow(1px -1px 0 #FFFFFF) drop-shadow(-1px 1px 0 #FFFFFF);
         }
 
-        /* DATE BUTTON - LIQUID GLASS */
+        /* DATE BUTTON - Liquid Glass ajustado */
         .date-picker-scroll {
             overflow-x: auto;
             white-space: nowrap;
@@ -114,7 +114,7 @@
             flex-shrink: 0;
             border: 1px solid rgba(0, 0, 0, 0.1);
             cursor: pointer;
-            background: var(--date-button-inactive-bg); 
+            background: var(--date-button-inactive-bg); /* Fundo mais transparente */
             backdrop-filter: blur(6px);
             -webkit-backdrop-filter: blur(6px);
             color: var(--text-primary-color);
@@ -144,8 +144,8 @@
         /* AGENDA CARD - SÓLIDO (Cor Litúrgica Principal) */
         .agenda-card, .task-header-card {
             background: var(--agenda-card-solid-bg);
-            color: var(--text-active-button-color); /* Texto deve ser BRANCO sobre a cor principal */
-            text-shadow: 0 1px 2px rgba(0,0,0,0.4); /* Sombra para o texto branco */
+            color: var(--text-active-button-color); 
+            text-shadow: 0 1px 2px rgba(0,0,0,0.4); 
             padding: 1.5rem;
             text-align: center;
             margin-bottom: 0;
@@ -153,12 +153,15 @@
             box-shadow: 0 6px 16px rgba(0,0,0,0.2);
             position: relative;
         }
-        .task-header-card h2 { color: var(--text-active-button-color); } /* Texto BRANCO em Tarefas */
+        .task-header-card h2 { color: var(--text-active-button-color); } 
 
+        /* Rotina e Checklist (Liquid Glass) */
         .rotina-card {
             text-align: left;
-            background: rgba(255, 255, 255, 0.9); /* Liquid Glass (Branco Translúcido) */
-            color: var(--text-primary-color); /* Texto PRETO sobre o Liquid Glass */
+            background: rgba(255, 255, 255, 0.9); /* Liquid Glass opaco */
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px); 
+            color: var(--text-primary-color); 
             margin-top: -1px;
             border-top-left-radius: 0;
             border-top-right-radius: 0;
@@ -166,11 +169,11 @@
         }
 
         .checklist-content {
-            background: rgba(255, 255, 255, 0.95); /* Liquid Glass (Branco Translúcido) */
+            background: rgba(255, 255, 255, 0.95); /* Liquid Glass ainda mais opaco para legibilidade */
             border-top: 1px solid rgba(0,0,0,0.1);
             border-radius: 0 0 1.5rem 1.5rem;
             padding: 1.2rem;
-            color: var(--text-primary-color); /* Texto PRETO */
+            color: var(--text-primary-color); 
             margin-top: -1px;
         }
 
@@ -279,7 +282,7 @@
         function getTodayAgendaString() {
             const today = new Date();
             const day = today.getDate().toString().padStart(2, '0');
-            const monthNames = ["Jan", "Feb", "Mar", "Apr", "3", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; // Corrigido 'May' para '3' (Erro de digitação anterior)
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
             const dayNames = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
             
             const monthAbbr = monthNames[today.getMonth()];
@@ -420,7 +423,7 @@
 
         // CORES LITÚRGICAS (Principal, Suave/Translúcido, Mais Clara/Fundo) - PALETA FINAL
         const LITURGICAL_COLORS = {
-            // [Cor Principal, Cor Suave/Translúcida, Cor Mais Clara (Não usada no degradê escuro)]
+            // [Cor Principal (Degradê Start), Cor Suave/Translúcida, Cor Mais Clara]
             "VERMELHO": ["#DC5F5F", "#FF8C8C", "#FFDCDC"], 
             "BRANCO": ["#FDD835", "#FFF176", "#FFFDE7"],  
             "VERDE": ["#8BC34A", "#C5E1A5", "#F1F8E9"],    
@@ -463,20 +466,20 @@
             document.documentElement.style.setProperty('--bg-light-color', lightBgColorHex); 
             document.documentElement.style.setProperty('--primary-highlight', mainColorHex); // Define a cor principal
             
-            // Ajusta o corpo para o degradê escuro, começando na cor principal
+            // Aplica o Degradê Escuro (Cor Principal -> Preto)
             document.body.style.background = `linear-gradient(to bottom, ${mainColorHex} 0%, #000000 80%)`; 
 
             const themeMeta = document.querySelector('meta[name="theme-color"]');
             if (themeMeta) {
-                themeMeta.setAttribute('content', mainColorHex); // A meta tag usa a cor principal
+                themeMeta.setAttribute('content', mainColorHex); 
             }
 
             // 2. Cores Principais
             document.documentElement.style.setProperty('--agenda-card-solid-bg', mainColorHex); 
 
-            // 3. Cores Translúcidas (Header e Botões Inativos voltam a ser Liquid Glass/Branco)
-            document.documentElement.style.setProperty('--card-translucent-bg', 'rgba(255, 255, 255, 0.8)'); 
-            document.documentElement.style.setProperty('--date-button-inactive-bg', 'rgba(255, 255, 255, 0.7)'); 
+            // 3. Cores Translúcidas (MANTÉM O LIQUID GLASS BRANCO SOBRE O FUNDO ESCURO)
+            document.documentElement.style.setProperty('--card-translucent-bg', 'rgba(255, 255, 255, 0.7)'); // Header
+            document.documentElement.style.setProperty('--date-button-inactive-bg', 'rgba(255, 255, 255, 0.5)'); // Botões
             
             // 4. Atualizar o santo do dia
             const santoDoDiaElement = document.getElementById('santo-do-dia');
@@ -550,7 +553,7 @@
                 container.appendChild(button);
             });
             
-            // CORREÇÃO: Usa scrollIntoView para centralizar o botão ativo de forma nativa
+            // Centralização: Usa scrollIntoView para centralizar o botão ativo de forma nativa
             const activeBtn = container.querySelector('.date-button.active');
             if (activeBtn) {
                 setTimeout(() => {
