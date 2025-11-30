@@ -23,7 +23,7 @@
 
         .container {
             backdrop-filter: blur(12px);
-            background: rgba(10, 10, 20, 0.75); /* Mais escuro e com contraste */
+            background: rgba(10, 10, 20, 0.75);
             border-radius: 20px;
             padding: 25px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
@@ -198,6 +198,30 @@
             display: none;
         }
 
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: #ffd700;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top: 3px solid #ffd700;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         @media (max-width: 768px) {
             .container { padding: 15px; }
             table { font-size: 0.88rem; }
@@ -218,7 +242,11 @@
 
         <div class="date-carousel" id="date-carousel"></div>
 
-        <table id="agenda-table">
+        <div id="loading-container" class="loading">
+            <span class="loading-spinner"></span> Carregando dados da Sacristia...
+        </div>
+
+        <table id="agenda-table" style="display:none;">
             <thead>
                 <tr>
                     <th>Horário</th>
@@ -230,7 +258,7 @@
             <tbody id="agenda-body"></tbody>
         </table>
 
-        <div class="tasks-section" id="tasks-section">
+        <div class="tasks-section" id="tasks-section" style="display:none;">
             <h2>📋 Tarefas da Sacristia</h2>
             <div id="tasks-list"></div>
         </div>
@@ -255,15 +283,142 @@
 
         const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // ... (seus dados de agenda, santos, tarefasPorDia permanecem os mesmos) ...
-        const agenda = { /* mesmo do código anterior */ };
-        const santos = { /* mesmo */ };
+        // Dados da agenda
+        const agenda = {
+            "01": [{ horario: "19:00", local: "4º dia da Novena", padre: "Pe. Erick", id: "01-1" }],
+            "02": [
+                { horario: "19:00", local: "Santa Missa Setor 5 – Bairro Morangal", padre: "Pe. Edimilson", id: "02-1" },
+                { horario: "19:00", local: "5º dia da Novena", padre: "Pe. Erick", id: "02-2" }
+            ],
+            "03": [
+                { horario: "19:00", local: "Santa Missa Setor 6 – Bairro Torres", padre: "Pe. Edimilson", id: "03-1" },
+                { horario: "19:00", local: "6º dia da Novena", padre: "Pe. Erick", id: "03-2" }
+            ],
+            "04": [
+                { horario: "09:00", local: "Santa Missa Abrigo São Camilo", padre: "Pe. Edimilson", id: "04-1" },
+                { horario: "19:00", local: "Santa Missa Setor 7 – Bairro Vargem Alegre – Formatura", padre: "Pe. Edimilson", id: "04-2" },
+                { horario: "19:00", local: "7º dia da Novena", padre: "Pe. Erick", id: "04-3" }
+            ],
+            "05": [
+                { horario: "19:00", local: "8º dia da Novena", padre: "Pe. Erick", id: "05-1" },
+                { horario: "-----", local: "Compromisso", padre: "Pe. Edimilson", id: "05-2" }
+            ],
+            "06": [
+                { horario: "11:00", local: "Casamento - Igreja Matriz", padre: "Pe. Edimilson", id: "06-1" },
+                { horario: "16:00", local: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson", id: "06-2" },
+                { horario: "18:00", local: "Vigília Batismal", padre: "Pe. Edimilson", id: "06-3" },
+                { horario: "19:00", local: "9º dia da Novena", padre: "Pe. Erick", id: "06-4" }
+            ],
+            "07": [
+                { horario: "07:00", local: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson", id: "07-1" },
+                { horario: "08:00", local: "Santa Missa Setor 6 – Bairro São José da Mantiqueira - Confissão Crismando", padre: "Pe. Erick", id: "07-2" },
+                { horario: "09:00", local: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson", id: "07-3" },
+                { horario: "10:00", local: "Batizado – Igreja Matriz", padre: "Pe. Edimilson", id: "07-4" },
+                { horario: "10:30", local: "Santa Missa Setor 7 – Bairro Rio Acima II", padre: "Pe. Erick", id: "07-5" },
+                { horario: "16:00", local: "Santa Missa Setor 1 – Bairro Retirinho", padre: "Pe. Edimilson", id: "07-6" },
+                { horario: "19:00", local: "Primeiras Vésperas", padre: "Pe. Erick", id: "07-7" }
+            ],
+            "08": [
+                { horario: "10:00", local: "Santa Missa Setor 7 – Bairro Roseirinha", padre: "Pe. Erick", id: "08-1" },
+                { horario: "10:00", local: "Santa Missa Igreja Matriz", padre: "Pe. Aylton", id: "08-2" },
+                { horario: "19:00", local: "Santa Missa Igreja Matriz", padre: "Pe. Erick", id: "08-3" }
+            ]
+        };
+
+        const santos = {
+            "01": { nome: "2ª-feira da 1ª Semana do Advento", cor: "#6a4c93", tipo: "ferial" },
+            "02": { nome: "S. Cromácio de Aquileia (Memória)", cor: "#6a4c93", tipo: "memoria" },
+            "03": { nome: "S. Francisco Xavier (Memória)", cor: "#6a4c93", tipo: "memoria" },
+            "04": { nome: "5ª-feira da 1ª Semana do Advento", cor: "#6a4c93", tipo: "ferial" },
+            "05": { nome: "S. Sabas (Memória)", cor: "#6a4c93", tipo: "memoria" },
+            "06": { nome: "Sábado da 1ª Semana do Advento", cor: "#6a4c93", tipo: "ferial" },
+            "07": { nome: "2º Domingo do Advento", cor: "#6a4c93", tipo: "dominical" },
+            "08": { nome: "Imaculada Conceição de Maria Santíssima (Solenidade)", cor: "#ffffff", tipo: "solenidade" }
+        };
+
         const diasNovena = ["01", "02", "03", "04", "05", "06", "07"];
         const corAdvento = "#6a4c93";
         const diasSemana = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
-        const tarefasPorDia = { /* mesmo */ };
 
-        // Função para salvar no Supabase
+        const tarefasPorDia = {
+            "Segunda-feira": [
+                { responsavel: "Emanuel", categoria: "Igreja", descricao: "Varrer e limpar" },
+                { responsavel: "Emanuel", categoria: "Igreja", descricao: "Lavar banheiro sacristia" },
+                { responsavel: "Emanuel", categoria: "Roupas", descricao: "Lavar alfaia e toalhas" },
+                { responsavel: "Emanuel", categoria: "Vasos Sagrados", descricao: "Higienizar sempre depois da missa" },
+                { responsavel: "Pietro", categoria: "Igreja", descricao: "Varrer passeio da matriz e escadaria da porta central" },
+                { responsavel: "Pietro", categoria: "Igreja", descricao: "Lavar banheiro social (salão)" },
+                { responsavel: "Pietro", categoria: "Roupas", descricao: "Passar alfaia" },
+                { responsavel: "Pietro", categoria: "Organizar", descricao: "Mala de missas" },
+                { responsavel: "Pietro", categoria: "Vasos Sagrados", descricao: "Higienizar vasos sagrados das malas" },
+                { responsavel: "Pietro", categoria: "Jardim", descricao: "Na seca, aguar jardim" }
+            ],
+            "Terça-feira": [
+                { responsavel: "Emanuel", categoria: "Roupas", descricao: "Lavar vestes de leitores" },
+                { responsavel: "Emanuel", categoria: "Vasos Sagrados", descricao: "Higienizar sempre depois da missa" },
+                { responsavel: "Pietro", categoria: "Igreja", descricao: "Manter trancado durante a semana (exceto quinta)" },
+                { responsavel: "Pietro", categoria: "Roupas", descricao: "Passar túnicas (quando for preciso)" },
+                { responsavel: "Pietro", categoria: "Organizar", descricao: "Mala de missas" },
+                { responsavel: "Pietro", categoria: "Vasos Sagrados", descricao: "Higienizar vasos sagrados das malas" }
+            ],
+            "Quarta-feira": [
+                { responsavel: "Emanuel", categoria: "Igreja", descricao: "Folga" },
+                { responsavel: "Emanuel", categoria: "Vasos Sagrados", descricao: "Higienizar sempre depois da missa" },
+                { responsavel: "Pietro", categoria: "Igreja", descricao: "Varrer passeio da matriz e escadaria da porta central" },
+                { responsavel: "Pietro", categoria: "Igreja", descricao: "Limpar imagens e altares (se for 1ª ou 3ª quarta do mês)" },
+                { responsavel: "Pietro", categoria: "Roupas", descricao: "Passar alfaia" },
+                { responsavel: "Pietro", categoria: "Organizar", descricao: "Mala de missas" },
+                { responsavel: "Pietro", categoria: "Organizar", descricao: "Armário sacristia" },
+                { responsavel: "Pietro", categoria: "Vasos Sagrados", descricao: "Higienizar vasos sagrados das malas" },
+                { responsavel: "Pietro", categoria: "Jardim", descricao: "Na seca, aguar jardim" }
+            ],
+            "Quinta-feira": [
+                { responsavel: "Emanuel", categoria: "Igreja", descricao: "Limpar o coro, escadaria e batistério" },
+                { responsavel: "Emanuel", categoria: "Roupas", descricao: "Passar vestes de leitores e toalha do altar" },
+                { responsavel: "Emanuel", categoria: "Vasos Sagrados", descricao: "Higienizar sempre depois da missa" },
+                { responsavel: "Pietro", categoria: "Igreja", descricao: "Varrer passeio da matriz e escadaria da porta central" },
+                { responsavel: "Pietro", categoria: "Igreja", descricao: "Manter trancado durante a semana (exceto hoje)" },
+                { responsavel: "Pietro", categoria: "Igreja", descricao: "Limpar imagens e altares (se for 1ª ou 3ª quarta do mês)" },
+                { responsavel: "Pietro", categoria: "Roupas", descricao: "Passar alfaia" },
+                { responsavel: "Pietro", categoria: "Organizar", descricao: "Mala de missas" },
+                { responsavel: "Pietro", categoria: "Vasos Sagrados", descricao: "Higienizar vasos sagrados das malas" },
+                { responsavel: "Pietro", categoria: "Jardim", descricao: "Na seca, aguar jardim" }
+            ],
+            "Sexta-feira": [
+                { responsavel: "Emanuel", categoria: "Igreja", descricao: "Varrer e limpar" },
+                { responsavel: "Emanuel", categoria: "Igreja", descricao: "Lavar banheiro sacristia" },
+                { responsavel: "Emanuel", categoria: "Roupas", descricao: "Lavar alfaia e toalhas" },
+                { responsavel: "Emanuel", categoria: "Vasos Sagrados", descricao: "Higienizar sempre depois da missa" },
+                { responsavel: "Emanuel", categoria: "Vasos Sagrados", descricao: "Higienização geral (cálice, âmbulas, bacia, jarros, galhetas, castiçais, cruz, turíbulo, naveta...)" },
+                { responsavel: "Pietro", categoria: "Igreja", descricao: "Lavar banheiro social (salão)" },
+                { responsavel: "Pietro", categoria: "Roupas", descricao: "Passar alfaia" },
+                { responsavel: "Pietro", categoria: "Organizar", descricao: "Mala de missas" },
+                { responsavel: "Pietro", categoria: "Vasos Sagrados", descricao: "Higienizar vasos sagrados das malas" },
+                { responsavel: "Pietro", categoria: "Jardim", descricao: "Na seca, aguar jardim" }
+            ],
+            "Sábado": [
+                { responsavel: "Emanuel", categoria: "Igreja", descricao: "Rastelar o jardim em torno da Igreja, quando roçar" },
+                { responsavel: "Emanuel", categoria: "Vasos Sagrados", descricao: "Higienizar sempre depois da missa" },
+                { responsavel: "Pietro", categoria: "Igreja", descricao: "Varrer passeio da matriz e escadaria da porta central (jogar água)" },
+                { responsavel: "Pietro", categoria: "Roupas", descricao: "Passar alfaia" },
+                { responsavel: "Pietro", categoria: "Organizar", descricao: "Mala de missas" },
+                { responsavel: "Pietro", categoria: "Vasos Sagrados", descricao: "Higienizar vasos sagrados das malas" }
+            ],
+            "Domingo": [
+                { responsavel: "Emanuel", categoria: "Vasos Sagrados", descricao: "Higienizar sempre depois da missa" },
+                { responsavel: "Pietro", categoria: "Organizar", descricao: "Mala de missas" }
+            ]
+        };
+
+        // Funções auxiliares
+        function hexToRgb(hex) {
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            return `${r}, ${g}, ${b}`;
+        }
+
+        // Salvar no Supabase
         async function salvarTarefaNoBanco(id, feita) {
             try {
                 const { error } = await supabase
@@ -276,7 +431,7 @@
             }
         }
 
-        // Função para carregar do Supabase
+        // Carregar do Supabase
         async function carregarTarefasDoBanco() {
             try {
                 const { data, error } = await supabase
@@ -286,7 +441,6 @@
                 const estado = {};
                 data.forEach(item => {
                     estado[item.id] = item.feita;
-                    // Salvar também no localStorage para fallback offline
                     localStorage.setItem(item.id, item.feita.toString());
                 });
                 console.log('✅ Tarefas carregadas do Supabase.');
@@ -294,12 +448,24 @@
             } catch (err) {
                 console.error('Erro ao carregar do Supabase:', err.message);
                 // Fallback para localStorage
-                return null;
+                const estado = {};
+                for (let i = 1; i <= 8; i++) {
+                    const dia = String(i).padStart(2, '0');
+                    const date = new Date(2025, 11, i);
+                    const diaSemana = diasSemana[date.getDay()];
+                    const tarefas = tarefasPorDia[diaSemana] || [];
+                    tarefas.forEach(t => {
+                        if (t.descricao === "Folga") return;
+                        const taskId = `task-${t.responsavel}-${t.categoria}-${t.descricao.replace(/\s+/g, '-')}`;
+                        estado[taskId] = localStorage.getItem(taskId) === 'true';
+                    });
+                }
+                return estado;
             }
         }
 
-        // Renderização (mesma lógica, mas agora com estado do banco)
-        async function renderAgendaComEstado(dia, estadoBanco = null) {
+        // Renderizar agenda e tarefas
+        function renderAgenda(dia, estado) {
             const tbody = document.getElementById('agenda-body');
             const items = agenda[dia] || [];
             let html = '';
@@ -308,14 +474,13 @@
             let corLiturgica = santos[dia]?.cor || "#6a4c93";
             if (diasNovena.includes(dia)) corLiturgica = corAdvento;
 
-            // Atualiza estilo (mesmo que antes)
             document.querySelector('.container').style.borderColor = `rgba(${hexToRgb(corLiturgica)}, 0.4)`;
             document.querySelector('.saint-of-day').style.borderLeft = `5px solid ${corLiturgica}`;
             document.getElementById('saint-name').textContent = (santos[dia] || { nome: "Dia Comum" }).nome;
 
             items.forEach(item => {
                 const isHighlighted = /Novena|Batizado|Casamento|Vigília/i.test(item.local);
-                const feita = estadoBanco ? estadoBanco[item.id] : localStorage.getItem(item.id) === 'true';
+                const feita = estado && estado[item.id] !== undefined ? estado[item.id] : localStorage.getItem(item.id) === 'true';
                 const checkedClass = feita ? 'checked' : '';
                 const checkText = feita ? '✓' : '☐';
                 html += `
@@ -330,10 +495,11 @@
                 `;
             });
             tbody.innerHTML = html;
-            renderTasks(diaSemana, estadoBanco);
+
+            renderTasks(diaSemana, estado);
         }
 
-        function renderTasks(diaSemana, estadoBanco = null) {
+        function renderTasks(diaSemana, estado) {
             const tasksList = document.getElementById('tasks-list');
             const tarefasDoDia = tarefasPorDia[diaSemana] || [];
             let html = '';
@@ -347,7 +513,7 @@
                 categorias[cat].forEach(task => {
                     if (task.descricao === "Folga") return;
                     const taskId = `task-${task.responsavel}-${task.categoria}-${task.descricao.replace(/\s+/g, '-')}`;
-                    const feita = estadoBanco ? estadoBanco[taskId] : localStorage.getItem(taskId) === 'true';
+                    const feita = estado && estado[taskId] !== undefined ? estado[taskId] : localStorage.getItem(taskId) === 'true';
                     const checkedClass = feita ? 'checked' : '';
                     const checkText = feita ? '✓' : '☐';
                     html += `
@@ -362,55 +528,84 @@
             tasksList.innerHTML = html;
         }
 
-        function hexToRgb(hex) {
-            const r = parseInt(hex.slice(1, 3), 16);
-            const g = parseInt(hex.slice(3, 5), 16);
-            const b = parseInt(hex.slice(5, 7), 16);
-            return `${r}, ${g}, ${b}`;
+        // Inicialização
+        async function initApp() {
+            try {
+                // Mostrar loading
+                document.getElementById('loading-container').style.display = 'block';
+                document.getElementById('agenda-table').style.display = 'none';
+                document.getElementById('tasks-section').style.display = 'none';
+
+                // Carregar estado do banco
+                const estado = await carregarTarefasDoBanco();
+
+                // Esconder loading
+                document.getElementById('loading-container').style.display = 'none';
+                document.getElementById('agenda-table').style.display = 'table';
+                document.getElementById('tasks-section').style.display = 'block';
+
+                // Renderizar carrossel
+                const carousel = document.getElementById('date-carousel');
+                let html = '';
+                for (let dia in agenda) {
+                    const date = new Date(2025, 11, parseInt(dia));
+                    const dayName = diasSemana[date.getDay()];
+                    html += `<div class="date-item" data-dia="${dia}" title="${dayName}">${dia} ${dayName.slice(0,3)}</div>`;
+                }
+                carousel.innerHTML = html;
+
+                const firstItem = carousel.querySelector('.date-item');
+                if (firstItem) {
+                    firstItem.classList.add('selected');
+                    renderAgenda(firstItem.getAttribute('data-dia'), estado);
+                }
+
+                carousel.querySelectorAll('.date-item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        document.querySelectorAll('.date-item').forEach(i => i.classList.remove('selected'));
+                        this.classList.add('selected');
+                        renderAgenda(this.getAttribute('data-dia'), estado);
+                    });
+                });
+
+                // Evento de clique nas tarefas
+                document.addEventListener('click', async function(e) {
+                    if (e.target.classList.contains('check-btn')) {
+                        const btn = e.target;
+                        const id = btn.getAttribute('data-id');
+                        const wasChecked = btn.classList.contains('checked');
+                        const newChecked = !wasChecked;
+
+                        btn.textContent = newChecked ? '✓' : '☐';
+                        btn.classList.toggle('checked', newChecked);
+                        const parent = btn.closest('.task-item') || btn.closest('tr');
+                        if (parent) parent.classList.toggle('completed', newChecked);
+
+                        localStorage.setItem(id, newChecked.toString());
+                        await salvarTarefaNoBanco(id, newChecked);
+                    }
+                });
+
+                // Relatório
+                document.getElementById('generate-report').addEventListener('click', function() {
+                    generateReport(estado);
+                });
+
+            } catch (err) {
+                console.error('Erro na inicialização:', err);
+                // Mostrar mensagem de erro
+                document.getElementById('loading-container').innerHTML = `
+                    <div style="color: #ff5555; text-align: center; padding: 20px;">
+                        ⚠️ Erro ao carregar dados.<br>
+                        Verifique se a tabela "tarefas_sacristia" existe no Supabase.<br>
+                        Você pode usar o modo offline clicando em "Gerar Relatório".
+                    </div>
+                `;
+            }
         }
 
-        // Evento de clique
-        document.addEventListener('click', async function(e) {
-            if (e.target.classList.contains('check-btn')) {
-                const btn = e.target;
-                const id = btn.getAttribute('data-id');
-                const wasChecked = btn.classList.contains('checked');
-                const newChecked = !wasChecked;
-
-                // Atualiza visual
-                btn.textContent = newChecked ? '✓' : '☐';
-                btn.classList.toggle('checked', newChecked);
-                const parent = btn.closest('.task-item') || btn.closest('tr');
-                if (parent) parent.classList.toggle('completed', newChecked);
-
-                // Salva no localStorage
-                localStorage.setItem(id, newChecked.toString());
-
-                // Salva no Supabase
-                await salvarTarefaNoBanco(id, newChecked);
-            }
-        });
-
-        // Relatório (usa localStorage como fallback, mas prioriza Supabase se carregado)
-        async function generateReport() {
-            // Tenta carregar do Supabase primeiro
-            let estado = await carregarTarefasDoBanco();
-            if (!estado) {
-                // Fallback
-                estado = {};
-                for (let i = 1; i <= 8; i++) {
-                    const dia = String(i).padStart(2, '0');
-                    const date = new Date(2025, 11, i);
-                    const diaSemana = diasSemana[date.getDay()];
-                    const tarefas = tarefasPorDia[diaSemana] || [];
-                    tarefas.forEach(t => {
-                        if (t.descricao === "Folga") return;
-                        const id = `task-${t.responsavel}-${t.categoria}-${t.descricao.replace(/\s+/g, '-')}`;
-                        estado[id] = localStorage.getItem(id) === 'true';
-                    });
-                }
-            }
-
+        // Relatório semanal
+        function generateReport(estado) {
             let total = 0, done = 0;
             let emmanuelDone = 0, emmanuelTotal = 0;
             let pietroDone = 0, pietroTotal = 0;
@@ -423,7 +618,7 @@
                     if (t.descricao === "Folga") return;
                     total++;
                     const id = `task-${t.responsavel}-${t.categoria}-${t.descricao.replace(/\s+/g, '-')}`;
-                    const isDone = estado[id] || false;
+                    const isDone = estado && estado[id] !== undefined ? estado[id] : localStorage.getItem(id) === 'true';
                     if (isDone) done++;
                     if (t.responsavel === "Emanuel") {
                         emmanuelTotal++;
@@ -455,42 +650,13 @@ Pietro:
 Última atualização: ${new Date().toLocaleString('pt-BR')}
             `.trim();
 
-            document.getElementById('report-output').textContent = reportText;
-            document.getElementById('report-output').style.display = 'block';
+            const output = document.getElementById('report-output');
+            output.textContent = reportText;
+            output.style.display = 'block';
         }
 
-        // Inicialização
-        document.addEventListener('DOMContentLoaded', async function() {
-            // Carregar estado do Supabase
-            const estadoBanco = await carregarTarefasDoBanco();
-            
-            // Renderizar carrossel
-            const carousel = document.getElementById('date-carousel');
-            let html = '';
-            for (let dia in agenda) {
-                const date = new Date(2025, 11, parseInt(dia));
-                const dayName = diasSemana[date.getDay()];
-                html += `<div class="date-item" data-dia="${dia}" title="${dayName}">${dia} ${dayName.slice(0,3)}</div>`;
-            }
-            carousel.innerHTML = html;
-            const firstItem = carousel.querySelector('.date-item');
-            if (firstItem) {
-                firstItem.classList.add('selected');
-                renderAgendaComEstado(firstItem.getAttribute('data-dia'), estadoBanco);
-            }
-            carousel.querySelectorAll('.date-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    document.querySelectorAll('.date-item').forEach(i => i.classList.remove('selected'));
-                    this.classList.add('selected');
-                    renderAgendaComEstado(this.getAttribute('data-dia'), estadoBanco);
-                });
-            });
-
-            // Relatório
-            document.getElementById('generate-report').addEventListener('click', generateReport);
-
-            // Notificação (opcional, pode manter)
-        });
+        // Iniciar
+        document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
