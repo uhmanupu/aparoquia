@@ -11,7 +11,6 @@ const urlsToCache = [
   './manifest.json'
 ];
 
-// Instala o cache
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -19,10 +18,8 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Responde com cache primeiro, depois rede
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
-  // Não cacheia requisições do Supabase (são dinâmicas)
   if (url.hostname.includes('supabase.co')) return;
 
   event.respondWith(
