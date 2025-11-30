@@ -22,7 +22,7 @@
     
     <style>
         /* ================================================= */
-        /* VARIÁVEIS DE COR */
+        /* VARIÁVEIS DE COR - FIXO: PRETO (exceto botão ativo) */
         /* ================================================= */
         :root {
             /* Definidas dinamicamente pelo JS */
@@ -32,7 +32,7 @@
             --date-button-inactive-bg: rgba(252, 228, 236, 0.7); 
             --primary-highlight: #F06299; 
 
-            /* Variáveis de Texto (FIXO: PRETO) */
+            /* Variáveis de Texto (FIXO: PRETO, exceto botão ativo) */
             --text-primary-color: #111111; 
             --text-active-button-color: #FFFFFF; 
         }
@@ -298,7 +298,7 @@
             { "date": "29/Nov (Sábado)", "dayOfWeek": "SÁB", "time": "10:00", "title": "Santa Missa", "location": "Setor 1 – Bairro Virgem do Socorro (Pe. Erick)" },
             { "date": "29/Nov (Sábado)", "dayOfWeek": "SÁB", "time": "19:00", "title": "Santa Missa", "location": "Setor 7 – Bairro Roseirinha (Pe. Edimilson)" },
             
-            // 30/Nov (1º Domingo do Advento) - Mantido com horários da Matriz
+            // 30/Nov (1º Domingo do Advento) - Mantido
             { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
             { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
             { "date": "30/Nov (Domingo)", "dayOfWeek": "DOM", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
@@ -353,8 +353,8 @@
             { "date": "08/Dec (Segunda-feira)", "dayOfWeek": "SEG", "time": "10:00", "title": "Santa Missa", "location": "Local: Setor 7 – Bairro Roseirinha (Pe. Erick)" },
             { "date": "08/Dec (Segunda-feira)", "dayOfWeek": "SEG", "time": "10:00", "title": "Santa Missa", "location": "Local: Igreja Matriz (Pe. Aylton)" },
             { "date": "08/Dec (Segunda-feira)", "dayOfWeek": "SEG", "time": "19:00", "title": "Santa Missa", "location": "Local: Igreja Matriz (Pe. Erick)" },
-
-            // Domigos importantes do Advento/Natal (Mantidos com horários simplificados)
+            
+            // Domigos importantes do Advento/Natal (Mantidos)
             { "date": "14/Dec (Domingo)", "dayOfWeek": "DOM", "time": "07:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
             { "date": "14/Dec (Domingo)", "dayOfWeek": "DOM", "time": "09:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Erick)" },
             { "date": "14/Dec (Domingo)", "dayOfWeek": "DOM", "time": "19:00", "title": "Santa Missa", "location": "Igreja Matriz (Pe. Edimilson)" },
@@ -384,9 +384,8 @@
             6: ["Varrer o passeio e escadaria central", "Jogar água no passeio/escadaria", "Organizar Mala de missas (Diário)"]
         };
 
-        // LITURGICAL_INFO_MAP ATUALIZADO COM AS DATAS DE DEZEMBRO
+        // LITURGICAL_INFO_MAP ATUALIZADO
         const LITURGICAL_INFO_MAP = { 
-            // Entradas de Novembro (Mantidas)
             "24/Nov": { color: "VERMELHO", title: "Santos André Dung-Lac e Comp., Mártires (MO)" }, 
             "25/Nov": { color: "VERMELHO", title: "Santa Catarina de Alexandria, Virgem e Mártir" }, 
             "26/Nov": { color: "VERDE", title: "São Leonardo de Porto Maurício (Féria)" }, 
@@ -394,10 +393,8 @@
             "28/Nov": { color: "VERDE", title: "Santa Catarina Labouré (Féria)" }, 
             "29/Nov": { color: "VERMELHO", title: "São Saturnino de Tolosa (Memória)" }, 
             
-            // Datas de Advento (A partir de 30/Nov)
             "30/Nov": { color: "ROXO", title: "1º Domingo do Advento (Ano A)" },
 
-            // Agenda de Dezembro (Férias de Advento Roxo)
             "01/Dec": { color: "ROXO", title: "Féria do Advento" },
             "02/Dec": { color: "ROXO", title: "Féria do Advento" },
             "03/Dec": { color: "ROXO", title: "São Francisco Xavier, Presbítero (MF)" },
@@ -405,13 +402,10 @@
             "05/Dec": { color: "ROXO", title: "Féria do Advento" },
             "06/Dec": { color: "ROXO", title: "Féria do Advento" },
             
-            // Domingo 07/Dez
             "07/Dec": { color: "ROXO", title: "2º Domingo do Advento" },
             
-            // 08/Dez (Dia da Padroeira)
             "08/Dec": { color: "BRANCO", title: "Nossa Senhora da Conceição (Solenidade)" },
             
-            // Domigos importantes do Advento/Natal (Mantidos)
             "14/Dec": { color: "ROXO", title: "3º Domingo do Advento" },
             "21/Dec": { color: "ROSEO", title: "4º Domingo do Advento (Cor de Festejo)" }, 
             "25/Dec": { color: "BRANCO", title: "Natal do Senhor (Solenidade)" },
@@ -520,7 +514,7 @@
             getUniqueDates();
             const container = document.getElementById('date-picker-container');
             if (!container) return; 
-            container.innerHTML = '';
+            container.innerHTML = ''; // CORREÇÃO: Limpa o container para re-renderizar todos os botões, incluindo o ativo
             
             uniqueDates.forEach(fullDate => {
                 const dayNumber = fullDate.split('/')[0];
@@ -681,7 +675,7 @@
                         <summary class="agenda-card" style="display: block;">
                             <div class="time-title">${event.time} - ${event.title}</div>
                             <div class="location-details">${event.location.split('(')[0].trim()}</div>
-                            <div class="priest-name">(${event.location.split('(')[1].replace(')', '')})</div>
+                            <div class="priesto-name">(${event.location.split('(')[1].replace(')', '')})</div>
                         </summary>
                         <div class="checklist-content">
                             <p class="text-xs opacity-70 mb-2">Marque os itens à medida que a Sacristia for preparada:</p>
