@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⛪ Sacristia - Dezembro 2025</title>
+    <title>⛪ Sacristia - Agenda Paroquial Dezembro 2025</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -99,14 +99,24 @@
             white-space: pre-wrap;
             display: none;
         }
+        .highlight {
+            background: rgba(255, 215, 0, 0.2);
+            font-weight: bold;
+        }
+        .padre {
+            color: #4fc3f7;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>⛪ Sacristia - Dezembro 2025</h1>
+    <h1>⛪ Sacristia - Agenda Paroquial Dezembro 2025</h1>
 
+    <!-- Carrossel de datas -->
     <div id="date-carousel">
+        <!-- Dias 01 a 31 -->
         <div class="date-item selected" data-dia="01">01 Seg</div>
         <div class="date-item" data-dia="02">02 Ter</div>
         <div class="date-item" data-dia="03">03 Qua</div>
@@ -115,53 +125,633 @@
         <div class="date-item" data-dia="06">06 Sáb</div>
         <div class="date-item" data-dia="07">07 Dom</div>
         <div class="date-item" data-dia="08">08 Seg</div>
+        <div class="date-item" data-dia="09">09 Ter</div>
+        <div class="date-item" data-dia="10">10 Qua</div>
+        <div class="date-item" data-dia="11">11 Qui</div>
+        <div class="date-item" data-dia="12">12 Sex</div>
+        <div class="date-item" data-dia="13">13 Sáb</div>
+        <div class="date-item" data-dia="14">14 Dom</div>
+        <div class="date-item" data-dia="15">15 Seg</div>
+        <div class="date-item" data-dia="16">16 Ter</div>
+        <div class="date-item" data-dia="17">17 Qua</div>
+        <div class="date-item" data-dia="18">18 Qui</div>
+        <div class="date-item" data-dia="19">19 Sex</div>
+        <div class="date-item" data-dia="20">20 Sáb</div>
+        <div class="date-item" data-dia="21">21 Dom</div>
+        <div class="date-item" data-dia="22">22 Seg</div>
+        <div class="date-item" data-dia="23">23 Ter</div>
+        <div class="date-item" data-dia="24">24 Qua</div>
+        <div class="date-item" data-dia="25">25 Qui</div>
+        <div class="date-item" data-dia="26">26 Sex</div>
+        <div class="date-item" data-dia="27">27 Sáb</div>
+        <div class="date-item" data-dia="28">28 Dom</div>
+        <div class="date-item" data-dia="29">29 Seg</div>
+        <div class="date-item" data-dia="30">30 Ter</div>
+        <div class="date-item" data-dia="31">31 Qua</div>
     </div>
 
+    <!-- Conteúdo dos dias -->
     <div id="content-01">
         <h2>📅 01/12 – Segunda-feira – 2ª-feira da 1ª Semana do Advento</h2>
-
-        <h3>Hotéis / Missas:</h3>
         <table>
-            <tr>
-                <td>19:00</td>
-                <td>4º dia da Novena</td>
-                <td>Pe. Erick</td>
-                <td><div class="check-btn" data-id="01-1">☐</div></td>
-            </tr>
+            <tr><td>-----</td><td>Folga</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="01-1">☐</div></td></tr>
+            <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="01-2">☐</div></td></tr>
+            <tr><td>19:00</td><td class="highlight">4º dia da Novena</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="01-3">☐</div></td></tr>
         </table>
-
         <div class="tasks-section">
             <h3>📋 Tarefas da Sacristia</h3>
             <p><strong>Emanuel:</strong> Varrer e limpar, Lavar banheiro sacristia, Lavar alfaia e toalhas, Higienizar vasos sagrados após missa</p>
             <p><strong>Pietro:</strong> Varrer passeio da matriz, Lavar banheiro social, Passar alfaia, Mala de missas, Higienizar vasos das malas, Aguar jardim</p>
-
             <div style="margin-top:10px;">
                 <div><label><input type="checkbox" id="task-01-e1"> Emanuel: Varrer e limpar</label></div>
                 <div><label><input type="checkbox" id="task-01-e2"> Emanuel: Lavar banheiro sacristia</label></div>
                 <div><label><input type="checkbox" id="task-01-p1"> Pietro: Varrer passeio da matriz</label></div>
-                <!-- mais tarefas se quiser -->
             </div>
         </div>
     </div>
 
-    <!-- Esconder os outros dias inicialmente -->
+    <!-- Adicione os outros dias aqui... -->
+
+    <!-- Dia 02 -->
     <div id="content-02" style="display:none;">
         <h2>📅 02/12 – Terça-feira – S. Cromácio de Aquileia (Memória)</h2>
         <table>
-            <tr><td>19:00</td><td>Santa Missa Setor 5 – Bairro Morangal</td><td>Pe. Edimilson</td><td><div class="check-btn" data-id="02-1">☐</div></td></tr>
-            <tr><td>19:00</td><td>5º dia da Novena</td><td>Pe. Erick</td><td><div class="check-btn" data-id="02-2">☐</div></td></tr>
+            <tr><td>09:00</td><td>Visita às obras</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="02-1">☐</div></td></tr>
+            <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="02-2">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Setor 5 – Bairro Morangal</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="02-3">☐</div></td></tr>
+            <tr><td>19:00</td><td class="highlight">5º dia da Novena</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="02-4">☐</div></td></tr>
         </table>
         <div class="tasks-section">
             <p><strong>Emanuel:</strong> Lavar vestes de leitores, Higienizar vasos</p>
             <p><strong>Pietro:</strong> Manter trancado (exceto quinta), Passar túnicas, Mala de missas, Higienizar vasos das malas</p>
-            <!-- checkboxes básicos -->
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-02-e1"> Emanuel: Lavar vestes de leitores</label></div>
+                <div><label><input type="checkbox" id="task-02-p1"> Pietro: Manter trancado</label></div>
+            </div>
         </div>
     </div>
 
-    <!-- Você pode adicionar os outros dias da mesma forma se quiser -->
+    <!-- Dia 03 -->
+    <div id="content-03" style="display:none;">
+        <h2>📅 03/12 – Quarta-feira – S. Francisco Xavier (Memória)</h2>
+        <table>
+            <tr><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="03-1">☐</div></td></tr>
+            <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="03-2">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Setor 6 – Bairro Torres</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="03-3">☐</div></td></tr>
+            <tr><td>19:00</td><td class="highlight">6º dia da Novena</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="03-4">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Folga</p>
+            <p><strong>Pietro:</strong> Varrer passeio da matriz, Limpar imagens e altares (se for 1ª ou 3ª quarta), Passar alfaia, Armário sacristia, Higienizar vasos, Aguar jardim</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-03-e1"> Emanuel: Folga</label></div>
+                <div><label><input type="checkbox" id="task-03-p1"> Pietro: Varrer passeio da matriz</label></div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Dia 04 -->
+    <div id="content-04" style="display:none;">
+        <h2>📅 04/12 – Quinta-feira – 5ª-feira da 1ª Semana do Advento</h2>
+        <table>
+            <tr><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="04-1">☐</div></td></tr>
+            <tr><td>09:00</td><td>Santa Missa Abrigo São Camilo</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="04-2">☐</div></td></tr>
+            <tr><td>14:00</td><td>Visita aos enfermos</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="04-3">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Setor 7 – Bairro Vargem Alegre – Formatura</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="04-4">☐</div></td></tr>
+            <tr><td>19:00</td><td class="highlight">7º dia da Novena</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="04-5">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Limpar coro, escadaria e batistério, Passar vestes de leitores e toalha do altar, Higienizar vasos</p>
+            <p><strong>Pietro:</strong> Varrer passeio da matriz, Manter trancado (exceto hoje), Limpar imagens e altares, Passar alfaia, Mala de missas, Higienizar vasos, Aguar jardim</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-04-e1"> Emanuel: Limpar coro</label></div>
+                <div><label><input type="checkbox" id="task-04-p1"> Pietro: Varrer passeio da matriz</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 05 -->
+    <div id="content-05" style="display:none;">
+        <h2>📅 05/12 – Sexta-feira – S. Sabas (Memória)</h2>
+        <table>
+            <tr><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="05-1">☐</div></td></tr>
+            <tr><td>14:00</td><td>Visita às obras</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="05-2">☐</div></td></tr>
+            <tr><td>19:00</td><td class="highlight">8º dia da Novena</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="05-3">☐</div></td></tr>
+            <tr><td>-----</td><td>Compromisso</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="05-4">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Varrer e limpar, Lavar banheiro sacristia, Lavar alfaia e toalhas, Higienização geral dos vasos sagrados, Higienizar sempre depois da missa</p>
+            <p><strong>Pietro:</strong> Lavar banheiro social, Passar alfaia, Mala de missas, Higienizar vasos das malas, Aguar jardim</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-05-e1"> Emanuel: Varrer e limpar</label></div>
+                <div><label><input type="checkbox" id="task-05-p1"> Pietro: Lavar banheiro social</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 06 -->
+    <div id="content-06" style="display:none;">
+        <h2>📅 06/12 – Sábado – Sábado da 1ª Semana do Advento</h2>
+        <table>
+            <tr><td>11:00</td><td>Casamento - Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="06-1">☐</div></td></tr>
+            <tr><td>16:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="06-2">☐</div></td></tr>
+            <tr><td>18:00</td><td>Vigília Batismal</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="06-3">☐</div></td></tr>
+            <tr><td>19:00</td><td class="highlight">9º dia da Novena</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="06-4">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Rastelar o jardim em torno da Igreja, Higienizar sempre depois da missa</p>
+            <p><strong>Pietro:</strong> Varrer passeio da matriz (jogar água), Passar alfaia, Mala de missas, Higienizar vasos das malas</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-06-e1"> Emanuel: Rastelar jardim</label></div>
+                <div><label><input type="checkbox" id="task-06-p1"> Pietro: Varrer passeio da matriz</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 07 -->
+    <div id="content-07" style="display:none;">
+        <h2>📅 07/12 – Domingo – 2º Domingo do Advento</h2>
+        <table>
+            <tr><td>07:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="07-1">☐</div></td></tr>
+            <tr><td>08:00</td><td>Santa Missa Setor 6 – Bairro São José da Mantiqueira - Confissão Crismando</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="07-2">☐</div></td></tr>
+            <tr><td>09:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="07-3">☐</div></td></tr>
+            <tr><td>10:00</td><td>Batizado – Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="07-4">☐</div></td></tr>
+            <tr><td>10:30</td><td>Santa Missa Setor 7 – Bairro Rio Acima II</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="07-5">☐</div></td></tr>
+            <tr><td>16:00</td><td>Santa Missa Setor 1 – Bairro Retirinho</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="07-6">☐</div></td></tr>
+            <tr><td>19:00</td><td>Primeiras Vésperas</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="07-7">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Higienizar sempre depois da missa</p>
+            <p><strong>Pietro:</strong> Mala de missas</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-07-e1"> Emanuel: Higienizar vasos</label></div>
+                <div><label><input type="checkbox" id="task-07-p1"> Pietro: Mala de missas</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 08 -->
+    <div id="content-08" style="display:none;">
+        <h2>📅 08/12 – Segunda-feira – Imaculada Conceição de Maria Santíssima (Solenidade)</h2>
+        <table>
+            <tr><td>-----</td><td>Folga</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="08-1">☐</div></td></tr>
+            <tr><td>10:00</td><td>Santa Missa Setor 7 – Bairro Roseirinha</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="08-2">☐</div></td></tr>
+            <tr><td>10:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Aylton</td><td><div class="check-btn" data-id="08-3">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="08-4">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Folga toda quarta-feira (hoje não é quarta, mas pode ser folga)</p>
+            <p><strong>Pietro:</strong> Folga toda terça-feira (hoje não é terça)</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-08-e1"> Emanuel: Folga</label></div>
+                <div><label><input type="checkbox" id="task-08-p1"> Pietro: Folga</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 09 -->
+    <div id="content-09" style="display:none;">
+        <h2>📅 09/12 – Terça-feira – S. Juan Diego Cuauhtlatoatzin (Memória)</h2>
+        <table>
+            <tr><td>09:00</td><td>Visita às obras</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="09-1">☐</div></td></tr>
+            <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="09-2">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Setor 3 – Bairro Corrêias</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="09-3">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Lavar vestes de leitores, Higienizar vasos</p>
+            <p><strong>Pietro:</strong> Manter trancado (exceto quinta), Passar túnicas, Mala de missas, Higienizar vasos das malas</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-09-e1"> Emanuel: Lavar vestes de leitores</label></div>
+                <div><label><input type="checkbox" id="task-09-p1"> Pietro: Manter trancado</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 10 -->
+    <div id="content-10" style="display:none;">
+        <h2>📅 10/12 – Quarta-feira – S. Daniel de Cúria (Memória)</h2>
+        <table>
+            <tr><td>-----</td><td>Folga</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="10-1">☐</div></td></tr>
+            <tr><td>09:00</td><td>Santa Missa Abrigo São Camilo</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="10-2">☐</div></td></tr>
+            <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="10-3">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Setor 1 – Bairro Palmeiras</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="10-4">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Folga</p>
+            <p><strong>Pietro:</strong> Varrer passeio da matriz, Limpar imagens e altares (se for 1ª ou 3ª quarta), Passar alfaia, Armário sacristia, Higienizar vasos, Aguar jardim</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-10-e1"> Emanuel: Folga</label></div>
+                <div><label><input type="checkbox" id="task-10-p1"> Pietro: Varrer passeio da matriz</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 11 -->
+    <div id="content-11" style="display:none;">
+        <h2>📅 11/12 – Quinta-feira – S. Damaso I, Papa (Memória)</h2>
+        <table>
+            <tr><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="11-1">☐</div></td></tr>
+            <tr><td>09:00</td><td>Confissões crismandos - Bairro Marques</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="11-2">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Setor 5 – Bairro Marques</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="11-3">☐</div></td></tr>
+            <tr><td>17:00</td><td>Confissão – Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="11-4">☐</div></td></tr>
+            <tr><td>18:00</td><td>Adoração – Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="11-5">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="11-6">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Limpar coro, escadaria e batistério, Passar vestes de leitores e toalha do altar, Higienizar vasos</p>
+            <p><strong>Pietro:</strong> Varrer passeio da matriz, Manter trancado (exceto hoje), Limpar imagens e altares, Passar alfaia, Mala de missas, Higienizar vasos, Aguar jardim</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-11-e1"> Emanuel: Limpar coro</label></div>
+                <div><label><input type="checkbox" id="task-11-p1"> Pietro: Varrer passeio da matriz</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 12 -->
+    <div id="content-12" style="display:none;">
+        <h2>📅 12/12 – Sexta-feira – S. Bibiano (Memória)</h2>
+        <table>
+            <tr><td>09:00</td><td>Visita às obras</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="12-1">☐</div></td></tr>
+            <tr><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="12-2">☐</div></td></tr>
+            <tr><td>15:00</td><td>Confissões crismandos – Bairro Roseirinha (Vargem Alegre, Roseirinha e Gonçalves)</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="12-3">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Setor 7 – Bairro Serra Verde</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="12-4">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Setor 2 – Bairro Ribeirão</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="12-5">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Varrer e limpar, Lavar banheiro sacristia, Lavar alfaia e toalhas, Higienização geral dos vasos sagrados, Higienizar sempre depois da missa</p>
+            <p><strong>Pietro:</strong> Lavar banheiro social, Passar alfaia, Mala de missas, Higienizar vasos das malas, Aguar jardim</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-12-e1"> Emanuel: Varrer e limpar</label></div>
+                <div><label><input type="checkbox" id="task-12-p1"> Pietro: Lavar banheiro social</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 13 -->
+    <div id="content-13" style="display:none;">
+        <h2>📅 13/12 – Sábado – S. Luciana (Memória)</h2>
+        <table>
+            <tr><td>05:00</td><td>Procissão saindo casa Evelyne em seguida Santa Missa Igreja Santa Luzia</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="13-1">☐</div></td></tr>
+            <tr><td>09:00</td><td>Confissões crismandos - Bairro Serra Verde (Serra Verde e Rio Acima II)</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="13-2">☐</div></td></tr>
+            <tr><td>16:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="13-3">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="13-4">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Rastelar o jardim em torno da Igreja, Higienizar sempre depois da missa</p>
+            <p><strong>Pietro:</strong> Varrer passeio da matriz (jogar água), Passar alfaia, Mala de missas, Higienizar vasos das malas</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-13-e1"> Emanuel: Rastelar jardim</label></div>
+                <div><label><input type="checkbox" id="task-13-p1"> Pietro: Varrer passeio da matriz</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 14 -->
+    <div id="content-14" style="display:none;">
+        <h2>📅 14/12 – Domingo – 3º Domingo do Advento</h2>
+        <table>
+            <tr><td>07:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="14-1">☐</div></td></tr>
+            <tr><td>09:00</td><td>Santa Missa Setor 3 – Bairro Mogiano</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="14-2">☐</div></td></tr>
+            <tr><td>09:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="14-3">☐</div></td></tr>
+            <tr><td>11:00</td><td>Santa Missa Hotel</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="14-4">☐</div></td></tr>
+            <tr><td>18:00</td><td>Santa Missa Setor 4 – Bairro Moreiras</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="14-5">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="14-6">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Higienizar sempre depois da missa</p>
+            <p><strong>Pietro:</strong> Mala de missas</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-14-e1"> Emanuel: Higienizar vasos</label></div>
+                <div><label><input type="checkbox" id="task-14-p1"> Pietro: Mala de missas</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 15 -->
+    <div id="content-15" style="display:none;">
+        <h2>📅 15/12 – Segunda-feira – Jubileu Paroquial</h2>
+        <table>
+            <tr><td>09:00</td><td>Confissões crismandos – Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="15-1">☐</div></td></tr>
+            <tr><td>14:00</td><td>Confissões crismandos – Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="15-2">☐</div></td></tr>
+            <tr><td>19:00</td><td>Visita peregrina da Imagem N. Sra da Conceição e Santa Missa</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="15-3">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Varrer e limpar, Lavar banheiro sacristia, Lavar alfaia e toalhas, Higienizar vasos sagrados após missa</p>
+            <p><strong>Pietro:</strong> Varrer passeio da matriz, Lavar banheiro social, Passar alfaia, Mala de missas, Higienizar vasos das malas, Aguar jardim</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-15-e1"> Emanuel: Varrer e limpar</label></div>
+                <div><label><input type="checkbox" id="task-15-p1"> Pietro: Varrer passeio da matriz</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 16 -->
+    <div id="content-16" style="display:none;">
+        <h2>📅 16/12 – Terça-feira – S. Nicolau de Mira (Memória)</h2>
+        <table>
+            <tr><td>09:00</td><td>Confissões crismandos – Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="16-1">☐</div></td></tr>
+            <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="16-2">☐</div></td></tr>
+            <tr><td>14:00</td><td>Confissões crismandos – Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="16-3">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Setor 1 – Bairro Mendes</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="16-4">☐</div></td></tr>
+            <tr><td>19:00</td><td>Formação MESC</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="16-5">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Lavar vestes de leitores, Higienizar vasos</p>
+            <p><strong>Pietro:</strong> Manter trancado (exceto quinta), Passar túnicas, Mala de missas, Higienizar vasos das malas</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-16-e1"> Emanuel: Lavar vestes de leitores</label></div>
+                <div><label><input type="checkbox" id="task-16-p1"> Pietro: Manter trancado</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 17 -->
+    <div id="content-17" style="display:none;">
+        <h2>📅 17/12 – Quarta-feira – S. Lúcia (Memória)</h2>
+        <table>
+            <tr><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="17-1">☐</div></td></tr>
+            <tr><td>09:00</td><td>Confissões crismandos – Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="17-2">☐</div></td></tr>
+            <tr><td>14:00</td><td>Confissões crismandos – Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="17-3">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Folga</p>
+            <p><strong>Pietro:</strong> Varrer passeio da matriz, Limpar imagens e altares (se for 1ª ou 3ª quarta), Passar alfaia, Armário sacristia, Higienizar vasos, Aguar jardim</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-17-e1"> Emanuel: Folga</label></div>
+                <div><label><input type="checkbox" id="task-17-p1"> Pietro: Varrer passeio da matriz</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 18 -->
+    <div id="content-18" style="display:none;">
+        <h2>📅 18/12 – Quinta-feira – S. Flávio (Memória)</h2>
+        <table>
+            <tr><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="18-1">☐</div></td></tr>
+            <tr><td>09:00</td><td>Confissões crismandos – Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="18-2">☐</div></td></tr>
+            <tr><td>14:00</td><td>Confissões crismandos – Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="18-3">☐</div></td></tr>
+            <tr><td>17:00</td><td>Confissões Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="18-4">☐</div></td></tr>
+            <tr><td>18:00</td><td>Adoração Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="18-5">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="18-6">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Setor 1 – Bairro Muquém</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="18-7">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Limpar coro, escadaria e batistério, Passar vestes de leitores e toalha do altar, Higienizar vasos</p>
+            <p><strong>Pietro:</strong> Varrer passeio da matriz, Manter trancado (exceto hoje), Limpar imagens e altares, Passar alfaia, Mala de missas, Higienizar vasos, Aguar jardim</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-18-e1"> Emanuel: Limpar coro</label></div>
+                <div><label><input type="checkbox" id="task-18-p1"> Pietro: Varrer passeio da matriz</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 19 -->
+    <div id="content-19" style="display:none;">
+        <h2>📅 19/12 – Sexta-feira – S. João Damasceno (Memória)</h2>
+        <table>
+            <tr><td>09:00</td><td>Visita às obras</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="19-1">☐</div></td></tr>
+            <tr><td>09:00</td><td>Santa Missa Abrigo São Camilo</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="19-2">☐</div></td></tr>
+            <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="19-3">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Setor 2 – Bairro Porto</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="19-4">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Setor 5 – Bairro Pouso Frio</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="19-5">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Varrer e limpar, Lavar banheiro sacristia, Lavar alfaia e toalhas, Higienização geral dos vasos sagrados, Higienizar sempre depois da missa</p>
+            <p><strong>Pietro:</strong> Lavar banheiro social, Passar alfaia, Mala de missas, Higienizar vasos das malas, Aguar jardim</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-19-e1"> Emanuel: Varrer e limpar</label></div>
+                <div><label><input type="checkbox" id="task-19-p1"> Pietro: Lavar banheiro social</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 20 -->
+    <div id="content-20" style="display:none;">
+        <h2>📅 20/12 – Sábado – S. Egídio (Memória)</h2>
+        <table>
+            <tr><td>10:00</td><td>Santa Missa Setor 1 – Bairro Virgem do Socorro</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="20-1">☐</div></td></tr>
+            <tr><td>16:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="20-2">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="20-3">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Rastelar o jardim em torno da Igreja, Higienizar sempre depois da missa</p>
+            <p><strong>Pietro:</strong> Varrer passeio da matriz (jogar água), Passar alfaia, Mala de missas, Higienizar vasos das malas</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-20-e1"> Emanuel: Rastelar jardim</label></div>
+                <div><label><input type="checkbox" id="task-20-p1"> Pietro: Varrer passeio da matriz</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 21 -->
+    <div id="content-21" style="display:none;">
+        <h2>📅 21/12 – Domingo – 4º Domingo do Advento</h2>
+        <table>
+            <tr><td>07:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="21-1">☐</div></td></tr>
+            <tr><td>09:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="21-2">☐</div></td></tr>
+            <tr><td>10:00</td><td>Santa Missa Setor 7 – Bairro Retiro dos Marins</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="21-3">☐</div></td></tr>
+            <tr><td>11:00</td><td>Santa Missa Setor 1 – Bairro Retirinho</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="21-4">☐</div></td></tr>
+            <tr><td>18:00</td><td>Santa Missa Setor 4 – Bairro Moreiras</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="21-5">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="21-6">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Higienizar sempre depois da missa</p>
+            <p><strong>Pietro:</strong> Mala de missas</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-21-e1"> Emanuel: Higienizar vasos</label></div>
+                <div><label><input type="checkbox" id="task-21-p1"> Pietro: Mala de missas</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 22 -->
+    <div id="content-22" style="display:none;">
+        <h2>📅 22/12 – Segunda-feira – S. Francisco de Sales (Memória)</h2>
+        <table>
+            <tr><td>-----</td><td>Folga</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="22-1">☐</div></td></tr>
+            <tr><td>09:00</td><td>Santa Missa Abrigo São Camilo</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="22-2">☐</div></td></tr>
+            <tr><td>14:00</td><td>Visita às obras</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="22-3">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Varrer e limpar, Lavar banheiro sacristia, Lavar alfaia e toalhas, Higienizar vasos sagrados após missa</p>
+            <p><strong>Pietro:</strong> Varrer passeio da matriz, Lavar banheiro social, Passar alfaia, Mala de missas, Higienizar vasos das malas, Aguar jardim</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-22-e1"> Emanuel: Varrer e limpar</label></div>
+                <div><label><input type="checkbox" id="task-22-p1"> Pietro: Varrer passeio da matriz</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 23 -->
+    <div id="content-23" style="display:none;">
+        <h2>📅 23/12 – Terça-feira – S. Tomás de Villanueva (Memória)</h2>
+        <table>
+            <tr><td>-----</td><td>Folga</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="23-1">☐</div></td></tr>
+            <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="23-2">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Setor 5 – Bairro Marques</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="23-3">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Lavar vestes de leitores, Higienizar vasos</p>
+            <p><strong>Pietro:</strong> Manter trancado (exceto quinta), Passar túnicas, Mala de missas, Higienizar vasos das malas</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-23-e1"> Emanuel: Lavar vestes de leitores</label></div>
+                <div><label><input type="checkbox" id="task-23-p1"> Pietro: Manter trancado</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 24 -->
+    <div id="content-24" style="display:none;">
+        <h2>📅 24/12 – Quarta-feira – Véspera de Natal</h2>
+        <table>
+            <tr><td>17:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="24-1">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Setor 6 – Bairro São José da Mantiqueira</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="24-2">☐</div></td></tr>
+            <tr><td>20:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="24-3">☐</div></td></tr>
+            <tr><td>21:00</td><td>Santa Missa Setor 7 – Bairro Roseirinha</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="24-4">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Folga</p>
+            <p><strong>Pietro:</strong> Varrer passeio da matriz, Limpar imagens e altares (se for 1ª ou 3ª quarta), Passar alfaia, Armário sacristia, Higienizar vasos, Aguar jardim</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-24-e1"> Emanuel: Folga</label></div>
+                <div><label><input type="checkbox" id="task-24-p1"> Pietro: Varrer passeio da matriz</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 25 -->
+    <div id="content-25" style="display:none;">
+        <h2>📅 25/12 – Quinta-feira – Natal do Senhor</h2>
+        <table>
+            <tr><td>09:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="25-1">☐</div></td></tr>
+            <tr><td>10:00</td><td>Santa Missa Setor 7 – Bairro Rio Acima II</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="25-2">☐</div></td></tr>
+            <tr><td>11:00</td><td>Santa Missa Setor 1 – Bairro Mendes</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="25-3">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="25-4">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Limpar coro, escadaria e batistério, Passar vestes de leitores e toalha do altar, Higienizar vasos</p>
+            <p><strong>Pietro:</strong> Varrer passeio da matriz, Manter trancado (exceto hoje), Limpar imagens e altares, Passar alfaia, Mala de missas, Higienizar vasos, Aguar jardim</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-25-e1"> Emanuel: Limpar coro</label></div>
+                <div><label><input type="checkbox" id="task-25-p1"> Pietro: Varrer passeio da matriz</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 26 -->
+    <div id="content-26" style="display:none;">
+        <h2>📅 26/12 – Sexta-feira – S. Estevão (Memória)</h2>
+        <table>
+            <tr><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="26-1">☐</div></td></tr>
+            <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="26-2">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Sagrado Coração de Jesus</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="26-3">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Setor 1 – Bairro Roseira</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="26-4">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Varrer e limpar, Lavar banheiro sacristia, Lavar alfaia e toalhas, Higienização geral dos vasos sagrados, Higienizar sempre depois da missa</p>
+            <p><strong>Pietro:</strong> Lavar banheiro social, Passar alfaia, Mala de missas, Higienizar vasos das malas, Aguar jardim</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-26-e1"> Emanuel: Varrer e limpar</label></div>
+                <div><label><input type="checkbox" id="task-26-p1"> Pietro: Lavar banheiro social</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 27 -->
+    <div id="content-27" style="display:none;">
+        <h2>📅 27/12 – Sábado – S. João, Apóstolo (Memória)</h2>
+        <table>
+            <tr><td>16:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="27-1">☐</div></td></tr>
+            <tr><td>18:00</td><td>Santa Missa Hotel</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="27-2">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="27-3">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Rastelar o jardim em torno da Igreja, Higienizar sempre depois da missa</p>
+            <p><strong>Pietro:</strong> Varrer passeio da matriz (jogar água), Passar alfaia, Mala de missas, Higienizar vasos das malas</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-27-e1"> Emanuel: Rastelar jardim</label></div>
+                <div><label><input type="checkbox" id="task-27-p1"> Pietro: Varrer passeio da matriz</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 28 -->
+    <div id="content-28" style="display:none;">
+        <h2>📅 28/12 – Domingo – S. Tiago Menor (Memória)</h2>
+        <table>
+            <tr><td>07:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="28-1">☐</div></td></tr>
+            <tr><td>09:00</td><td>Santa Missa Setor 3 – Bairro Corrêias</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="28-2">☐</div></td></tr>
+            <tr><td>09:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="28-3">☐</div></td></tr>
+            <tr><td>10:00</td><td>Santa Missa Setor 7 – Bairro Rio Acima II</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="28-4">☐</div></td></tr>
+            <tr><td>16:00</td><td>Santa Missa Setor 1 – Bairro Retirinho</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="28-5">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="28-6">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Higienizar sempre depois da missa</p>
+            <p><strong>Pietro:</strong> Mala de missas</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-28-e1"> Emanuel: Higienizar vasos</label></div>
+                <div><label><input type="checkbox" id="task-28-p1"> Pietro: Mala de missas</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 29 -->
+    <div id="content-29" style="display:none;">
+        <h2>📅 29/12 – Segunda-feira – S. Pedro Canísio (Memória)</h2>
+        <table>
+            <tr><td>-----</td><td>Folga</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="29-1">☐</div></td></tr>
+            <tr><td>09:00</td><td>Visita às obras</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="29-2">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Varrer e limpar, Lavar banheiro sacristia, Lavar alfaia e toalhas, Higienizar vasos sagrados após missa</p>
+            <p><strong>Pietro:</strong> Varrer passeio da matriz, Lavar banheiro social, Passar alfaia, Mala de missas, Higienizar vasos das malas, Aguar jardim</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-29-e1"> Emanuel: Varrer e limpar</label></div>
+                <div><label><input type="checkbox" id="task-29-p1"> Pietro: Varrer passeio da matriz</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 30 -->
+    <div id="content-30" style="display:none;">
+        <h2>📅 30/12 – Terça-feira – S. Silvestre I, Papa (Memória)</h2>
+        <table>
+            <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="30-1">☐</div></td></tr>
+            <tr><td>19:00</td><td>Santa Missa Setor 7 – Bairro Palmeiras</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="30-2">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Lavar vestes de leitores, Higienizar vasos</p>
+            <p><strong>Pietro:</strong> Manter trancado (exceto quinta), Passar túnicas, Mala de missas, Higienizar vasos das malas</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-30-e1"> Emanuel: Lavar vestes de leitores</label></div>
+                <div><label><input type="checkbox" id="task-30-p1"> Pietro: Manter trancado</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dia 31 -->
+    <div id="content-31" style="display:none;">
+        <h2>📅 31/12 – Quarta-feira – S. João, Apóstolo (Memória)</h2>
+        <table>
+            <tr><td>17:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="31-1">☐</div></td></tr>
+            <tr><td>18:30</td><td>Adoração Igreja Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="31-2">☐</div></td></tr>
+            <tr><td>19:30</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="31-3">☐</div></td></tr>
+            <tr><td>19:30</td><td>Santa Missa Setor 7 – Bairro Vargem Alegre</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="31-4">☐</div></td></tr>
+        </table>
+        <div class="tasks-section">
+            <p><strong>Emanuel:</strong> Folga</p>
+            <p><strong>Pietro:</strong> Varrer passeio da matriz, Limpar imagens e altares (se for 1ª ou 3ª quarta), Passar alfaia, Armário sacristia, Higienizar vasos, Aguar jardim</p>
+            <div style="margin-top:10px;">
+                <div><label><input type="checkbox" id="task-31-e1"> Emanuel: Folga</label></div>
+                <div><label><input type="checkbox" id="task-31-p1"> Pietro: Varrer passeio da matriz</label></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Relatório -->
     <div class="report-section">
-        <button id="generate-report">📊 Gerar Relatório Simples</button>
+        <button id="generate-report">📊 Gerar Relatório Semanal</button>
         <div class="report-output" id="report-output">Nenhum dado registrado ainda.</div>
     </div>
 </div>
