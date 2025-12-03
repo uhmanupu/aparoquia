@@ -75,7 +75,7 @@
 
     <!-- Rodapé -->
     <footer class="text-center mt-8 text-gray-500 text-sm p-4 border-t border-gray-700">
-        Paróquia Nossa Senhora da Conceição v6.2!
+        Paróquia Nossa Senhora da Conceição v6.4
     </footer>
 </div>
 
@@ -87,13 +87,15 @@
     const MONTH_NAME = "Dezembro";
     const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
-    // Lista Padrão de Itens Litúrgicos para as Missas Setoriais
-    const LiturgicalItems = [
-        'Hóstia G', 'Hóstia P', 'Vinho', 'Água', 'Missal', 'Lecionário', 
+    // Lista Padrão de Itens Litúrgicos para as Missas Setoriais (EXCLUINDO Lecionário)
+    const LiturgicalItemsBase = [
+        'Hóstia G', 'Hóstia P', 'Vinho', 'Água', 'Missal', 
         'Corporal', 'Sanguíneo', 'Pala', 'Cálice', 'Patena', 'Âmbula', 'Coleta'
     ];
+    // Tipos de Lecionário
+    const LecionarioTypes = ['Semanal', 'Dominical', 'Santoral'];
 
-    // Estrutura de Dados (Data é centralizada aqui)
+    // Estrutura de Dados (ATUALIZADA com base no Diretório 2025)
     const dailySchedule = {
         // Dia 01
         "01": {
@@ -110,11 +112,11 @@
         },
         // Dia 02
         "02": {
-            liturgia: { text: "S. Cromácio de Aquileia (Memória)", color: "lit-roxo" },
+            liturgia: { text: "3ª-feira da 1ª Semana do Advento", color: "lit-roxo" },
             agenda: [
                 { hora: "09:00", atividade: "Visita às obras", padre: "Pe. Erick" },
                 { hora: "14:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
-                { hora: "19:00", atividade: "Santa Missa Setor 5 – Bairro Morangal", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "19:00", atividade: "Santa Missa Setor 5 – Bairro Morangal", padre: "Pe. Edimilson", isSetorMass: true },
                 { hora: "19:00", atividade: "5º dia da Novena", padre: "Pe. Erick", highlight: true },
             ],
             tarefas: [
@@ -124,11 +126,11 @@
         },
         // Dia 03
         "03": {
-            liturgia: { text: "S. Francisco Xavier (Memória)", color: "lit-roxo" },
+            liturgia: { text: "S. Francisco Xavier, presbítero (Memória)", color: "lit-roxo" },
             agenda: [
                 { hora: "09:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
                 { hora: "14:00", atividade: "Atendimento", padre: "Pe. Erick" },
-                { hora: "19:00", atividade: "Santa Missa Setor 6 – Bairro Torres", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "19:00", atividade: "Santa Missa Setor 6 – Bairro Torres", padre: "Pe. Edimilson", isSetorMass: true },
                 { hora: "19:00", atividade: "6º dia da Novena", padre: "Pe. Erick", highlight: true },
             ],
             tarefas: [
@@ -138,12 +140,12 @@
         },
         // Dia 04
         "04": {
-            liturgia: { text: "5ª-feira da 1ª Semana do Advento", color: "lit-roxo" },
+            liturgia: { text: "S. Bárbara, virgem e mártir (Memória)", color: "lit-vermelho" },
             agenda: [
                 { hora: "09:00", atividade: "Atendimento", padre: "Pe. Erick" },
                 { hora: "09:00", atividade: "Santa Missa Abrigo São Camilo", padre: "Pe. Edimilson" },
                 { hora: "14:00", atividade: "Visita aos enfermos", padre: "Pe. Edimilson" },
-                { hora: "19:00", atividade: "Santa Missa Setor 7 – Bairro Vargem Alegre – Formatura", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "19:00", atividade: "Santa Missa Setor 7 – Bairro Vargem Alegre – Formatura", padre: "Pe. Edimilson", isSetorMass: true },
                 { hora: "19:00", atividade: "7º dia da Novena", padre: "Pe. Erick", highlight: true },
             ],
             tarefas: [
@@ -153,7 +155,7 @@
         },
         // Dia 05
         "05": {
-            liturgia: { text: "S. Sabas (Memória)", color: "lit-roxo" },
+            liturgia: { text: "6ª-feira da 1ª Semana do Advento", color: "lit-roxo" },
             agenda: [
                 { hora: "09:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
                 { hora: "14:00", atividade: "Visita às obras", padre: "Pe. Erick" },
@@ -167,7 +169,7 @@
         },
         // Dia 06
         "06": {
-            liturgia: { text: "Sábado da 1ª Semana do Advento", color: "lit-roxo" },
+            liturgia: { text: "S. Nicolau, bispo (Memória)", color: "lit-roxo" },
             agenda: [
                 { hora: "11:00", atividade: "Casamento - Igreja Matriz", padre: "Pe. Edimilson" },
                 { hora: "16:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
@@ -175,20 +177,20 @@
                 { hora: "19:00", atividade: "9º dia da Novena", padre: "Pe. Erick", highlight: true },
             ],
             tarefas: [
-                { nome: "Emanuel", desc: "Rastelar jardim, Higienizar vasos" },
+                { nome: "Emanuel", desc: "Rastelar jardim" },
                 { nome: "Pietro", desc: "Varrer passeio da matriz (jogar água), Passar alfaia, Mala de missas, Higienizar vasos das malas" },
             ]
         },
         // Dia 07
         "07": {
-            liturgia: { text: "2º Domingo do Advento", color: "lit-roxo" },
+            liturgia: { text: "2º DOMINGO DO ADVENTO", color: "lit-roxo" },
             agenda: [
                 { hora: "07:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
-                { hora: "08:00", atividade: "Santa Missa Setor 6 – Bairro São José da Mantiqueira - Confissão Crismando", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "08:00", atividade: "Santa Missa Setor 6 – Bairro São José da Mantiqueira - Confissão Crismando", padre: "Pe. Erick", isSetorMass: true },
                 { hora: "09:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
                 { hora: "10:00", atividade: "Batizado – Igreja Matriz", padre: "Pe. Edimilson" },
-                { hora: "10:30", atividade: "Santa Missa Setor 7 – Bairro Rio Acima II", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
-                { hora: "16:00", atividade: "Santa Missa Setor 1 – Bairro Retirinho", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "10:30", atividade: "Santa Missa Setor 7 – Bairro Rio Acima II", padre: "Pe. Erick", isSetorMass: true },
+                { hora: "16:00", atividade: "Santa Missa Setor 1 – Bairro Retirinho", padre: "Pe. Edimilson", isSetorMass: true },
                 { hora: "19:00", atividade: "Primeiras Vésperas", padre: "Pe. Erick" },
             ],
             tarefas: [
@@ -198,10 +200,10 @@
         },
         // Dia 08
         "08": {
-            liturgia: { text: "Imaculada Conceição de Maria Santíssima (Solenidade)", color: "lit-branco" },
+            liturgia: { text: "IMACULADA CONCEIÇÃO DA BEM-AVENTURADA VIRGEM MARIA (Solenidade)", color: "lit-branco" },
             agenda: [
                 { hora: "-----", atividade: "Folga", padre: "Pe. Edimilson" },
-                { hora: "10:00", atividade: "Santa Missa Setor 7 – Bairro Roseirinha", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "10:00", atividade: "Santa Missa Setor 7 – Bairro Roseirinha", padre: "Pe. Erick", isSetorMass: true },
                 { hora: "10:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Aylton" },
                 { hora: "19:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Erick" },
             ],
@@ -212,11 +214,11 @@
         },
         // Dia 09
         "09": {
-            liturgia: { text: "S. Juan Diego Cuauhtlatoatzin (Memória)", color: "lit-roxo" },
+            liturgia: { text: "2ª-feira da 2ª Semana do Advento (S. Juan Diego Cuauhtlatoatzin)", color: "lit-roxo" },
             agenda: [
                 { hora: "09:00", atividade: "Visita às obras", padre: "Pe. Erick" },
                 { hora: "14:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
-                { hora: "19:00", atividade: "Santa Missa Setor 3 – Bairro Corrêias", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "19:00", atividade: "Santa Missa Setor 3 – Bairro Corrêias", padre: "Pe. Edimilson", isSetorMass: true },
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Lavar vestes de leitores" },
@@ -225,12 +227,12 @@
         },
         // Dia 10
         "10": {
-            liturgia: { text: "S. Daniel de Cúria (Memória)", color: "lit-roxo" },
+            liturgia: { text: "3ª-feira da 2ª Semana do Advento (N. Sra de Loreto)", color: "lit-roxo" },
             agenda: [
                 { hora: "-----", atividade: "Folga", padre: "Pe. Erick" },
                 { hora: "09:00", atividade: "Santa Missa Abrigo São Camilo", padre: "Pe. Edimilson" },
                 { hora: "14:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
-                { hora: "19:00", atividade: "Santa Missa Setor 1 – Bairro Palmeiras", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "19:00", atividade: "Santa Missa Setor 1 – Bairro Palmeiras", padre: "Pe. Edimilson", isSetorMass: true },
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Folga" },
@@ -239,11 +241,11 @@
         },
         // Dia 11
         "11": {
-            liturgia: { text: "S. Damaso I, Papa (Memória)", color: "lit-roxo" },
+            liturgia: { text: "S. Dâmaso I, Papa (Memória)", color: "lit-roxo" },
             agenda: [
                 { hora: "09:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
                 { hora: "09:00", atividade: "Confissões crismandos - Bairro Marques", padre: "Pe. Edimilson" },
-                { hora: "19:00", atividade: "Santa Missa Setor 5 – Bairro Marques", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "19:00", atividade: "Santa Missa Setor 5 – Bairro Marques", padre: "Pe. Erick", isSetorMass: true },
                 { hora: "17:00", atividade: "Confissão – Igreja Matriz", padre: "Pe. Edimilson" },
                 { hora: "18:00", atividade: "Adoração – Igreja Matriz", padre: "Pe. Edimilson" },
                 { hora: "19:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
@@ -255,13 +257,13 @@
         },
         // Dia 12
         "12": {
-            liturgia: { text: "S. Bibiano (Memória)", color: "lit-roxo" },
+            liturgia: { text: "4ª-feira da 2ª Semana do Advento", color: "lit-roxo" },
             agenda: [
                 { hora: "09:00", atividade: "Visita às obras", padre: "Pe. Erick" },
                 { hora: "09:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
                 { hora: "15:00", atividade: "Confissões crismandos – Bairro Roseirinha", padre: "Pe. Erick" },
-                { hora: "19:00", atividade: "Santa Missa Setor 7 – Bairro Serra Verde", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
-                { hora: "19:00", atividade: "Santa Missa Setor 2 – Bairro Ribeirão", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "19:00", atividade: "Santa Missa Setor 7 – Bairro Serra Verde", padre: "Pe. Erick", isSetorMass: true },
+                { hora: "19:00", atividade: "Santa Missa Setor 2 – Bairro Ribeirão", padre: "Pe. Edimilson", isSetorMass: true },
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Varrer e limpar" },
@@ -270,7 +272,7 @@
         },
         // Dia 13
         "13": {
-            liturgia: { text: "S. Luciana (Memória)", color: "lit-roxo" },
+            liturgia: { text: "S. Luzia, Virgem e Mártir (Memória)", color: "lit-vermelho" },
             agenda: [
                 { hora: "05:00", atividade: "Procissão e Santa Missa Igreja Santa Luzia", padre: "Pe. Edimilson" },
                 { hora: "09:00", atividade: "Confissões crismandos - Bairro Serra Verde", padre: "Pe. Erick" },
@@ -284,13 +286,13 @@
         },
         // Dia 14
         "14": {
-            liturgia: { text: "3º Domingo do Advento (Gaudete)", color: "lit-rosa" },
+            liturgia: { text: "3º DOMINGO DO ADVENTO (Gaudete)", color: "lit-rosa" },
             agenda: [
                 { hora: "07:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
-                { hora: "09:00", atividade: "Santa Missa Setor 3 – Bairro Mogiano", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "09:00", atividade: "Santa Missa Setor 3 – Bairro Mogiano", padre: "Pe. Edimilson", isSetorMass: true },
                 { hora: "09:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Erick" },
                 { hora: "11:00", atividade: "Santa Missa Hotel", padre: "Pe. Erick" },
-                { hora: "18:00", atividade: "Santa Missa Setor 4 – Bairro Moreiras", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "18:00", atividade: "Santa Missa Setor 4 – Bairro Moreiras", padre: "Pe. Edimilson", isSetorMass: true },
                 { hora: "19:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
             ],
             tarefas: [
@@ -300,7 +302,7 @@
         },
         // Dia 15
         "15": {
-            liturgia: { text: "Jubileu Paroquial", color: "lit-roxo" },
+            liturgia: { text: "2ª-feira da 3ª Semana do Advento", color: "lit-roxo" },
             agenda: [
                 { hora: "09:00", atividade: "Confissões crismandos – Matriz", padre: "Pe. Erick" },
                 { hora: "14:00", atividade: "Confissões crismandos – Matriz", padre: "Pe. Erick" },
@@ -313,12 +315,12 @@
         },
         // Dia 16
         "16": {
-            liturgia: { text: "S. Nicolau de Mira (Memória)", color: "lit-roxo" },
+            liturgia: { text: "3ª-feira da 3ª Semana do Advento", color: "lit-roxo" },
             agenda: [
                 { hora: "09:00", atividade: "Confissões crismandos – Matriz", padre: "Pe. Erick" },
                 { hora: "14:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
                 { hora: "14:00", atividade: "Confissões crismandos – Matriz", padre: "Pe. Erick" },
-                { hora: "19:00", atividade: "Santa Missa Setor 1 – Bairro Mendes", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "19:00", atividade: "Santa Missa Setor 1 – Bairro Mendes", padre: "Pe. Edimilson", isSetorMass: true },
                 { hora: "19:00", atividade: "Formação MESC", padre: "Pe. Edimilson" },
             ],
             tarefas: [
@@ -328,7 +330,7 @@
         },
         // Dia 17
         "17": {
-            liturgia: { text: "S. Lúcia (Memória)", color: "lit-roxo" },
+            liturgia: { text: "4ª-feira da 3ª Semana do Advento", color: "lit-roxo" },
             agenda: [
                 { hora: "09:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
                 { hora: "09:00", atividade: "Confissões crismandos – Matriz", padre: "Pe. Erick" },
@@ -341,7 +343,7 @@
         },
         // Dia 18
         "18": {
-            liturgia: { text: "S. Flávio (Memória)", color: "lit-roxo" },
+            liturgia: { text: "5ª-feira da 3ª Semana do Advento", color: "lit-roxo" },
             agenda: [
                 { hora: "09:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
                 { hora: "09:00", atividade: "Confissões crismandos – Matriz", padre: "Pe. Erick" },
@@ -349,7 +351,7 @@
                 { hora: "17:00", atividade: "Confissões Igreja Matriz", padre: "Pe. Edimilson" },
                 { hora: "18:00", atividade: "Adoração Igreja Matriz", padre: "Pe. Edimilson" },
                 { hora: "19:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
-                { hora: "19:00", atividade: "Santa Missa Setor 1 – Bairro Muquém", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "19:00", atividade: "Santa Missa Setor 1 – Bairro Muquém", padre: "Pe. Erick", isSetorMass: true },
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Limpar coro" },
@@ -358,13 +360,13 @@
         },
         // Dia 19
         "19": {
-            liturgia: { text: "S. João Damasceno (Memória)", color: "lit-roxo" },
+            liturgia: { text: "6ª-feira da 3ª Semana do Advento", color: "lit-roxo" },
             agenda: [
                 { hora: "09:00", atividade: "Visita às obras", padre: "Pe. Erick" },
                 { hora: "09:00", atividade: "Santa Missa Abrigo São Camilo", padre: "Pe. Edimilson" },
                 { hora: "14:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
-                { hora: "19:00", atividade: "Santa Missa Setor 2 – Bairro Porto", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
-                { hora: "19:00", atividade: "Santa Missa Setor 5 – Bairro Pouso Frio", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "19:00", atividade: "Santa Missa Setor 2 – Bairro Porto", padre: "Pe. Erick", isSetorMass: true },
+                { hora: "19:00", atividade: "Santa Missa Setor 5 – Bairro Pouso Frio", padre: "Pe. Edimilson", isSetorMass: true },
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Varrer e limpar" },
@@ -373,9 +375,9 @@
         },
         // Dia 20
         "20": {
-            liturgia: { text: "S. Egídio (Memória)", color: "lit-roxo" },
+            liturgia: { text: "Sábado da 3ª Semana do Advento", color: "lit-roxo" },
             agenda: [
-                { hora: "10:00", atividade: "Santa Missa Setor 1 – Bairro Virgem do Socorro", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "10:00", atividade: "Santa Missa Setor 1 – Bairro Virgem do Socorro", padre: "Pe. Erick", isSetorMass: true },
                 { hora: "16:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
                 { hora: "19:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Erick" },
             ],
@@ -386,13 +388,13 @@
         },
         // Dia 21
         "21": {
-            liturgia: { text: "4º Domingo do Advento", color: "lit-roxo" },
+            liturgia: { text: "4º DOMINGO DO ADVENTO", color: "lit-roxo" },
             agenda: [
                 { hora: "07:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
                 { hora: "09:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
-                { hora: "10:00", atividade: "Santa Missa Setor 7 – Bairro Retiro dos Marins", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
-                { hora: "11:00", atividade: "Santa Missa Setor 1 – Bairro Retirinho", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
-                { hora: "18:00", atividade: "Santa Missa Setor 4 – Bairro Moreiras", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "10:00", atividade: "Santa Missa Setor 7 – Bairro Retiro dos Marins", padre: "Pe. Erick", isSetorMass: true },
+                { hora: "11:00", atividade: "Santa Missa Setor 1 – Bairro Retirinho", padre: "Pe. Edimilson", isSetorMass: true },
+                { hora: "18:00", atividade: "Santa Missa Setor 4 – Bairro Moreiras", padre: "Pe. Edimilson", isSetorMass: true },
                 { hora: "19:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Erick" },
             ],
             tarefas: [
@@ -402,7 +404,7 @@
         },
         // Dia 22
         "22": {
-            liturgia: { text: "S. Francisco de Sales (Memória)", color: "lit-roxo" },
+            liturgia: { text: "2ª-feira da 4ª Semana do Advento", color: "lit-roxo" },
             agenda: [
                 { hora: "-----", atividade: "Folga", padre: "Pe. Edimilson" },
                 { hora: "09:00", atividade: "Santa Missa Abrigo São Camilo", padre: "Pe. Erick" },
@@ -415,11 +417,11 @@
         },
         // Dia 23
         "23": {
-            liturgia: { text: "S. Tomás de Villanueva (Memória)", color: "lit-roxo" },
+            liturgia: { text: "S. João Câncio, presbítero (Memória)", color: "lit-roxo" },
             agenda: [
                 { hora: "-----", atividade: "Folga", padre: "Pe. Edimilson" },
                 { hora: "14:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
-                { hora: "19:00", atividade: "Santa Missa Setor 5 – Bairro Marques", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "19:00", atividade: "Santa Missa Setor 5 – Bairro Marques", padre: "Pe. Edimilson", isSetorMass: true },
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Lavar vestes de leitores" },
@@ -428,12 +430,12 @@
         },
         // Dia 24
         "24": {
-            liturgia: { text: "Véspera de Natal", color: "lit-roxo" },
+            liturgia: { text: "4ª-feira da 4ª Semana do Advento (Véspera de Natal)", color: "lit-roxo" },
             agenda: [
                 { hora: "17:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Erick" },
-                { hora: "19:00", atividade: "Santa Missa Setor 6 – Bairro São José da Mantiqueira", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "19:00", atividade: "Santa Missa Setor 6 – Bairro São José da Mantiqueira", padre: "Pe. Edimilson", isSetorMass: true },
                 { hora: "20:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Erick" },
-                { hora: "21:00", atividade: "Santa Missa Setor 7 – Bairro Roseirinha", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "21:00", atividade: "Santa Missa Setor 7 – Bairro Roseirinha", padre: "Pe. Edimilson", isSetorMass: true },
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Folga" },
@@ -442,11 +444,11 @@
         },
         // Dia 25
         "25": {
-            liturgia: { text: "Natal do Senhor", color: "lit-branco" },
+            liturgia: { text: "NATAL DE NOSSO SENHOR JESUS CRISTO (Solenidade)", color: "lit-branco" },
             agenda: [
                 { hora: "09:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
-                { hora: "10:00", atividade: "Santa Missa Setor 7 – Bairro Rio Acima II", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
-                { hora: "11:00", atividade: "Santa Missa Setor 1 – Bairro Mendes", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "10:00", atividade: "Santa Missa Setor 7 – Bairro Rio Acima II", padre: "Pe. Erick", isSetorMass: true },
+                { hora: "11:00", atividade: "Santa Missa Setor 1 – Bairro Mendes", padre: "Pe. Edimilson", isSetorMass: true },
                 { hora: "19:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Erick" },
             ],
             tarefas: [
@@ -456,12 +458,12 @@
         },
         // Dia 26
         "26": {
-            liturgia: { text: "S. Estevão, Protomártir (Memória)", color: "lit-vermelho" },
+            liturgia: { text: "S. Estevão, Protomártir (Festa)", color: "lit-vermelho" },
             agenda: [
                 { hora: "09:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
                 { hora: "14:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
                 { hora: "19:00", atividade: "Santa Missa Sagrado Coração de Jesus", padre: "Pe. Erick" },
-                { hora: "19:00", atividade: "Santa Missa Setor 1 – Bairro Roseira", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "19:00", atividade: "Santa Missa Setor 1 – Bairro Roseira", padre: "Pe. Edimilson", isSetorMass: true },
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Varrer e limpar" },
@@ -483,13 +485,13 @@
         },
         // Dia 28
         "28": {
-            liturgia: { text: "Santos Inocentes (Memória)", color: "lit-vermelho" },
+            liturgia: { text: "SAGRADA FAMÍLIA DE JESUS, MARIA E JOSÉ (Festa)", color: "lit-branco" },
             agenda: [
                 { hora: "07:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
-                { hora: "09:00", atividade: "Santa Missa Setor 3 – Bairro Corrêias", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "09:00", atividade: "Santa Missa Setor 3 – Bairro Corrêias", padre: "Pe. Edimilson", isSetorMass: true },
                 { hora: "09:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Erick" },
-                { hora: "10:00", atividade: "Santa Missa Setor 7 – Bairro Rio Acima II", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
-                { hora: "16:00", atividade: "Santa Missa Setor 1 – Bairro Retirinho", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "10:00", atividade: "Santa Missa Setor 7 – Bairro Rio Acima II", padre: "Pe. Erick", isSetorMass: true },
+                { hora: "16:00", atividade: "Santa Missa Setor 1 – Bairro Retirinho", padre: "Pe. Edimilson", isSetorMass: true },
                 { hora: "19:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Erick" },
             ],
             tarefas: [
@@ -499,7 +501,7 @@
         },
         // Dia 29
         "29": {
-            liturgia: { text: "S. Pedro Canísio, Presbítero e Doutor da Igreja (Memória)", color: "lit-branco" },
+            liturgia: { text: "S. Tomás Becket, Bispo e Mártir (Oitava do Natal)", color: "lit-vermelho" },
             agenda: [
                 { hora: "-----", atividade: "Folga", padre: "Pe. Edimilson" },
                 { hora: "09:00", atividade: "Visita às obras", padre: "Pe. Erick" },
@@ -511,10 +513,10 @@
         },
         // Dia 30
         "30": {
-            liturgia: { text: "S. Silvestre I, Papa (Memória)", color: "lit-branco" },
+            liturgia: { text: "6º Dia da Oitava do Natal", color: "lit-branco" },
             agenda: [
                 { hora: "14:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
-                { hora: "19:00", atividade: "Santa Missa Setor 7 – Bairro Palmeiras", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "19:00", atividade: "Santa Missa Setor 7 – Bairro Palmeiras", padre: "Pe. Edimilson", isSetorMass: true },
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Lavar vestes de leitores" },
@@ -523,12 +525,12 @@
         },
         // Dia 31
         "31": {
-            liturgia: { text: "Sagrada Família de Jesus, Maria e José (Festa)", color: "lit-branco" },
+            liturgia: { text: "S. Silvestre I, Papa (7º Dia da Oitava do Natal)", color: "lit-branco" },
             agenda: [
                 { hora: "17:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
                 { hora: "18:30", atividade: "Adoração Igreja Matriz", padre: "Pe. Erick" },
                 { hora: "19:30", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Erick" },
-                { hora: "19:30", atividade: "Santa Missa Setor 7 – Bairro Vargem Alegre", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "19:30", atividade: "Santa Missa Setor 7 – Bairro Vargem Alegre", padre: "Pe. Edimilson", isSetorMass: true },
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Folga" },
@@ -560,8 +562,6 @@
         const carousel = document.getElementById('date-carousel');
         carousel.innerHTML = ''; 
         
-        const firstDayOfMonth = new Date(YEAR, MONTH_INDEX, 1); 
-
         for (let day = 1; day <= MONTH_DAY_COUNT; day++) {
             const date = new Date(YEAR, MONTH_INDEX, day);
             const dayOfWeekIndex = date.getDay();
@@ -697,7 +697,7 @@
                 
                 // Checklist de Preparação Litúrgica (Detalhe Oculto)
                 let checklistHtml = '';
-                LiturgicalItems.forEach((itemName, itemIndex) => {
+                LiturgicalItemsBase.forEach((itemName, itemIndex) => {
                     // ID ÚNICO por dia + índice da agenda + índice do item litúrgico
                     const checklistId = `lit-${dayString}-${index}-${itemIndex}`; 
                     const isChecked = localStorage.getItem(checklistId) === 'true';
@@ -711,6 +711,21 @@
                         </div>
                     `;
                 });
+
+                // NOVO: Checklist do Lecionário
+                let lecionarioHtml = '';
+                LecionarioTypes.forEach((option, idx) => {
+                    const lecionarioId = `lec-${dayString}-${index}-${idx}`;
+                    const isChecked = localStorage.getItem(lecionarioId) === 'true';
+                    lecionarioHtml += `
+                        <label class="flex items-center space-x-2 cursor-pointer text-sm text-gray-200 w-full">
+                            <input type="checkbox" id="${lecionarioId}" ${isChecked ? 'checked' : ''}
+                                class="form-checkbox h-4 w-4 text-green-500 bg-gray-600 border-gray-500 rounded focus:ring-green-500">
+                            <span>${option}</span>
+                        </label>
+                    `;
+                });
+
 
                 // Insere a linha principal da agenda
                 agendaTableHtml += `
@@ -728,6 +743,12 @@
                             <div class="font-bold text-highlight-gold mb-2 text-sm">🎒 Preparação Litúrgica (Mala de Missa):</div>
                             <div class="grid grid-cols-2 gap-x-4 gap-y-2">
                                 ${checklistHtml}
+                            </div>
+                            <div class="font-bold text-highlight-gold mb-2 text-sm mt-3 border-t border-gray-600 pt-3">
+                                📖 Lecionário (Qual levado?):
+                            </div>
+                            <div class="space-y-2">
+                                ${lecionarioHtml}
                             </div>
                         </td>
                     </tr>
