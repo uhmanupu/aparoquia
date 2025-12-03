@@ -73,15 +73,10 @@
         <p class="text-center text-gray-400">Carregando a agenda...</p>
     </div>
 
-    <!-- Relatório -->
-    <div class="bg-element-dark p-4 rounded-lg shadow-inner mt-8">
-        <button id="generate-report" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 shadow-md">
-            📊 Gerar Relatório de Tarefas
-        </button>
-        <div class="mt-4 p-4 bg-gray-900 border border-gray-700 rounded-lg text-sm text-green-300 whitespace-pre-wrap hidden" id="report-output">
-            Nenhum dado registrado ainda.
-        </div>
-    </div>
+    <!-- Rodapé -->
+    <footer class="text-center mt-8 text-gray-500 text-sm p-4 border-t border-gray-700">
+        Paróquia Nossa Senhora da Conceição v6.1!
+    </footer>
 </div>
 
 <script>
@@ -834,86 +829,9 @@
     }
 
     /**
-     * Função para gerar o relatório de status.
+     * FUNÇÃO DE RELATÓRIO REMOVIDA
      */
-    function generateReport() {
-        const output = document.getElementById('report-output');
-        let completedTasks = 0;
-        let totalTasks = 0;
-        let reportText = `Relatório da Sacristia de ${MONTH_NAME} ${YEAR}:\n\n`;
-        let incompletePrepReport = '';
-
-        // Itera sobre todos os dias do calendário
-        for (let day = 1; day <= MONTH_DAY_COUNT; day++) {
-            const dayString = day.toString().padStart(2, '0');
-            const data = dailySchedule[dayString];
-
-            if (!data) continue;
-
-            let dayReport = '';
-            let incompleteDayPrep = `📅 Dia ${dayString} - Preparações Faltando:\n`;
-            let prepIncomplete = false;
-
-            // 1. Agenda (Preparações Litúrgicas)
-            data.agenda.forEach((item, index) => {
-                if (item.isSetorMass) {
-                    let massPrepReport = `   ${item.atividade} (${item.padre}):\n`;
-                    let massPrepared = true;
-                    
-                    LiturgicalItems.forEach((itemName, itemIndex) => {
-                        const checklistId = `lit-${dayString}-${index}-${itemIndex}`;
-                        const isCompleted = localStorage.getItem(checklistId) === 'true';
-
-                        if (!isCompleted) {
-                            massPrepReport += `     [ ] ${itemName} (FALTA)\n`;
-                            massPrepared = false;
-                        }
-                    });
-
-                    if (!massPrepared) {
-                        incompleteDayPrep += massPrepReport;
-                        prepIncomplete = true;
-                    }
-                }
-            });
-            
-            // Adiciona relatórios de preparação incompleta
-            if (prepIncomplete) {
-                incompletePrepReport += incompleteDayPrep + '\n';
-            }
-
-            // 2. Tarefas da Sacristia (Emanuel/Pietro)
-            data.tarefas.forEach((p, pIndex) => {
-                totalTasks++;
-                const taskId = `task-${dayString}-${pIndex + 1}`;
-                const mainTask = p.desc.split(',')[0].trim();
-                const isCompleted = localStorage.getItem(taskId) === 'true';
-
-                if (isCompleted) {
-                    completedTasks++;
-                    dayReport += `   [✓] Tarefa ${p.nome}: ${mainTask}\n`;
-                }
-            });
-            
-            if (dayReport) {
-                reportText += `✅ Tarefas Concluídas no Dia ${dayString}:\n` + dayReport + '\n';
-            }
-        }
-        
-        // Consolida o relatório
-        let finalReport = `--- Resumo Global (${MONTH_NAME} ${YEAR}) ---\n`;
-        finalReport += `✅ Total de Tarefas (Emanuel/Pietro) Concluídas: ${completedTasks} de ${totalTasks}\n\n`;
-
-        if (incompletePrepReport) {
-            finalReport += `⚠️ PREPARAÇÕES LITÚRGICAS PENDENTES:\n\n` + incompletePrepReport;
-        } else {
-            finalReport += `🎉 Todas as preparações litúrgicas foram marcadas como concluídas.\n`;
-        }
-        
-        output.textContent = reportText + finalReport;
-        output.style.display = 'block';
-    }
-
+    // function generateReport() { ... }
 
     /**
      * Inicia a aplicação.
@@ -933,8 +851,7 @@
 
         renderDateCarousel(startDay);
 
-        // Listener do Relatório
-        document.getElementById('generate-report').addEventListener('click', generateReport);
+        // O listener do botão de relatório foi removido, pois o botão foi excluído.
     }
 
     // Inicia a aplicação assim que o DOM estiver carregado
