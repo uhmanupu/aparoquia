@@ -99,6 +99,19 @@
             white-space: pre-wrap;
             display: none;
         }
+        .saint-header {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            color: white;
+        }
+        .saint-header.solemnidade { background: #ffffff; color: #000; }
+        .saint-header.memoria { background: #d43f3f; color: white; }
+        .saint-header.ferial { background: #6a4c93; color: white; }
+        .saint-header.dominical { background: #6a4c93; color: white; }
         .highlight {
             background: rgba(255, 215, 0, 0.2);
             font-weight: bold;
@@ -116,7 +129,6 @@
 
     <!-- Carrossel de datas -->
     <div id="date-carousel">
-        <!-- Dias 01 a 31 -->
         <div class="date-item selected" data-dia="01">01 Seg</div>
         <div class="date-item" data-dia="02">02 Ter</div>
         <div class="date-item" data-dia="03">03 Qua</div>
@@ -152,7 +164,7 @@
 
     <!-- Conteúdo dos dias -->
     <div id="content-01">
-        <h2>📅 01/12 – Segunda-feira – 2ª-feira da 1ª Semana do Advento</h2>
+        <div class="saint-header ferial">2ª-feira da 1ª Semana do Advento</div>
         <table>
             <tr><td>-----</td><td>Folga</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="01-1">☐</div></td></tr>
             <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="01-2">☐</div></td></tr>
@@ -170,11 +182,9 @@
         </div>
     </div>
 
-    <!-- Adicione os outros dias aqui... -->
-
     <!-- Dia 02 -->
     <div id="content-02" style="display:none;">
-        <h2>📅 02/12 – Terça-feira – S. Cromácio de Aquileia (Memória)</h2>
+        <div class="saint-header memoria">S. Cromácio de Aquileia (Memória)</div>
         <table>
             <tr><td>09:00</td><td>Visita às obras</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="02-1">☐</div></td></tr>
             <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="02-2">☐</div></td></tr>
@@ -193,7 +203,7 @@
 
     <!-- Dia 03 -->
     <div id="content-03" style="display:none;">
-        <h2>📅 03/12 – Quarta-feira – S. Francisco Xavier (Memória)</h2>
+        <div class="saint-header memoria">S. Francisco Xavier (Memória)</div>
         <table>
             <tr><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="03-1">☐</div></td></tr>
             <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="03-2">☐</div></td></tr>
@@ -212,7 +222,7 @@
 
     <!-- Dia 04 -->
     <div id="content-04" style="display:none;">
-        <h2>📅 04/12 – Quinta-feira – 5ª-feira da 1ª Semana do Advento</h2>
+        <div class="saint-header ferial">5ª-feira da 1ª Semana do Advento</div>
         <table>
             <tr><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="04-1">☐</div></td></tr>
             <tr><td>09:00</td><td>Santa Missa Abrigo São Camilo</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="04-2">☐</div></td></tr>
@@ -232,7 +242,7 @@
 
     <!-- Dia 05 -->
     <div id="content-05" style="display:none;">
-        <h2>📅 05/12 – Sexta-feira – S. Sabas (Memória)</h2>
+        <div class="saint-header memoria">S. Sabas (Memória)</div>
         <table>
             <tr><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="05-1">☐</div></td></tr>
             <tr><td>14:00</td><td>Visita às obras</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="05-2">☐</div></td></tr>
@@ -251,7 +261,7 @@
 
     <!-- Dia 06 -->
     <div id="content-06" style="display:none;">
-        <h2>📅 06/12 – Sábado – Sábado da 1ª Semana do Advento</h2>
+        <div class="saint-header ferial">Sábado da 1ª Semana do Advento</div>
         <table>
             <tr><td>11:00</td><td>Casamento - Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="06-1">☐</div></td></tr>
             <tr><td>16:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="06-2">☐</div></td></tr>
@@ -270,7 +280,7 @@
 
     <!-- Dia 07 -->
     <div id="content-07" style="display:none;">
-        <h2>📅 07/12 – Domingo – 2º Domingo do Advento</h2>
+        <div class="saint-header dominical">2º Domingo do Advento</div>
         <table>
             <tr><td>07:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="07-1">☐</div></td></tr>
             <tr><td>08:00</td><td>Santa Missa Setor 6 – Bairro São José da Mantiqueira - Confissão Crismando</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="07-2">☐</div></td></tr>
@@ -292,7 +302,7 @@
 
     <!-- Dia 08 -->
     <div id="content-08" style="display:none;">
-        <h2>📅 08/12 – Segunda-feira – Imaculada Conceição de Maria Santíssima (Solenidade)</h2>
+        <div class="saint-header solenidade">Imaculada Conceição de Maria Santíssima (Solenidade)</div>
         <table>
             <tr><td>-----</td><td>Folga</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="08-1">☐</div></td></tr>
             <tr><td>10:00</td><td>Santa Missa Setor 7 – Bairro Roseirinha</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="08-2">☐</div></td></tr>
@@ -311,7 +321,7 @@
 
     <!-- Dia 09 -->
     <div id="content-09" style="display:none;">
-        <h2>📅 09/12 – Terça-feira – S. Juan Diego Cuauhtlatoatzin (Memória)</h2>
+        <div class="saint-header memoria">S. Juan Diego Cuauhtlatoatzin (Memória)</div>
         <table>
             <tr><td>09:00</td><td>Visita às obras</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="09-1">☐</div></td></tr>
             <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="09-2">☐</div></td></tr>
@@ -329,7 +339,7 @@
 
     <!-- Dia 10 -->
     <div id="content-10" style="display:none;">
-        <h2>📅 10/12 – Quarta-feira – S. Daniel de Cúria (Memória)</h2>
+        <div class="saint-header ferial">S. Daniel de Cúria (Memória)</div>
         <table>
             <tr><td>-----</td><td>Folga</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="10-1">☐</div></td></tr>
             <tr><td>09:00</td><td>Santa Missa Abrigo São Camilo</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="10-2">☐</div></td></tr>
@@ -348,7 +358,7 @@
 
     <!-- Dia 11 -->
     <div id="content-11" style="display:none;">
-        <h2>📅 11/12 – Quinta-feira – S. Damaso I, Papa (Memória)</h2>
+        <div class="saint-header memoria">S. Damaso I, Papa (Memória)</div>
         <table>
             <tr><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="11-1">☐</div></td></tr>
             <tr><td>09:00</td><td>Confissões crismandos - Bairro Marques</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="11-2">☐</div></td></tr>
@@ -369,7 +379,7 @@
 
     <!-- Dia 12 -->
     <div id="content-12" style="display:none;">
-        <h2>📅 12/12 – Sexta-feira – S. Bibiano (Memória)</h2>
+        <div class="saint-header memoria">S. Bibiano (Memória)</div>
         <table>
             <tr><td>09:00</td><td>Visita às obras</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="12-1">☐</div></td></tr>
             <tr><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="12-2">☐</div></td></tr>
@@ -389,7 +399,7 @@
 
     <!-- Dia 13 -->
     <div id="content-13" style="display:none;">
-        <h2>📅 13/12 – Sábado – S. Luciana (Memória)</h2>
+        <div class="saint-header memoria">S. Luciana (Memória)</div>
         <table>
             <tr><td>05:00</td><td>Procissão saindo casa Evelyne em seguida Santa Missa Igreja Santa Luzia</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="13-1">☐</div></td></tr>
             <tr><td>09:00</td><td>Confissões crismandos - Bairro Serra Verde (Serra Verde e Rio Acima II)</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="13-2">☐</div></td></tr>
@@ -408,7 +418,7 @@
 
     <!-- Dia 14 -->
     <div id="content-14" style="display:none;">
-        <h2>📅 14/12 – Domingo – 3º Domingo do Advento</h2>
+        <div class="saint-header dominical">3º Domingo do Advento</div>
         <table>
             <tr><td>07:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="14-1">☐</div></td></tr>
             <tr><td>09:00</td><td>Santa Missa Setor 3 – Bairro Mogiano</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="14-2">☐</div></td></tr>
@@ -429,7 +439,7 @@
 
     <!-- Dia 15 -->
     <div id="content-15" style="display:none;">
-        <h2>📅 15/12 – Segunda-feira – Jubileu Paroquial</h2>
+        <div class="saint-header ferial">Jubileu Paroquial</div>
         <table>
             <tr><td>09:00</td><td>Confissões crismandos – Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="15-1">☐</div></td></tr>
             <tr><td>14:00</td><td>Confissões crismandos – Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="15-2">☐</div></td></tr>
@@ -447,7 +457,7 @@
 
     <!-- Dia 16 -->
     <div id="content-16" style="display:none;">
-        <h2>📅 16/12 – Terça-feira – S. Nicolau de Mira (Memória)</h2>
+        <div class="saint-header memoria">S. Nicolau de Mira (Memória)</div>
         <table>
             <tr><td>09:00</td><td>Confissões crismandos – Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="16-1">☐</div></td></tr>
             <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="16-2">☐</div></td></tr>
@@ -467,7 +477,7 @@
 
     <!-- Dia 17 -->
     <div id="content-17" style="display:none;">
-        <h2>📅 17/12 – Quarta-feira – S. Lúcia (Memória)</h2>
+        <div class="saint-header memoria">S. Lúcia (Memória)</div>
         <table>
             <tr><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="17-1">☐</div></td></tr>
             <tr><td>09:00</td><td>Confissões crismandos – Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="17-2">☐</div></td></tr>
@@ -485,7 +495,7 @@
 
     <!-- Dia 18 -->
     <div id="content-18" style="display:none;">
-        <h2>📅 18/12 – Quinta-feira – S. Flávio (Memória)</h2>
+        <div class="saint-header memoria">S. Flávio (Memória)</div>
         <table>
             <tr><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="18-1">☐</div></td></tr>
             <tr><td>09:00</td><td>Confissões crismandos – Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="18-2">☐</div></td></tr>
@@ -507,7 +517,7 @@
 
     <!-- Dia 19 -->
     <div id="content-19" style="display:none;">
-        <h2>📅 19/12 – Sexta-feira – S. João Damasceno (Memória)</h2>
+        <div class="saint-header memoria">S. João Damasceno (Memória)</div>
         <table>
             <tr><td>09:00</td><td>Visita às obras</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="19-1">☐</div></td></tr>
             <tr><td>09:00</td><td>Santa Missa Abrigo São Camilo</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="19-2">☐</div></td></tr>
@@ -527,7 +537,7 @@
 
     <!-- Dia 20 -->
     <div id="content-20" style="display:none;">
-        <h2>📅 20/12 – Sábado – S. Egídio (Memória)</h2>
+        <div class="saint-header memoria">S. Egídio (Memória)</div>
         <table>
             <tr><td>10:00</td><td>Santa Missa Setor 1 – Bairro Virgem do Socorro</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="20-1">☐</div></td></tr>
             <tr><td>16:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="20-2">☐</div></td></tr>
@@ -545,7 +555,7 @@
 
     <!-- Dia 21 -->
     <div id="content-21" style="display:none;">
-        <h2>📅 21/12 – Domingo – 4º Domingo do Advento</h2>
+        <div class="saint-header dominical">4º Domingo do Advento</div>
         <table>
             <tr><td>07:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="21-1">☐</div></td></tr>
             <tr><td>09:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="21-2">☐</div></td></tr>
@@ -566,7 +576,7 @@
 
     <!-- Dia 22 -->
     <div id="content-22" style="display:none;">
-        <h2>📅 22/12 – Segunda-feira – S. Francisco de Sales (Memória)</h2>
+        <div class="saint-header memoria">S. Francisco de Sales (Memória)</div>
         <table>
             <tr><td>-----</td><td>Folga</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="22-1">☐</div></td></tr>
             <tr><td>09:00</td><td>Santa Missa Abrigo São Camilo</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="22-2">☐</div></td></tr>
@@ -584,7 +594,7 @@
 
     <!-- Dia 23 -->
     <div id="content-23" style="display:none;">
-        <h2>📅 23/12 – Terça-feira – S. Tomás de Villanueva (Memória)</h2>
+        <div class="saint-header memoria">S. Tomás de Villanueva (Memória)</div>
         <table>
             <tr><td>-----</td><td>Folga</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="23-1">☐</div></td></tr>
             <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="23-2">☐</div></td></tr>
@@ -602,7 +612,7 @@
 
     <!-- Dia 24 -->
     <div id="content-24" style="display:none;">
-        <h2>📅 24/12 – Quarta-feira – Véspera de Natal</h2>
+        <div class="saint-header ferial">Véspera de Natal</div>
         <table>
             <tr><td>17:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="24-1">☐</div></td></tr>
             <tr><td>19:00</td><td>Santa Missa Setor 6 – Bairro São José da Mantiqueira</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="24-2">☐</div></td></tr>
@@ -621,7 +631,7 @@
 
     <!-- Dia 25 -->
     <div id="content-25" style="display:none;">
-        <h2>📅 25/12 – Quinta-feira – Natal do Senhor</h2>
+        <div class="saint-header solenidade">Natal do Senhor</div>
         <table>
             <tr><td>09:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="25-1">☐</div></td></tr>
             <tr><td>10:00</td><td>Santa Missa Setor 7 – Bairro Rio Acima II</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="25-2">☐</div></td></tr>
@@ -640,7 +650,7 @@
 
     <!-- Dia 26 -->
     <div id="content-26" style="display:none;">
-        <h2>📅 26/12 – Sexta-feira – S. Estevão (Memória)</h2>
+        <div class="saint-header memoria">S. Estevão (Memória)</div>
         <table>
             <tr><td>09:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="26-1">☐</div></td></tr>
             <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="26-2">☐</div></td></tr>
@@ -659,7 +669,7 @@
 
     <!-- Dia 27 -->
     <div id="content-27" style="display:none;">
-        <h2>📅 27/12 – Sábado – S. João, Apóstolo (Memória)</h2>
+        <div class="saint-header memoria">S. João, Apóstolo (Memória)</div>
         <table>
             <tr><td>16:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="27-1">☐</div></td></tr>
             <tr><td>18:00</td><td>Santa Missa Hotel</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="27-2">☐</div></td></tr>
@@ -677,7 +687,7 @@
 
     <!-- Dia 28 -->
     <div id="content-28" style="display:none;">
-        <h2>📅 28/12 – Domingo – S. Tiago Menor (Memória)</h2>
+        <div class="saint-header memoria">S. Tiago Menor (Memória)</div>
         <table>
             <tr><td>07:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="28-1">☐</div></td></tr>
             <tr><td>09:00</td><td>Santa Missa Setor 3 – Bairro Corrêias</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="28-2">☐</div></td></tr>
@@ -698,7 +708,7 @@
 
     <!-- Dia 29 -->
     <div id="content-29" style="display:none;">
-        <h2>📅 29/12 – Segunda-feira – S. Pedro Canísio (Memória)</h2>
+        <div class="saint-header memoria">S. Pedro Canísio (Memória)</div>
         <table>
             <tr><td>-----</td><td>Folga</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="29-1">☐</div></td></tr>
             <tr><td>09:00</td><td>Visita às obras</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="29-2">☐</div></td></tr>
@@ -715,7 +725,7 @@
 
     <!-- Dia 30 -->
     <div id="content-30" style="display:none;">
-        <h2>📅 30/12 – Terça-feira – S. Silvestre I, Papa (Memória)</h2>
+        <div class="saint-header memoria">S. Silvestre I, Papa (Memória)</div>
         <table>
             <tr><td>14:00</td><td>Atendimento</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="30-1">☐</div></td></tr>
             <tr><td>19:00</td><td>Santa Missa Setor 7 – Bairro Palmeiras</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="30-2">☐</div></td></tr>
@@ -732,7 +742,7 @@
 
     <!-- Dia 31 -->
     <div id="content-31" style="display:none;">
-        <h2>📅 31/12 – Quarta-feira – S. João, Apóstolo (Memória)</h2>
+        <div class="saint-header memoria">S. João, Apóstolo (Memória)</div>
         <table>
             <tr><td>17:00</td><td>Santa Missa Igreja Matriz</td><td class="padre">Pe. Edimilson</td><td><div class="check-btn" data-id="31-1">☐</div></td></tr>
             <tr><td>18:30</td><td>Adoração Igreja Matriz</td><td class="padre">Pe. Erick</td><td><div class="check-btn" data-id="31-2">☐</div></td></tr>
