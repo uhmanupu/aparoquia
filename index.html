@@ -75,7 +75,7 @@
 
     <!-- Rodapé -->
     <footer class="text-center mt-8 text-gray-500 text-sm p-4 border-t border-gray-700">
-        Paróquia Nossa Senhora da Conceição v6.1!
+        Paróquia Nossa Senhora da Conceição v6.2!
     </footer>
 </div>
 
@@ -290,7 +290,7 @@
                 { hora: "09:00", atividade: "Santa Missa Setor 3 – Bairro Mogiano", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
                 { hora: "09:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Erick" },
                 { hora: "11:00", atividade: "Santa Missa Hotel", padre: "Pe. Erick" },
-                { hora: "18:00", atividade: "Santa Missa Setor 4 – Bairro Moreiras", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "18:00", atividade: "Santa Missa Setor 4 – Bairro Moreiras", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
                 { hora: "19:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
             ],
             tarefas: [
@@ -798,7 +798,7 @@
      * Anexa os listeners de eventos.
      */
     function attachEventListeners() {
-        // Evento 1: Checkboxes de Tarefas da Sacristia e Itens Litúrgicos (mantidos e expandidos)
+        // Evento 1: Checkboxes de Tarefas da Sacristia e Itens Litúrgicos (salva em localStorage)
         document.querySelectorAll('input[type="checkbox"]').forEach(el => {
             el.addEventListener('change', function(e) {
                 // Salva o estado usando localStorage
@@ -806,7 +806,7 @@
             });
         });
 
-        // Evento 2: Toggle para expansão do Checklist Litúrgico (NOVO)
+        // Evento 2: Toggle para expansão do Checklist Litúrgico 
         document.querySelectorAll('[data-toggle-id]').forEach(cell => {
             cell.addEventListener('click', function() {
                 const toggleId = this.getAttribute('data-toggle-id');
