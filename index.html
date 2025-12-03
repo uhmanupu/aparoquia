@@ -22,7 +22,7 @@
                         'lit-branco': '#ffffff',
                         'lit-rosa': '#e83e8c',
                         'lit-vermelho': '#dc3545',
-                        'lit-verde': '#28a745', // Adicionado Verde
+                        'lit-verde': '#28a745', 
                     }
                 }
             }
@@ -31,37 +31,48 @@
     <style>
         /* Estilo customizado para o carrossel e scrollbar (apenas visual) */
         #date-carousel {
-            -webkit-overflow-scrolling: touch; /* Melhora o scroll em iOS */
-            scrollbar-width: none; /* Firefox */
+            -webkit-overflow-scrolling: touch; 
+            scrollbar-width: none; 
             scroll-behavior: smooth;
         }
         #date-carousel::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Opera */
+            display: none; 
         }
-        /* Estilo para garantir que o contêiner de dia caiba na tela móvel */
+
+        /* Animação para o dia selecionado */
         .date-item.selected {
             animation: pulse-ring 0.6s ease-out;
         }
+
         @keyframes pulse-ring {
             0% { box-shadow: 0 0 0 0px rgba(255, 215, 0, 0.7); }
             100% { box-shadow: 0 0 0 4px rgba(255, 215, 0, 0); }
         }
+        
+        /* Ajuste na seta de expansão */
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
     </style>
 </head>
 <body class="bg-background-dark text-white p-2 sm:p-4 font-sans min-h-screen">
+
 <div id="app-container" class="max-w-4xl mx-auto bg-card-dark p-4 md:p-8 rounded-xl shadow-2xl">
     <h1 class="text-center text-2xl md:text-3xl text-highlight-gold mb-6 font-extrabold tracking-wide">
         ⛪ Sacristia - Agenda Paroquial Dezembro 2025
     </h1>
+
     <!-- CARROSSEL DE DATAS DESLIZANTE -->
     <div id="date-carousel" class="flex overflow-x-scroll snap-x snap-mandatory pb-4 mb-4 space-x-3">
         <!-- Itens de data serão gerados dinamicamente aqui -->
     </div>
+
     <!-- CONTEÚDO POR DIA -->
     <div id="daily-content-container" class="mt-6">
         <!-- O conteúdo da agenda e tarefas é carregado aqui com base no dia selecionado -->
         <p class="text-center text-gray-400">Carregando a agenda...</p>
     </div>
+
     <!-- Relatório -->
     <div class="bg-element-dark p-4 rounded-lg shadow-inner mt-8">
         <button id="generate-report" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 shadow-md">
@@ -72,6 +83,7 @@
         </div>
     </div>
 </div>
+
 <script>
     // Configurações de Mês/Ano e Dados
     const MONTH_DAY_COUNT = 31;
@@ -79,7 +91,14 @@
     const YEAR = 2025;
     const MONTH_NAME = "Dezembro";
     const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-    // Estrutura de Dados (Data é centralizada aqui e não mais no HTML)
+
+    // Lista Padrão de Itens Litúrgicos para as Missas Setoriais
+    const LiturgicalItems = [
+        'Hóstia G', 'Hóstia P', 'Vinho', 'Água', 'Missal', 'Lecionário', 
+        'Corporal', 'Sanguíneo', 'Pala', 'Cálice', 'Patena', 'Âmbula', 'Coleta'
+    ];
+
+    // Estrutura de Dados (Data é centralizada aqui)
     const dailySchedule = {
         // Dia 01
         "01": {
@@ -100,7 +119,7 @@
             agenda: [
                 { hora: "09:00", atividade: "Visita às obras", padre: "Pe. Erick" },
                 { hora: "14:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
-                { hora: "19:00", atividade: "Santa Missa Setor 5 – Bairro Morangal", padre: "Pe. Edimilson" },
+                { hora: "19:00", atividade: "Santa Missa Setor 5 – Bairro Morangal", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
                 { hora: "19:00", atividade: "5º dia da Novena", padre: "Pe. Erick", highlight: true },
             ],
             tarefas: [
@@ -114,7 +133,7 @@
             agenda: [
                 { hora: "09:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
                 { hora: "14:00", atividade: "Atendimento", padre: "Pe. Erick" },
-                { hora: "19:00", atividade: "Santa Missa Setor 6 – Bairro Torres", padre: "Pe. Edimilson" },
+                { hora: "19:00", atividade: "Santa Missa Setor 6 – Bairro Torres", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
                 { hora: "19:00", atividade: "6º dia da Novena", padre: "Pe. Erick", highlight: true },
             ],
             tarefas: [
@@ -129,7 +148,7 @@
                 { hora: "09:00", atividade: "Atendimento", padre: "Pe. Erick" },
                 { hora: "09:00", atividade: "Santa Missa Abrigo São Camilo", padre: "Pe. Edimilson" },
                 { hora: "14:00", atividade: "Visita aos enfermos", padre: "Pe. Edimilson" },
-                { hora: "19:00", atividade: "Santa Missa Setor 7 – Bairro Vargem Alegre – Formatura", padre: "Pe. Edimilson" },
+                { hora: "19:00", atividade: "Santa Missa Setor 7 – Bairro Vargem Alegre – Formatura", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
                 { hora: "19:00", atividade: "7º dia da Novena", padre: "Pe. Erick", highlight: true },
             ],
             tarefas: [
@@ -170,11 +189,11 @@
             liturgia: { text: "2º Domingo do Advento", color: "lit-roxo" },
             agenda: [
                 { hora: "07:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
-                { hora: "08:00", atividade: "Santa Missa Setor 6 – Bairro São José da Mantiqueira - Confissão Crismando", padre: "Pe. Erick" },
+                { hora: "08:00", atividade: "Santa Missa Setor 6 – Bairro São José da Mantiqueira - Confissão Crismando", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
                 { hora: "09:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
                 { hora: "10:00", atividade: "Batizado – Igreja Matriz", padre: "Pe. Edimilson" },
-                { hora: "10:30", atividade: "Santa Missa Setor 7 – Bairro Rio Acima II", padre: "Pe. Erick" },
-                { hora: "16:00", atividade: "Santa Missa Setor 1 – Bairro Retirinho", padre: "Pe. Edimilson" },
+                { hora: "10:30", atividade: "Santa Missa Setor 7 – Bairro Rio Acima II", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "16:00", atividade: "Santa Missa Setor 1 – Bairro Retirinho", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
                 { hora: "19:00", atividade: "Primeiras Vésperas", padre: "Pe. Erick" },
             ],
             tarefas: [
@@ -187,7 +206,7 @@
             liturgia: { text: "Imaculada Conceição de Maria Santíssima (Solenidade)", color: "lit-branco" },
             agenda: [
                 { hora: "-----", atividade: "Folga", padre: "Pe. Edimilson" },
-                { hora: "10:00", atividade: "Santa Missa Setor 7 – Bairro Roseirinha", padre: "Pe. Erick" },
+                { hora: "10:00", atividade: "Santa Missa Setor 7 – Bairro Roseirinha", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
                 { hora: "10:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Aylton" },
                 { hora: "19:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Erick" },
             ],
@@ -202,7 +221,7 @@
             agenda: [
                 { hora: "09:00", atividade: "Visita às obras", padre: "Pe. Erick" },
                 { hora: "14:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
-                { hora: "19:00", atividade: "Santa Missa Setor 3 – Bairro Corrêias", padre: "Pe. Edimilson" },
+                { hora: "19:00", atividade: "Santa Missa Setor 3 – Bairro Corrêias", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Lavar vestes de leitores" },
@@ -216,7 +235,7 @@
                 { hora: "-----", atividade: "Folga", padre: "Pe. Erick" },
                 { hora: "09:00", atividade: "Santa Missa Abrigo São Camilo", padre: "Pe. Edimilson" },
                 { hora: "14:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
-                { hora: "19:00", atividade: "Santa Missa Setor 1 – Bairro Palmeiras", padre: "Pe. Edimilson" },
+                { hora: "19:00", atividade: "Santa Missa Setor 1 – Bairro Palmeiras", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Folga" },
@@ -229,7 +248,7 @@
             agenda: [
                 { hora: "09:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
                 { hora: "09:00", atividade: "Confissões crismandos - Bairro Marques", padre: "Pe. Edimilson" },
-                { hora: "19:00", atividade: "Santa Missa Setor 5 – Bairro Marques", padre: "Pe. Erick" },
+                { hora: "19:00", atividade: "Santa Missa Setor 5 – Bairro Marques", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
                 { hora: "17:00", atividade: "Confissão – Igreja Matriz", padre: "Pe. Edimilson" },
                 { hora: "18:00", atividade: "Adoração – Igreja Matriz", padre: "Pe. Edimilson" },
                 { hora: "19:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
@@ -246,8 +265,8 @@
                 { hora: "09:00", atividade: "Visita às obras", padre: "Pe. Erick" },
                 { hora: "09:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
                 { hora: "15:00", atividade: "Confissões crismandos – Bairro Roseirinha", padre: "Pe. Erick" },
-                { hora: "19:00", atividade: "Santa Missa Setor 7 – Bairro Serra Verde", padre: "Pe. Erick" },
-                { hora: "19:00", atividade: "Santa Missa Setor 2 – Bairro Ribeirão", padre: "Pe. Edimilson" },
+                { hora: "19:00", atividade: "Santa Missa Setor 7 – Bairro Serra Verde", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "19:00", atividade: "Santa Missa Setor 2 – Bairro Ribeirão", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Varrer e limpar" },
@@ -273,10 +292,10 @@
             liturgia: { text: "3º Domingo do Advento (Gaudete)", color: "lit-rosa" },
             agenda: [
                 { hora: "07:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
-                { hora: "09:00", atividade: "Santa Missa Setor 3 – Bairro Mogiano", padre: "Pe. Edimilson" },
+                { hora: "09:00", atividade: "Santa Missa Setor 3 – Bairro Mogiano", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
                 { hora: "09:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Erick" },
                 { hora: "11:00", atividade: "Santa Missa Hotel", padre: "Pe. Erick" },
-                { hora: "18:00", atividade: "Santa Missa Setor 4 – Bairro Moreiras", padre: "Pe. Erick" },
+                { hora: "18:00", atividade: "Santa Missa Setor 4 – Bairro Moreiras", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
                 { hora: "19:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
             ],
             tarefas: [
@@ -304,7 +323,7 @@
                 { hora: "09:00", atividade: "Confissões crismandos – Matriz", padre: "Pe. Erick" },
                 { hora: "14:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
                 { hora: "14:00", atividade: "Confissões crismandos – Matriz", padre: "Pe. Erick" },
-                { hora: "19:00", atividade: "Santa Missa Setor 1 – Bairro Mendes", padre: "Pe. Edimilson" },
+                { hora: "19:00", atividade: "Santa Missa Setor 1 – Bairro Mendes", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
                 { hora: "19:00", atividade: "Formação MESC", padre: "Pe. Edimilson" },
             ],
             tarefas: [
@@ -335,7 +354,7 @@
                 { hora: "17:00", atividade: "Confissões Igreja Matriz", padre: "Pe. Edimilson" },
                 { hora: "18:00", atividade: "Adoração Igreja Matriz", padre: "Pe. Edimilson" },
                 { hora: "19:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
-                { hora: "19:00", atividade: "Santa Missa Setor 1 – Bairro Muquém", padre: "Pe. Erick" },
+                { hora: "19:00", atividade: "Santa Missa Setor 1 – Bairro Muquém", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Limpar coro" },
@@ -349,8 +368,8 @@
                 { hora: "09:00", atividade: "Visita às obras", padre: "Pe. Erick" },
                 { hora: "09:00", atividade: "Santa Missa Abrigo São Camilo", padre: "Pe. Edimilson" },
                 { hora: "14:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
-                { hora: "19:00", atividade: "Santa Missa Setor 2 – Bairro Porto", padre: "Pe. Erick" },
-                { hora: "19:00", atividade: "Santa Missa Setor 5 – Bairro Pouso Frio", padre: "Pe. Edimilson" },
+                { hora: "19:00", atividade: "Santa Missa Setor 2 – Bairro Porto", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "19:00", atividade: "Santa Missa Setor 5 – Bairro Pouso Frio", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Varrer e limpar" },
@@ -361,7 +380,7 @@
         "20": {
             liturgia: { text: "S. Egídio (Memória)", color: "lit-roxo" },
             agenda: [
-                { hora: "10:00", atividade: "Santa Missa Setor 1 – Bairro Virgem do Socorro", padre: "Pe. Erick" },
+                { hora: "10:00", atividade: "Santa Missa Setor 1 – Bairro Virgem do Socorro", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
                 { hora: "16:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
                 { hora: "19:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Erick" },
             ],
@@ -376,9 +395,9 @@
             agenda: [
                 { hora: "07:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
                 { hora: "09:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
-                { hora: "10:00", atividade: "Santa Missa Setor 7 – Bairro Retiro dos Marins", padre: "Pe. Erick" },
-                { hora: "11:00", atividade: "Santa Missa Setor 1 – Bairro Retirinho", padre: "Pe. Edimilson" },
-                { hora: "18:00", atividade: "Santa Missa Setor 4 – Bairro Moreiras", padre: "Pe. Edimilson" },
+                { hora: "10:00", atividade: "Santa Missa Setor 7 – Bairro Retiro dos Marins", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "11:00", atividade: "Santa Missa Setor 1 – Bairro Retirinho", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "18:00", atividade: "Santa Missa Setor 4 – Bairro Moreiras", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
                 { hora: "19:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Erick" },
             ],
             tarefas: [
@@ -405,7 +424,7 @@
             agenda: [
                 { hora: "-----", atividade: "Folga", padre: "Pe. Edimilson" },
                 { hora: "14:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
-                { hora: "19:00", atividade: "Santa Missa Setor 5 – Bairro Marques", padre: "Pe. Edimilson" },
+                { hora: "19:00", atividade: "Santa Missa Setor 5 – Bairro Marques", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Lavar vestes de leitores" },
@@ -417,9 +436,9 @@
             liturgia: { text: "Véspera de Natal", color: "lit-roxo" },
             agenda: [
                 { hora: "17:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Erick" },
-                { hora: "19:00", atividade: "Santa Missa Setor 6 – Bairro São José da Mantiqueira", padre: "Pe. Edimilson" },
+                { hora: "19:00", atividade: "Santa Missa Setor 6 – Bairro São José da Mantiqueira", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
                 { hora: "20:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Erick" },
-                { hora: "21:00", atividade: "Santa Missa Setor 7 – Bairro Roseirinha", padre: "Pe. Edimilson" },
+                { hora: "21:00", atividade: "Santa Missa Setor 7 – Bairro Roseirinha", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Folga" },
@@ -431,8 +450,8 @@
             liturgia: { text: "Natal do Senhor", color: "lit-branco" },
             agenda: [
                 { hora: "09:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
-                { hora: "10:00", atividade: "Santa Missa Setor 7 – Bairro Rio Acima II", padre: "Pe. Erick" },
-                { hora: "11:00", atividade: "Santa Missa Setor 1 – Bairro Mendes", padre: "Pe. Edimilson" },
+                { hora: "10:00", atividade: "Santa Missa Setor 7 – Bairro Rio Acima II", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "11:00", atividade: "Santa Missa Setor 1 – Bairro Mendes", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
                 { hora: "19:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Erick" },
             ],
             tarefas: [
@@ -447,7 +466,7 @@
                 { hora: "09:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
                 { hora: "14:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
                 { hora: "19:00", atividade: "Santa Missa Sagrado Coração de Jesus", padre: "Pe. Erick" },
-                { hora: "19:00", atividade: "Santa Missa Setor 1 – Bairro Roseira", padre: "Pe. Edimilson" },
+                { hora: "19:00", atividade: "Santa Missa Setor 1 – Bairro Roseira", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Varrer e limpar" },
@@ -472,10 +491,10 @@
             liturgia: { text: "Santos Inocentes (Memória)", color: "lit-vermelho" },
             agenda: [
                 { hora: "07:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
-                { hora: "09:00", atividade: "Santa Missa Setor 3 – Bairro Corrêias", padre: "Pe. Edimilson" },
+                { hora: "09:00", atividade: "Santa Missa Setor 3 – Bairro Corrêias", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
                 { hora: "09:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Erick" },
-                { hora: "10:00", atividade: "Santa Missa Setor 7 – Bairro Rio Acima II", padre: "Pe. Erick" },
-                { hora: "16:00", atividade: "Santa Missa Setor 1 – Bairro Retirinho", padre: "Pe. Edimilson" },
+                { hora: "10:00", atividade: "Santa Missa Setor 7 – Bairro Rio Acima II", padre: "Pe. Erick", isSetorMass: true }, // Marcado como Missa Setorial
+                { hora: "16:00", atividade: "Santa Missa Setor 1 – Bairro Retirinho", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
                 { hora: "19:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Erick" },
             ],
             tarefas: [
@@ -500,7 +519,7 @@
             liturgia: { text: "S. Silvestre I, Papa (Memória)", color: "lit-branco" },
             agenda: [
                 { hora: "14:00", atividade: "Atendimento", padre: "Pe. Edimilson" },
-                { hora: "19:00", atividade: "Santa Missa Setor 7 – Bairro Palmeiras", padre: "Pe. Edimilson" },
+                { hora: "19:00", atividade: "Santa Missa Setor 7 – Bairro Palmeiras", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Lavar vestes de leitores" },
@@ -514,7 +533,7 @@
                 { hora: "17:00", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Edimilson" },
                 { hora: "18:30", atividade: "Adoração Igreja Matriz", padre: "Pe. Erick" },
                 { hora: "19:30", atividade: "Santa Missa Igreja Matriz", padre: "Pe. Erick" },
-                { hora: "19:30", atividade: "Santa Missa Setor 7 – Bairro Vargem Alegre", padre: "Pe. Edimilson" },
+                { hora: "19:30", atividade: "Santa Missa Setor 7 – Bairro Vargem Alegre", padre: "Pe. Edimilson", isSetorMass: true }, // Marcado como Missa Setorial
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Folga" },
@@ -522,11 +541,11 @@
             ]
         },
     };
+
     // --- FUNÇÕES DE RENDERIZAÇÃO E NAVEGAÇÃO ---
+
     /**
      * Retorna as classes Tailwind para a cor litúrgica.
-     * @param {string} colorKey Chave da cor litúrgica (ex: 'lit-roxo')
-     * @returns {string} Classes Tailwind
      */
     function getLiturgicalColorClasses(colorKey) {
         switch (colorKey) {
@@ -538,25 +557,28 @@
             default: return 'bg-gray-800 text-white';
         }
     }
+
     /**
      * Constrói o HTML do carrossel de datas e insere na página.
      */
     function renderDateCarousel(todayDay) {
         const carousel = document.getElementById('date-carousel');
-        carousel.innerHTML = ''; // Limpa o conteúdo
-        // Determina o primeiro dia do mês de Dezembro (Segunda-feira)
+        carousel.innerHTML = ''; 
+        
         const firstDayOfMonth = new Date(YEAR, MONTH_INDEX, 1); 
+
         for (let day = 1; day <= MONTH_DAY_COUNT; day++) {
             const date = new Date(YEAR, MONTH_INDEX, day);
             const dayOfWeekIndex = date.getDay();
             const dayOfWeekShort = weekDays[dayOfWeekIndex];
             const dayString = day.toString().padStart(2, '0');
-            // Determina se é o dia atual (Verifica se está no mês e ano corretos)
+
             const isToday = (day === todayDay) && (date.getMonth() === MONTH_INDEX) && (date.getFullYear() === YEAR);
-            // Classes para o item do carrossel
+            
             const selectedClass = isToday ? 'selected' : '';
             const todayClasses = isToday ? 'bg-highlight-gold text-gray-900 ring-2 ring-highlight-gold ring-offset-2 ring-offset-card-dark' : 'bg-element-dark text-gray-300 hover:bg-gray-700';
             const snapClass = 'snap-start';
+
             const itemHtml = `
                 <div id="date-${dayString}"
                      class="date-item ${snapClass} ${selectedClass}
@@ -570,62 +592,70 @@
             `;
             carousel.insertAdjacentHTML('beforeend', itemHtml);
         }
-        // Adiciona listeners de clique após a renderização
+
+        // Adiciona listeners de clique
         document.querySelectorAll('.date-item').forEach(btn => {
             btn.addEventListener('click', function() {
                 const day = this.getAttribute('data-dia');
                 showDailyContent(day);
-                // Rola para centralizar o dia clicado
                 scrollToCenter(this);
             });
         });
-        // Foca e exibe o conteúdo do dia atual ao iniciar
+
+        // Foca e exibe o conteúdo do dia atual
         if (todayDay) {
             const todayElement = document.getElementById(`date-${todayDay.toString().padStart(2, '0')}`);
             if (todayElement) {
                 showDailyContent(todayDay.toString().padStart(2, '0'));
-                // Espera um momento para garantir que a renderização inicial terminou
                 setTimeout(() => scrollToCenter(todayElement), 150);
             }
         }
     }
+
     /**
-     * Rola o carrossel para centralizar o elemento selecionado (usado para Mobile).
-     * @param {HTMLElement} element O elemento a ser centralizado.
+     * Rola o carrossel para centralizar o elemento selecionado.
      */
     function scrollToCenter(element) {
         const container = document.getElementById('date-carousel');
         const containerWidth = container.offsetWidth;
         const elementWidth = element.offsetWidth;
         const elementOffset = element.offsetLeft;
-        // Calcula a posição de scroll para centralizar
+
         const scrollPosition = elementOffset - (containerWidth / 2) + (elementWidth / 2);
+
         container.scrollTo({
             left: scrollPosition,
             behavior: 'smooth'
         });
     }
+
+
     /**
      * Constrói e exibe o conteúdo de um dia específico.
-     * @param {string} dayString O dia (ex: '01', '15').
      */
     function showDailyContent(dayString) {
         const container = document.getElementById('daily-content-container');
+        container.innerHTML = ''; // Limpa o conteúdo anterior
+
         const dayData = dailySchedule[dayString];
+
         // 1. Atualiza a seleção visual do carrossel
         document.querySelectorAll('.date-item').forEach(b => {
             b.classList.remove('selected', 'bg-highlight-gold', 'text-gray-900', 'ring-2', 'ring-offset-2', 'ring-offset-card-dark');
             b.classList.add('bg-element-dark', 'text-gray-300');
         });
+
         const selectedBtn = document.getElementById(`date-${dayString}`);
         if (selectedBtn) {
             selectedBtn.classList.add('selected', 'bg-highlight-gold', 'text-gray-900', 'ring-2', 'ring-offset-2', 'ring-offset-card-dark');
             selectedBtn.classList.remove('bg-element-dark', 'text-gray-300', 'hover:bg-gray-700');
         }
+
         if (!dayData) {
             container.innerHTML = `<p class="text-center text-red-400 mt-8">Nenhuma agenda encontrada para o dia ${dayString} de ${MONTH_NAME}.</p>`;
             return;
         }
+
         // 2. Header Litúrgico
         const colorClasses = getLiturgicalColorClasses(dayData.liturgia.color);
         const headerHtml = `
@@ -633,7 +663,8 @@
                 ${dayData.liturgia.text}
             </div>
         `;
-        // 3. Tabela de Agenda **SEM COLUNA "Feito?"**
+
+        // 3. Tabela de Agenda (SEM CHECKBOX)
         let agendaTableHtml = `
             <h2 class="text-xl font-bold text-highlight-gold mb-3 border-b border-gray-700 pb-1">Agenda do Dia</h2>
             <div class="overflow-x-auto rounded-xl shadow-lg border border-gray-700">
@@ -643,46 +674,112 @@
                             <th class="p-3 whitespace-nowrap">Hora</th>
                             <th class="p-3">Atividade</th>
                             <th class="p-3">Padre</th>
-                            <!-- Coluna "Feito?" REMOVIDA -->
                         </tr>
                     </thead>
                     <tbody>
         `;
+
+        // Removido detailRowsHtml e injetando diretamente no loop
         dayData.agenda.forEach((item, index) => {
             const rowClass = index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-900';
             const highlightClass = item.highlight ? 'bg-yellow-900 text-highlight-gold font-semibold' : '';
-            agendaTableHtml += `
-                <tr class="${rowClass} hover:bg-gray-700 transition duration-150">
-                    <td class="p-3 whitespace-nowrap">${item.hora}</td>
-                    <td class="p-3 ${highlightClass} text-base">${item.atividade}</td>
-                    <td class="p-3 text-priest-blue font-semibold whitespace-nowrap">${item.padre}</td>
-                    <!-- Célula "Feito?" REMOVIDA -->
-                </tr>
-            `;
+
+            const isSetorMass = item.isSetorMass;
+            const toggleId = `mass-details-${dayString}-${index}`;
+
+            let activityCell;
+            
+            // Se for Missa Setorial, a célula de atividade vira o botão de expansão
+            if (isSetorMass) {
+                activityCell = `
+                    <td class="p-1">
+                        <div class="p-2 flex justify-between items-center w-full cursor-pointer rounded-lg bg-gray-700/50 hover:bg-gray-700 transition duration-150" data-toggle-id="${toggleId}">
+                            <span class="${highlightClass} font-semibold text-gray-300 hover:text-white">${item.atividade}</span>
+                            <span class="text-xs transition-transform duration-300 transform" id="arrow-${toggleId}">▼</span>
+                        </div>
+                    </td>
+                `;
+                
+                // Checklist de Preparação Litúrgica (Detalhe Oculto)
+                let checklistHtml = '';
+                LiturgicalItems.forEach((itemName, itemIndex) => {
+                    // ID ÚNICO por dia + índice da agenda + índice do item litúrgico
+                    const checklistId = `lit-${dayString}-${index}-${itemIndex}`; 
+                    const isChecked = localStorage.getItem(checklistId) === 'true';
+                    checklistHtml += `
+                        <div class="flex items-center space-x-2 p-1 border-b border-gray-600 last:border-b-0">
+                            <label class="flex items-center space-x-2 cursor-pointer text-sm text-gray-200 w-full">
+                                <input type="checkbox" id="${checklistId}" ${isChecked ? 'checked' : ''}
+                                       class="form-checkbox h-4 w-4 text-priest-blue bg-gray-600 border-gray-500 rounded focus:ring-priest-blue">
+                                <span>${itemName}</span>
+                            </label>
+                        </div>
+                    `;
+                });
+
+                // Insere a linha principal da agenda
+                agendaTableHtml += `
+                    <tr class="${rowClass} hover:bg-gray-700 transition duration-150">
+                        <td class="p-2 whitespace-nowrap">${item.hora}</td>
+                        ${activityCell}
+                        <td class="p-2 text-priest-blue font-semibold whitespace-nowrap">${item.padre}</td>
+                    </tr>
+                `;
+
+                // Insere a linha de detalhe expandível IMEDIATAMENTE APÓS a linha principal
+                agendaTableHtml += `
+                    <tr id="${toggleId}" class="expanded-detail bg-gray-900/70 border-t border-gray-700 hidden">
+                        <td colspan="3" class="p-3">
+                            <div class="font-bold text-highlight-gold mb-2 text-sm">🎒 Preparação Litúrgica (Mala de Missa):</div>
+                            <div class="grid grid-cols-2 gap-x-4 gap-y-2">
+                                ${checklistHtml}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            } else {
+                // Atividade normal (não missa setorial)
+                activityCell = `<td class="p-2 ${highlightClass} text-base">${item.atividade}</td>`;
+
+                 // Insere a linha normal da agenda
+                agendaTableHtml += `
+                    <tr class="${rowClass} hover:bg-gray-700 transition duration-150">
+                        <td class="p-2 whitespace-nowrap">${item.hora}</td>
+                        ${activityCell}
+                        <td class="p-2 text-priest-blue font-semibold whitespace-nowrap">${item.padre}</td>
+                    </tr>
+                `;
+            }
+
         });
+        
         agendaTableHtml += `
                     </tbody>
                 </table>
             </div>
         `;
-        // 4. Seção de Tarefas da Sacristia
+
+        // 4. Seção de Tarefas da Sacristia (Checks mantidos)
         let tasksSectionHtml = `
             <div class="bg-gray-800 p-4 rounded-xl shadow-lg mt-6">
-                <h2 class="text-xl font-bold text-highlight-gold mb-3 border-b border-gray-600 pb-1">Tarefas da Sacristia</h2>
+                <h2 class="text-xl font-bold text-highlight-gold mb-3 border-b border-gray-600 pb-1">Tarefas da Sacristia (Emanuel & Pietro)</h2>
         `;
+
         // 4.1. Descrição completa das tarefas
         dayData.tarefas.forEach((p, pIndex) => {
             tasksSectionHtml += `<p class="mb-2 text-sm md:text-base">
                 <strong class="text-priest-blue">${p.nome}:</strong> ${p.desc}
             </p>`;
         });
-        // 4.2. Checklist simplificado (usando apenas a primeira tarefa como item de checklist)
+
+        // 4.2. Checklist simplificado (mantido, usando a primeira tarefa como item de checklist)
         tasksSectionHtml += '<div class="mt-4 border-t border-gray-700 pt-3 space-y-3">';
+
         dayData.tarefas.forEach((p, pIndex) => {
-            // Pega apenas a primeira tarefa para o checklist principal do dia
             const mainTask = p.desc.split(',')[0].trim();
             const taskId = `task-${dayString}-${pIndex + 1}`;
             const isChecked = localStorage.getItem(taskId) === 'true';
+
             tasksSectionHtml += `
                 <div>
                     <label class="flex items-center space-x-2 cursor-pointer text-gray-300 hover:text-white">
@@ -693,24 +790,49 @@
                 </div>
             `;
         });
+
         tasksSectionHtml += '</div></div>';
+
         container.innerHTML = headerHtml + agendaTableHtml + tasksSectionHtml;
+
         // Anexa os listeners de eventos após a injeção do HTML
         attachEventListeners();
     }
+
     /**
-     * Anexa os listeners de eventos para a persistência de dados (Checkboxes).
+     * Anexa os listeners de eventos.
      */
     function attachEventListeners() {
-        // Evento para Checkboxes (Tarefas diárias)
+        // Evento 1: Checkboxes de Tarefas da Sacristia e Itens Litúrgicos (mantidos e expandidos)
         document.querySelectorAll('input[type="checkbox"]').forEach(el => {
             el.addEventListener('change', function(e) {
                 // Salva o estado usando localStorage
                 localStorage.setItem(e.target.id, e.target.checked.toString());
             });
         });
-        // Removido o listener para .check-btn, pois não existem mais checkboxes na agenda
+
+        // Evento 2: Toggle para expansão do Checklist Litúrgico (NOVO)
+        document.querySelectorAll('[data-toggle-id]').forEach(cell => {
+            cell.addEventListener('click', function() {
+                const toggleId = this.getAttribute('data-toggle-id');
+                const detailRow = document.getElementById(toggleId);
+                const arrow = document.getElementById(`arrow-${toggleId}`);
+                
+                // VERIFICAÇÃO DE SEGURANÇA: Garante que o elemento existe antes de tentar acessar classList
+                if (detailRow) { 
+                    // Toggle visibility
+                    if (detailRow.classList.contains('hidden')) {
+                        detailRow.classList.remove('hidden');
+                        arrow.classList.add('rotate-180');
+                    } else {
+                        detailRow.classList.add('hidden');
+                        arrow.classList.remove('rotate-180');
+                    }
+                }
+            });
+        });
     }
+
     /**
      * Função para gerar o relatório de status.
      */
@@ -718,63 +840,107 @@
         const output = document.getElementById('report-output');
         let completedTasks = 0;
         let totalTasks = 0;
-        let reportText = `Relatório da Agenda Paroquial de ${MONTH_NAME} ${YEAR}:
-`;
+        let reportText = `Relatório da Sacristia de ${MONTH_NAME} ${YEAR}:\n\n`;
+        let incompletePrepReport = '';
+
         // Itera sobre todos os dias do calendário
         for (let day = 1; day <= MONTH_DAY_COUNT; day++) {
             const dayString = day.toString().padStart(2, '0');
             const data = dailySchedule[dayString];
+
             if (!data) continue;
-            let dayReport = `📅 Dia ${dayString}:
-`;
-            let dayHasCompletedItem = false;
-            // Apenas Tarefas da Sacristia
+
+            let dayReport = '';
+            let incompleteDayPrep = `📅 Dia ${dayString} - Preparações Faltando:\n`;
+            let prepIncomplete = false;
+
+            // 1. Agenda (Preparações Litúrgicas)
+            data.agenda.forEach((item, index) => {
+                if (item.isSetorMass) {
+                    let massPrepReport = `   ${item.atividade} (${item.padre}):\n`;
+                    let massPrepared = true;
+                    
+                    LiturgicalItems.forEach((itemName, itemIndex) => {
+                        const checklistId = `lit-${dayString}-${index}-${itemIndex}`;
+                        const isCompleted = localStorage.getItem(checklistId) === 'true';
+
+                        if (!isCompleted) {
+                            massPrepReport += `     [ ] ${itemName} (FALTA)\n`;
+                            massPrepared = false;
+                        }
+                    });
+
+                    if (!massPrepared) {
+                        incompleteDayPrep += massPrepReport;
+                        prepIncomplete = true;
+                    }
+                }
+            });
+            
+            // Adiciona relatórios de preparação incompleta
+            if (prepIncomplete) {
+                incompletePrepReport += incompleteDayPrep + '\n';
+            }
+
+            // 2. Tarefas da Sacristia (Emanuel/Pietro)
             data.tarefas.forEach((p, pIndex) => {
                 totalTasks++;
                 const taskId = `task-${dayString}-${pIndex + 1}`;
                 const mainTask = p.desc.split(',')[0].trim();
                 const isCompleted = localStorage.getItem(taskId) === 'true';
+
                 if (isCompleted) {
                     completedTasks++;
-                    dayReport += `   [✓] Tarefa ${p.nome}: ${mainTask}
-`;
-                    dayHasCompletedItem = true;
+                    dayReport += `   [✓] Tarefa ${p.nome}: ${mainTask}\n`;
                 }
             });
-            if (dayHasCompletedItem) {
-                reportText += dayReport + '
-';
+            
+            if (dayReport) {
+                reportText += `✅ Tarefas Concluídas no Dia ${dayString}:\n` + dayReport + '\n';
             }
         }
-        reportText += `--- Resumo Global (${MONTH_NAME} ${YEAR}) ---
-`;
-        reportText += `✅ Total de Tarefas da Sacristia Concluídas: ${completedTasks} de ${totalTasks}
-`;
-        output.textContent = reportText;
+        
+        // Consolida o relatório
+        let finalReport = `--- Resumo Global (${MONTH_NAME} ${YEAR}) ---\n`;
+        finalReport += `✅ Total de Tarefas (Emanuel/Pietro) Concluídas: ${completedTasks} de ${totalTasks}\n\n`;
+
+        if (incompletePrepReport) {
+            finalReport += `⚠️ PREPARAÇÕES LITÚRGICAS PENDENTES:\n\n` + incompletePrepReport;
+        } else {
+            finalReport += `🎉 Todas as preparações litúrgicas foram marcadas como concluídas.\n`;
+        }
+        
+        output.textContent = reportText + finalReport;
         output.style.display = 'block';
     }
+
+
     /**
-     * Inicia a aplicação: determina o dia atual e carrega o conteúdo.
+     * Inicia a aplicação.
      */
     function initializeApp() {
         const today = new Date();
         const currentMonth = today.getMonth();
         const currentYear = today.getFullYear();
-        // Verifica se o dia atual é Dezembro de 2025 (para usar a agenda fake)
-        let startDay = 1; // Padrão: 1º dia do mês
+
+        // Determina o dia de início (Dia atual se estiver em Dez/2025, senão Dia 3 para simulação)
+        let startDay = 1; 
         if (currentMonth === MONTH_INDEX && currentYear === YEAR) {
             startDay = today.getDate();
         } else {
-             // Se não for Dez/2025, vamos para o Dia 03, pois hoje (na simulação) é 03/12/2025.
              startDay = 3;
         }
+
         renderDateCarousel(startDay);
-        // showDailyContent já é chamado dentro de renderDateCarousel para o dia atual
+
         // Listener do Relatório
         document.getElementById('generate-report').addEventListener('click', generateReport);
     }
+
     // Inicia a aplicação assim que o DOM estiver carregado
     document.addEventListener('DOMContentLoaded', initializeApp);
+
 </script>
+
 </body>
 </html>
