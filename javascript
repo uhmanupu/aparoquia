@@ -1,95 +1,62 @@
-// --- VARIÁVEL GLOBAL PARA O POP-UP ---
-let deferredPrompt; 
-let installButtonVisible = false; // Flag para controlar a exibição
+const CACHE_NAME = 'sacristia-cache-v1'; // Nome e Versão do Cache
+// Lista de arquivos CRÍTICOS para o funcionamento offline
+const urlsToCache = [
+    '/aparoquia/',             // A URL raiz (home page)
+    '/aparoquia/index.html',  // O arquivo principal
+    '/aparoquia/manifest.json', // O arquivo de manifesto
+    // Se você tiver um arquivo de script ou estilo externo (ex: 'main.js'), adicione aqui!
+    // Exemplo: '/aparoquia/javascript/meu_script.js'
+    // Como seu JS principal está no index, não precisamos adicioná-lo separadamente.
+];
 
-// --- LÓGICA DO INSTALL PROMPT ---
-
-// 1. Captura o evento do navegador que permite a instalação
-window.addEventListener('beforeinstallprompt', (e) => {
-    // Evita que o navegador mostre o prompt padrão imediatamente
-    e.preventDefault(); 
-    
-    // Armazena o evento
-    deferredPrompt = e;
-    
-    // Mostra o botão ou pop-up customizado (se não foi mostrado antes)
-    if (!installButtonVisible) {
-        showCustomInstallPrompt();
-        installButtonVisible = true;
-    }
+// --- 1. ETAPA DE INSTALAÇÃO (Caching dos arquivos) ---
+self.addEventListener('install', (event) => {
+    // Força a espera até que o cache seja aberto e todos os arquivos sejam adicionados
+    event.waitUntil(
+        caches.open(CACHE_NAME)
+            .then((cache) => {
+                console.log('Cache aberto com sucesso. Arquivos essenciais pré-caching...');
+                // Adiciona todos os arquivos essenciais à lista de cache
+                return cache.addAll(urlsToCache);
+            })
+    );
 });
 
-// 2. Função para mostrar o botão/pop-up customizado (VOCÊ PRECISA ADICIONAR O HTML!)
-function showCustomInstallPrompt() {
-    // AQUI VOCÊ PODE INJETAR UM PEQUENO BANNER/POP-UP NO SEU HTML 
-    // Por exemplo:
-    const appContainer = document.getElementById('app-container');
-    const bannerHtml = `
-        <div id="install-banner" class="bg-priest-blue p-3 text-center rounded-lg mb-4 flex items-center justify-between shadow-lg">
-            <span class="font-semibold text-gray-900">🔔 Instale a Sacristia como App!</span>
-            <button onclick="installPWA()" class="bg-highlight-gold hover:bg-yellow-500 text-gray-900 font-bold py-1 px-3 rounded-full text-sm transition duration-200">
-                Instalar
-            </button>
-        </div>
-    `;
-    if (appContainer) {
-        appContainer.insertAdjacentHTML('beforebegin', bannerHtml);
-    }
-}
-
-// 3. Função chamada pelo seu botão customizado para disparar a instalação
-function installPWA() {
-    if (deferredPrompt) {
-        // Dispara o pop-up NATIVO (o que você tirou a primeira foto)
-        deferredPrompt.prompt(); 
-        
-        // Monitora a escolha do usuário
-        deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                console.log('Instalação aceita!');
-            } else {
-                console.log('Instalação recusada.');
-            }
-            // Remove o banner/botão após a tentativa
-            const banner = document.getElementById('install-banner');
-            if (banner) banner.remove();
-            deferredPrompt = null;
-        });
-    }
-}
-let deferredPrompt;
-
-// 1. O Chrome dispara este evento quando o site está pronto para ser PWA
-window.addEventListener('beforeinstallprompt', (e) => {
-    // Evita que o pop-up padrão do Chrome apareça automaticamente
-    e.preventDefault(); 
+// --- 2. ETAPA DE ATIVAÇÃO (Limpeza de caches antigos) ---
+self.addEventListener('activate', (event) => {
+    const cacheWhitelist = [CACHE_NAME]; // Apenas a versão atual do cache é permitida
     
-    // 2. Armazena o evento para usá-lo depois
-    deferredPrompt = e;
-    
-    // 3. Torna o seu botão/pop-up de instalação visível na página
-    showInstallPromotion(); // Função que você criará para mostrar seu pop-up
+    // Deleta versões antigas de cache para economizar espaço
+    event.waitUntil(
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames.map((cacheName) => {
+                    if (cacheWhitelist.indexOf(cacheName) === -1) {
+                        console.log('Deletando cache antigo:', cacheName);
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
+        })
+    );
 });
 
-function showInstallPromotion() {
-    // Lógica para mostrar sua caixa de diálogo customizada
-    // Ex: document.getElementById('meu-popup-pwa').style.display = 'block';
-}
-
-// 4. Esta função é chamada quando o usuário clica no seu botão "Instalar"
-function installPWA() {
-    if (deferredPrompt) {
-        // Dispara o pop-up nativo (aquele que você tirou print!)
-        deferredPrompt.prompt(); 
-        
-        // Esconde sua caixa de diálogo
-        hideInstallPromotion(); 
-        
-        // Monitora a escolha do usuário
-        deferredPrompt.userChoice.then((choiceResult) => {
-            console.log(choiceResult.outcome); // 'accepted' ou 'dismissed'
-            deferredPrompt = null; // Zera a variável para não mostrar de novo
-        });
-    }
-}
-// Você pode, por exemplo, anexar 'installPWA()' ao evento de clique do seu botão de instalação.
+// --- 3. ETAPA DE FETCH (Estratégia Cache-First para navegação offline) ---
+self.addEventListener('fetch', (event) => {
+    // Intercepta a requisição e usa a estratégia Cache-First
+    event.respondWith(
+        caches.match(event.request)
+            .then((response) => {
+                // Se o recurso estiver no cache, retorna-o imediatamente
+                if (response) {
+                    return response;
+                }
+                
+                // Se não estiver no cache, tenta buscar na rede
+                return fetch(event.request).catch(() => {
+                    // Se falhar na rede, e for um arquivo crítico, você pode retornar uma "página offline" aqui.
+                    // Para o caso da Sacristia, vamos apenas deixar falhar se não estiver no cache.
+                });
+            })
+    );
+});
