@@ -47,11 +47,13 @@
 
         /* Animação para o dia selecionado */
         .date-item.selected {
+            /* A animação pulsa a cor definida no JS (ring-*) */
             animation: pulse-ring 0.6s ease-out;
         }
 
         @keyframes pulse-ring {
-            0% { box-shadow: 0 0 0 0px rgba(255, 215, 0, 0.7); }
+            /* Aqui usamos um valor genérico pois a cor será definida por classe */
+            0% { box-shadow: 0 0 0 0px rgba(255, 215, 0, 0.7); } 
             100% { box-shadow: 0 0 0 4px rgba(255, 215, 0, 0); }
         }
         
@@ -64,11 +66,9 @@
 <body class="bg-background-dark text-white p-2 sm:p-4 font-sans min-h-screen">
 
 <div id="app-container" class="max-w-4xl mx-auto bg-card-dark p-4 md:p-8 rounded-xl shadow-2xl">
-    <!-- NOVO TÍTULO COM ÍCONE E VERSÃO LITÚRGICA -->
-    <h1 class="text-center text-2xl md:text-3xl text-highlight-gold mb-6 font-extrabold tracking-wide flex items-center justify-center space-x-3">
-        <!-- Placeholder Image: Ícone de Igreja/Cruz -->
-        <img src="https://placehold.co/32x32/FFD700/0A0A14?text=⛪" alt="Ícone da Sacristia" class="w-8 h-8 rounded-full shadow-lg p-1 bg-white">
-        <span>Sacristia: Dezembro de 2025 - ano A</span>
+    <!-- TÍTULO ATUALIZADO (A cor do texto será alterada pelo JS) -->
+    <h1 id="main-title" class="text-center text-2xl md:text-3xl text-highlight-gold mb-6 font-extrabold tracking-wide transition-colors duration-300">
+        Sacristia: Dezembro de 2025 - ano A
     </h1>
 
     <!-- CARROSSEL DE DATAS DESLIZANTE -->
@@ -84,7 +84,7 @@
 
     <!-- Rodapé -->
     <footer class="text-center mt-8 text-gray-500 text-sm p-4 border-t border-gray-700">
-        Paróquia Nossa Senhora da Conceição v6.6
+        Paróquia Nossa Senhora da Conceição v6.8
     </footer>
 </div>
 
@@ -231,7 +231,7 @@
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Lavar vestes de leitores" },
-                { nome: "Pietro", desc: "Manter trancado" },
+                { hora: "Pietro", desc: "Manter trancado" },
             ]
         },
         // Dia 10
@@ -334,7 +334,7 @@
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Lavar vestes de leitores" },
-                { nome: "Pietro", desc: "Manter trancado" },
+                { hora: "Pietro", desc: "Manter trancado" },
             ]
         },
         // Dia 17
@@ -434,7 +434,7 @@
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Lavar vestes de leitores" },
-                { nome: "Pietro", desc: "Manter trancado" },
+                { hora: "Pietro", desc: "Manter trancado" },
             ]
         },
         // Dia 24
@@ -529,7 +529,7 @@
             ],
             tarefas: [
                 { nome: "Emanuel", desc: "Lavar vestes de leitores" },
-                { nome: "Pietro", desc: "Manter trancado" },
+                { hora: "Pietro", desc: "Manter trancado" },
             ]
         },
         // Dia 31
@@ -565,6 +565,48 @@
     }
 
     /**
+     * Retorna as classes para o botão do carrossel selecionado.
+     */
+    function getSelectedDateClasses(colorKey) {
+        let bgColor, textColor, ringColor;
+        
+        // Define as classes de destaque do dia.
+        switch (colorKey) {
+            case 'lit-roxo': 
+                bgColor = 'bg-lit-roxo';
+                textColor = 'text-white';
+                ringColor = 'ring-lit-roxo';
+                break;
+            case 'lit-branco': 
+                bgColor = 'bg-lit-branco'; 
+                textColor = 'text-gray-900'; 
+                ringColor = 'ring-lit-branco';
+                break;
+            case 'lit-rosa': 
+                bgColor = 'bg-lit-rosa'; 
+                textColor = 'text-white'; 
+                ringColor = 'ring-lit-rosa';
+                break;
+            case 'lit-vermelho': 
+                bgColor = 'bg-lit-vermelho'; 
+                textColor = 'text-white'; 
+                ringColor = 'ring-lit-vermelho';
+                break;
+            case 'lit-verde': 
+                bgColor = 'bg-lit-verde'; 
+                textColor = 'text-white'; 
+                ringColor = 'ring-lit-verde';
+                break;
+            default: 
+                bgColor = 'bg-highlight-gold'; 
+                textColor = 'text-gray-900'; 
+                ringColor = 'ring-highlight-gold';
+        }
+        
+        return `${bgColor} ${textColor} ring-2 ${ringColor} ring-offset-2 ring-offset-card-dark`;
+    }
+
+    /**
      * Constrói o HTML do carrossel de datas e insere na página.
      */
     function renderDateCarousel(todayDay) {
@@ -579,8 +621,9 @@
 
             const isToday = (day === todayDay) && (date.getMonth() === MONTH_INDEX) && (date.getFullYear() === YEAR);
             
+            // O estilo do dia atual é determinado na função showDailyContent.
             const selectedClass = isToday ? 'selected' : '';
-            const todayClasses = isToday ? 'bg-highlight-gold text-gray-900 ring-2 ring-highlight-gold ring-offset-2 ring-offset-card-dark' : 'bg-element-dark text-gray-300 hover:bg-gray-700';
+            const defaultClasses = 'bg-element-dark text-gray-300 hover:bg-gray-700';
             const snapClass = 'snap-start';
 
             const itemHtml = `
@@ -588,7 +631,7 @@
                      class="date-item ${snapClass} ${selectedClass}
                             min-w-[80px] text-center px-2 py-3 rounded-xl cursor-pointer transition-all duration-200
                             font-semibold text-sm shadow-md flex-shrink-0
-                            ${todayClasses}"
+                            ${defaultClasses}"
                      data-dia="${dayString}">
                     <div class="text-xl">${dayString}</div>
                     <div class="text-xs font-normal">${dayOfWeekShort}</div>
@@ -643,16 +686,38 @@
 
         const dayData = dailySchedule[dayString];
 
-        // 1. Atualiza a seleção visual do carrossel
+        // 1. Limpa todas as classes de cor do título principal H1
+        const mainTitle = document.getElementById('main-title');
+        const allColorClasses = ['text-lit-roxo', 'text-lit-branco', 'text-lit-rosa', 'text-lit-vermelho', 'text-lit-verde', 'text-highlight-gold'];
+        if (mainTitle) {
+            mainTitle.classList.remove(...allColorClasses);
+        }
+
+        // 2. Atualiza a seleção visual do carrossel
         document.querySelectorAll('.date-item').forEach(b => {
-            b.classList.remove('selected', 'bg-highlight-gold', 'text-gray-900', 'ring-2', 'ring-offset-2', 'ring-offset-card-dark');
+            // Remove todas as classes de destaque do carrossel (cores litúrgicas e default gold)
+            const allCarouselClasses = ['selected', 'bg-lit-roxo', 'bg-lit-branco', 'bg-lit-rosa', 'bg-lit-vermelho', 'bg-lit-verde', 'bg-highlight-gold', 'text-gray-900', 'text-white', 'ring-2', 'ring-lit-roxo', 'ring-lit-branco', 'ring-lit-rosa', 'ring-lit-vermelho', 'ring-lit-verde', 'ring-highlight-gold', 'ring-offset-2', 'ring-offset-card-dark'];
+            b.classList.remove(...allCarouselClasses);
             b.classList.add('bg-element-dark', 'text-gray-300');
         });
 
         const selectedBtn = document.getElementById(`date-${dayString}`);
         if (selectedBtn) {
-            selectedBtn.classList.add('selected', 'bg-highlight-gold', 'text-gray-900', 'ring-2', 'ring-offset-2', 'ring-offset-card-dark');
+            const colorKey = dayData.liturgia.color;
+            const selectedClasses = getSelectedDateClasses(colorKey);
+            
+            // Aplica as novas classes de destaque ao botão selecionado
+            selectedBtn.classList.add('selected', ...selectedClasses.split(' '));
             selectedBtn.classList.remove('bg-element-dark', 'text-gray-300', 'hover:bg-gray-700');
+
+            // 3. ATUALIZA A COR DO TÍTULO PRINCIPAL (H1)
+            let titleColorClass = `text-${colorKey}`;
+            
+            // Para "lit-branco" ou "lit-rosa", usamos o Dourado para contraste no fundo escuro principal.
+            if (colorKey === 'lit-branco' || colorKey === 'lit-rosa') {
+                titleColorClass = 'text-highlight-gold';
+            }
+            mainTitle.classList.add(titleColorClass);
         }
 
         if (!dayData) {
@@ -660,7 +725,7 @@
             return;
         }
 
-        // 2. Header Litúrgico
+        // 4. Header Litúrgico (Já usa a cor correta)
         const colorClasses = getLiturgicalColorClasses(dayData.liturgia.color);
         const headerHtml = `
             <div class="p-4 md:p-5 mb-6 rounded-xl font-bold text-center text-lg shadow-xl ${colorClasses}">
@@ -668,7 +733,7 @@
             </div>
         `;
 
-        // 3. Tabela de Agenda (SEM CHECKBOX)
+        // 5. Tabela de Agenda (SEM CHECKBOX)
         let agendaTableHtml = `
             <h2 class="text-xl font-bold text-highlight-gold mb-3 border-b border-gray-700 pb-1">Agenda do Dia</h2>
             <div class="overflow-x-auto rounded-xl shadow-lg border border-gray-700">
@@ -784,20 +849,20 @@
             </div>
         `;
 
-        // 4. Seção de Tarefas da Sacristia (Checks mantidos)
+        // 6. Seção de Tarefas da Sacristia (Checks mantidos)
         let tasksSectionHtml = `
             <div class="bg-gray-800 p-4 rounded-xl shadow-lg mt-6">
                 <h2 class="text-xl font-bold text-highlight-gold mb-3 border-b border-gray-600 pb-1">Tarefas da Sacristia (Emanuel & Pietro)</h2>
         `;
 
-        // 4.1. Descrição completa das tarefas
+        // 6.1. Descrição completa das tarefas
         dayData.tarefas.forEach((p, pIndex) => {
             tasksSectionHtml += `<p class="mb-2 text-sm md:text-base">
                 <strong class="text-priest-blue">${p.nome}:</strong> ${p.desc}
             </p>`;
         });
 
-        // 4.2. Checklist simplificado (mantido, usando a primeira tarefa como item de checklist)
+        // 6.2. Checklist simplificado (mantido, usando a primeira tarefa como item de checklist)
         tasksSectionHtml += '<div class="mt-4 border-t border-gray-700 pt-3 space-y-3">';
 
         dayData.tarefas.forEach((p, pIndex) => {
