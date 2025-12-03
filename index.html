@@ -38,12 +38,10 @@
         #date-carousel::-webkit-scrollbar {
             display: none; /* Chrome, Safari, Opera */
         }
-
         /* Estilo para garantir que o contêiner de dia caiba na tela móvel */
         .date-item.selected {
             animation: pulse-ring 0.6s ease-out;
         }
-
         @keyframes pulse-ring {
             0% { box-shadow: 0 0 0 0px rgba(255, 215, 0, 0.7); }
             100% { box-shadow: 0 0 0 4px rgba(255, 215, 0, 0); }
@@ -51,23 +49,19 @@
     </style>
 </head>
 <body class="bg-background-dark text-white p-2 sm:p-4 font-sans min-h-screen">
-
 <div id="app-container" class="max-w-4xl mx-auto bg-card-dark p-4 md:p-8 rounded-xl shadow-2xl">
     <h1 class="text-center text-2xl md:text-3xl text-highlight-gold mb-6 font-extrabold tracking-wide">
         ⛪ Sacristia - Agenda Paroquial Dezembro 2025
     </h1>
-
     <!-- CARROSSEL DE DATAS DESLIZANTE -->
     <div id="date-carousel" class="flex overflow-x-scroll snap-x snap-mandatory pb-4 mb-4 space-x-3">
         <!-- Itens de data serão gerados dinamicamente aqui -->
     </div>
-
     <!-- CONTEÚDO POR DIA -->
     <div id="daily-content-container" class="mt-6">
         <!-- O conteúdo da agenda e tarefas é carregado aqui com base no dia selecionado -->
         <p class="text-center text-gray-400">Carregando a agenda...</p>
     </div>
-
     <!-- Relatório -->
     <div class="bg-element-dark p-4 rounded-lg shadow-inner mt-8">
         <button id="generate-report" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 shadow-md">
@@ -78,7 +72,6 @@
         </div>
     </div>
 </div>
-
 <script>
     // Configurações de Mês/Ano e Dados
     const MONTH_DAY_COUNT = 31;
@@ -86,7 +79,6 @@
     const YEAR = 2025;
     const MONTH_NAME = "Dezembro";
     const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-
     // Estrutura de Dados (Data é centralizada aqui e não mais no HTML)
     const dailySchedule = {
         // Dia 01
@@ -530,9 +522,7 @@
             ]
         },
     };
-
     // --- FUNÇÕES DE RENDERIZAÇÃO E NAVEGAÇÃO ---
-
     /**
      * Retorna as classes Tailwind para a cor litúrgica.
      * @param {string} colorKey Chave da cor litúrgica (ex: 'lit-roxo')
@@ -548,31 +538,25 @@
             default: return 'bg-gray-800 text-white';
         }
     }
-
     /**
      * Constrói o HTML do carrossel de datas e insere na página.
      */
     function renderDateCarousel(todayDay) {
         const carousel = document.getElementById('date-carousel');
         carousel.innerHTML = ''; // Limpa o conteúdo
-        
         // Determina o primeiro dia do mês de Dezembro (Segunda-feira)
         const firstDayOfMonth = new Date(YEAR, MONTH_INDEX, 1); 
-
         for (let day = 1; day <= MONTH_DAY_COUNT; day++) {
             const date = new Date(YEAR, MONTH_INDEX, day);
             const dayOfWeekIndex = date.getDay();
             const dayOfWeekShort = weekDays[dayOfWeekIndex];
             const dayString = day.toString().padStart(2, '0');
-
             // Determina se é o dia atual (Verifica se está no mês e ano corretos)
             const isToday = (day === todayDay) && (date.getMonth() === MONTH_INDEX) && (date.getFullYear() === YEAR);
-            
             // Classes para o item do carrossel
             const selectedClass = isToday ? 'selected' : '';
             const todayClasses = isToday ? 'bg-highlight-gold text-gray-900 ring-2 ring-highlight-gold ring-offset-2 ring-offset-card-dark' : 'bg-element-dark text-gray-300 hover:bg-gray-700';
             const snapClass = 'snap-start';
-
             const itemHtml = `
                 <div id="date-${dayString}"
                      class="date-item ${snapClass} ${selectedClass}
@@ -586,7 +570,6 @@
             `;
             carousel.insertAdjacentHTML('beforeend', itemHtml);
         }
-
         // Adiciona listeners de clique após a renderização
         document.querySelectorAll('.date-item').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -596,7 +579,6 @@
                 scrollToCenter(this);
             });
         });
-
         // Foca e exibe o conteúdo do dia atual ao iniciar
         if (todayDay) {
             const todayElement = document.getElementById(`date-${todayDay.toString().padStart(2, '0')}`);
@@ -607,7 +589,6 @@
             }
         }
     }
-
     /**
      * Rola o carrossel para centralizar o elemento selecionado (usado para Mobile).
      * @param {HTMLElement} element O elemento a ser centralizado.
@@ -617,43 +598,34 @@
         const containerWidth = container.offsetWidth;
         const elementWidth = element.offsetWidth;
         const elementOffset = element.offsetLeft;
-
         // Calcula a posição de scroll para centralizar
         const scrollPosition = elementOffset - (containerWidth / 2) + (elementWidth / 2);
-
         container.scrollTo({
             left: scrollPosition,
             behavior: 'smooth'
         });
     }
-
-
     /**
      * Constrói e exibe o conteúdo de um dia específico.
      * @param {string} dayString O dia (ex: '01', '15').
      */
     function showDailyContent(dayString) {
         const container = document.getElementById('daily-content-container');
-
         const dayData = dailySchedule[dayString];
-
         // 1. Atualiza a seleção visual do carrossel
         document.querySelectorAll('.date-item').forEach(b => {
             b.classList.remove('selected', 'bg-highlight-gold', 'text-gray-900', 'ring-2', 'ring-offset-2', 'ring-offset-card-dark');
             b.classList.add('bg-element-dark', 'text-gray-300');
         });
-
         const selectedBtn = document.getElementById(`date-${dayString}`);
         if (selectedBtn) {
             selectedBtn.classList.add('selected', 'bg-highlight-gold', 'text-gray-900', 'ring-2', 'ring-offset-2', 'ring-offset-card-dark');
             selectedBtn.classList.remove('bg-element-dark', 'text-gray-300', 'hover:bg-gray-700');
         }
-
         if (!dayData) {
             container.innerHTML = `<p class="text-center text-red-400 mt-8">Nenhuma agenda encontrada para o dia ${dayString} de ${MONTH_NAME}.</p>`;
             return;
         }
-
         // 2. Header Litúrgico
         const colorClasses = getLiturgicalColorClasses(dayData.liturgia.color);
         const headerHtml = `
@@ -661,8 +633,7 @@
                 ${dayData.liturgia.text}
             </div>
         `;
-
-        // 3. Tabela de Agenda
+        // 3. Tabela de Agenda **SEM COLUNA "Feito?"**
         let agendaTableHtml = `
             <h2 class="text-xl font-bold text-highlight-gold mb-3 border-b border-gray-700 pb-1">Agenda do Dia</h2>
             <div class="overflow-x-auto rounded-xl shadow-lg border border-gray-700">
@@ -672,63 +643,46 @@
                             <th class="p-3 whitespace-nowrap">Hora</th>
                             <th class="p-3">Atividade</th>
                             <th class="p-3">Padre</th>
-                            <th class="p-3 text-center">Feito?</th>
+                            <!-- Coluna "Feito?" REMOVIDA -->
                         </tr>
                     </thead>
                     <tbody>
         `;
-
         dayData.agenda.forEach((item, index) => {
-            const taskId = `ag-${dayString}-${index + 1}`;
-            const isChecked = localStorage.getItem(taskId) === 'true';
-            const checkText = isChecked ? '✓' : '☐';
-            const checkClass = isChecked ? 'checked bg-green-600' : 'bg-gray-600';
-
             const rowClass = index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-900';
             const highlightClass = item.highlight ? 'bg-yellow-900 text-highlight-gold font-semibold' : '';
-
             agendaTableHtml += `
                 <tr class="${rowClass} hover:bg-gray-700 transition duration-150">
                     <td class="p-3 whitespace-nowrap">${item.hora}</td>
                     <td class="p-3 ${highlightClass} text-base">${item.atividade}</td>
                     <td class="p-3 text-priest-blue font-semibold whitespace-nowrap">${item.padre}</td>
-                    <td class="p-3 w-1/12 text-center">
-                        <div class="check-btn w-7 h-7 mx-auto ${checkClass} rounded-full text-white flex items-center justify-center text-xs ring-1 ring-gray-500 cursor-pointer" data-id="${taskId}">
-                            ${checkText}
-                        </div>
-                    </td>
+                    <!-- Célula "Feito?" REMOVIDA -->
                 </tr>
             `;
         });
-
         agendaTableHtml += `
                     </tbody>
                 </table>
             </div>
         `;
-
         // 4. Seção de Tarefas da Sacristia
         let tasksSectionHtml = `
             <div class="bg-gray-800 p-4 rounded-xl shadow-lg mt-6">
                 <h2 class="text-xl font-bold text-highlight-gold mb-3 border-b border-gray-600 pb-1">Tarefas da Sacristia</h2>
         `;
-
         // 4.1. Descrição completa das tarefas
         dayData.tarefas.forEach((p, pIndex) => {
             tasksSectionHtml += `<p class="mb-2 text-sm md:text-base">
                 <strong class="text-priest-blue">${p.nome}:</strong> ${p.desc}
             </p>`;
         });
-
         // 4.2. Checklist simplificado (usando apenas a primeira tarefa como item de checklist)
         tasksSectionHtml += '<div class="mt-4 border-t border-gray-700 pt-3 space-y-3">';
-
         dayData.tarefas.forEach((p, pIndex) => {
             // Pega apenas a primeira tarefa para o checklist principal do dia
             const mainTask = p.desc.split(',')[0].trim();
             const taskId = `task-${dayString}-${pIndex + 1}`;
             const isChecked = localStorage.getItem(taskId) === 'true';
-
             tasksSectionHtml += `
                 <div>
                     <label class="flex items-center space-x-2 cursor-pointer text-gray-300 hover:text-white">
@@ -739,17 +693,13 @@
                 </div>
             `;
         });
-
         tasksSectionHtml += '</div></div>';
-
         container.innerHTML = headerHtml + agendaTableHtml + tasksSectionHtml;
-
         // Anexa os listeners de eventos após a injeção do HTML
         attachEventListeners();
     }
-
     /**
-     * Anexa os listeners de eventos para a persistência de dados (Checkboxes e Check-Buttons).
+     * Anexa os listeners de eventos para a persistência de dados (Checkboxes).
      */
     function attachEventListeners() {
         // Evento para Checkboxes (Tarefas diárias)
@@ -759,89 +709,50 @@
                 localStorage.setItem(e.target.id, e.target.checked.toString());
             });
         });
-
-        // Evento para Check-Buttons (Agenda/Missas)
-        document.querySelectorAll('.check-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                const id = this.getAttribute('data-id');
-                const wasChecked = this.classList.contains('checked');
-                
-                if (wasChecked) {
-                    this.textContent = '☐';
-                    this.classList.remove('checked', 'bg-green-600');
-                    this.classList.add('bg-gray-600');
-                    localStorage.setItem(id, 'false');
-                } else {
-                    this.textContent = '✓';
-                    this.classList.add('checked', 'bg-green-600');
-                    this.classList.remove('bg-gray-600');
-                    localStorage.setItem(id, 'true');
-                }
-            });
-        });
+        // Removido o listener para .check-btn, pois não existem mais checkboxes na agenda
     }
-
     /**
      * Função para gerar o relatório de status.
      */
     function generateReport() {
         const output = document.getElementById('report-output');
-        let completedAgendas = 0;
-        let totalAgendas = 0;
         let completedTasks = 0;
         let totalTasks = 0;
-        let reportText = `Relatório da Agenda Paroquial de ${MONTH_NAME} ${YEAR}:\n\n`;
-
+        let reportText = `Relatório da Agenda Paroquial de ${MONTH_NAME} ${YEAR}:
+`;
         // Itera sobre todos os dias do calendário
         for (let day = 1; day <= MONTH_DAY_COUNT; day++) {
             const dayString = day.toString().padStart(2, '0');
             const data = dailySchedule[dayString];
-
             if (!data) continue;
-
-            let dayReport = `📅 Dia ${dayString}:\n`;
+            let dayReport = `📅 Dia ${dayString}:
+`;
             let dayHasCompletedItem = false;
-
-            // 1. Agenda (Missas/Atendimentos)
-            data.agenda.forEach((item, index) => {
-                totalAgendas++;
-                const taskId = `ag-${dayString}-${index + 1}`;
-                const isCompleted = localStorage.getItem(taskId) === 'true';
-                if (isCompleted) {
-                    completedAgendas++;
-                    dayReport += `   [✓] ${item.hora} - ${item.atividade} (${item.padre})\n`;
-                    dayHasCompletedItem = true;
-                }
-            });
-
-            // 2. Tarefas da Sacristia
+            // Apenas Tarefas da Sacristia
             data.tarefas.forEach((p, pIndex) => {
                 totalTasks++;
                 const taskId = `task-${dayString}-${pIndex + 1}`;
                 const mainTask = p.desc.split(',')[0].trim();
                 const isCompleted = localStorage.getItem(taskId) === 'true';
-
                 if (isCompleted) {
                     completedTasks++;
-                    dayReport += `   [✓] Tarefa ${p.nome}: ${mainTask}\n`;
+                    dayReport += `   [✓] Tarefa ${p.nome}: ${mainTask}
+`;
                     dayHasCompletedItem = true;
                 }
             });
-
             if (dayHasCompletedItem) {
-                reportText += dayReport + '\n';
+                reportText += dayReport + '
+';
             }
         }
-
-        reportText += `--- Resumo Global (${MONTH_NAME} ${YEAR}) ---\n`;
-        reportText += `✅ Total de Itens de Agenda Concluídos: ${completedAgendas} de ${totalAgendas}\n`;
-        reportText += `✅ Total de Tarefas da Sacristia Concluídas: ${completedTasks} de ${totalTasks}\n`;
-
+        reportText += `--- Resumo Global (${MONTH_NAME} ${YEAR}) ---
+`;
+        reportText += `✅ Total de Tarefas da Sacristia Concluídas: ${completedTasks} de ${totalTasks}
+`;
         output.textContent = reportText;
         output.style.display = 'block';
     }
-
-
     /**
      * Inicia a aplicação: determina o dia atual e carrega o conteúdo.
      */
@@ -849,7 +760,6 @@
         const today = new Date();
         const currentMonth = today.getMonth();
         const currentYear = today.getFullYear();
-
         // Verifica se o dia atual é Dezembro de 2025 (para usar a agenda fake)
         let startDay = 1; // Padrão: 1º dia do mês
         if (currentMonth === MONTH_INDEX && currentYear === YEAR) {
@@ -858,18 +768,13 @@
              // Se não for Dez/2025, vamos para o Dia 03, pois hoje (na simulação) é 03/12/2025.
              startDay = 3;
         }
-
         renderDateCarousel(startDay);
         // showDailyContent já é chamado dentro de renderDateCarousel para o dia atual
-
         // Listener do Relatório
         document.getElementById('generate-report').addEventListener('click', generateReport);
     }
-
     // Inicia a aplicação assim que o DOM estiver carregado
     document.addEventListener('DOMContentLoaded', initializeApp);
-
 </script>
-
 </body>
 </html>
