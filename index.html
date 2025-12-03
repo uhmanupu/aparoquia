@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⛪ Sacristia - Agenda Paroquial Dezembro 2025</title>
-    <!-- Tailwind CSS CDN para um layout responsivo e moderno -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="manifest" href="/aparoquia/manifest.json">
 
-    <!-- Tags para simular experiência de App (PWA) em tela cheia -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0a0a14">
     
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <script>
         // Configuração Tailwind para cores litúrgicas e tema escuro
         tailwind.config = {
@@ -21,7 +22,7 @@
                         'background-dark': '#0a0a14',
                         'card-dark': '#141424',
                         'element-dark': '#2a2a4a',
-                        'highlight-gold': 'gold',
+                        'highlight-gold': '#ffd700', /* Corrigido para hex */
                         'priest-blue': '#4fc3f7',
                         // Mapeamento de Cores Litúrgicas
                         'lit-roxo': '#6f42c1',
@@ -47,12 +48,11 @@
 
         /* Animação para o dia selecionado */
         .date-item.selected {
-            /* A animação pulsa a cor definida no JS (ring-*) */
             animation: pulse-ring 0.6s ease-out;
         }
 
         @keyframes pulse-ring {
-            /* Aqui usamos um valor genérico pois a cor será definida por classe */
+            /* Usamos a cor padrão do highlight-gold aqui */
             0% { box-shadow: 0 0 0 0px rgba(255, 215, 0, 0.7); } 
             100% { box-shadow: 0 0 0 4px rgba(255, 215, 0, 0); }
         }
@@ -61,35 +61,96 @@
         .rotate-180 {
             transform: rotate(180deg);
         }
+        
+        /* Estilo inicial do banner de instalação (Oculto) */
+        #install-banner {
+            display: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body class="bg-background-dark text-white p-2 sm:p-4 font-sans min-h-screen">
 
+<div id="install-prompt-anchor"></div>
+
 <div id="app-container" class="max-w-4xl mx-auto bg-card-dark p-4 md:p-8 rounded-xl shadow-2xl">
-    <!-- TÍTULO ATUALIZADO (A cor do texto será alterada pelo JS) -->
     <h1 id="main-title" class="text-center text-2xl md:text-3xl text-highlight-gold mb-6 font-extrabold tracking-wide transition-colors duration-300">
         Sacristia: Dezembro de 2025 - ano A
     </h1>
 
-    <!-- CARROSSEL DE DATAS DESLIZANTE -->
     <div id="date-carousel" class="flex overflow-x-scroll snap-x snap-mandatory pb-4 mb-4 space-x-3">
-        <!-- Itens de data serão gerados dinamicamente aqui -->
-    </div>
+        </div>
 
-    <!-- CONTEÚDO POR DIA -->
     <div id="daily-content-container" class="mt-6">
-        <!-- O conteúdo da agenda e tarefas é carregado aqui com base no dia selecionado -->
         <p class="text-center text-gray-400">Carregando a agenda...</p>
     </div>
 
-    <!-- Rodapé -->
     <footer class="text-center mt-8 text-gray-500 text-sm p-4 border-t border-gray-700">
         Paróquia Nossa Senhora da Conceição v6.8
     </footer>
 </div>
 
 <script>
-    // Configurações de Mês/Ano e Dados
+    // --- VARIÁVEIS PWA PARA O POP-UP DE INSTALAÇÃO ---
+    let deferredPrompt; 
+    let installButtonVisible = false;
+
+    // --- FUNÇÕES PWA (CORREÇÃO 2) ---
+
+    // 1. Captura o evento do navegador que permite a instalação
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Evita que o navegador mostre o prompt padrão imediatamente
+        e.preventDefault(); 
+        
+        // Armazena o evento
+        deferredPrompt = e;
+        
+        // Mostra o botão ou pop-up customizado (se não foi mostrado antes)
+        if (!installButtonVisible) {
+            showCustomInstallPrompt();
+            installButtonVisible = true;
+        }
+    });
+
+    // 2. Função para mostrar o banner/pop-up customizado
+    function showCustomInstallPrompt() {
+        const anchor = document.getElementById('install-prompt-anchor');
+        const bannerHtml = `
+            <div id="install-banner" class="bg-priest-blue p-3 text-center rounded-lg mb-4 flex items-center justify-center space-x-4 shadow-lg mx-auto max-w-4xl">
+                <span class="font-semibold text-gray-900">🔔 Quer acessar mais rápido? Instale a Sacristia como App!</span>
+                <button onclick="installPWA()" class="bg-highlight-gold hover:bg-yellow-500 text-gray-900 font-bold py-1 px-3 rounded-full text-sm transition duration-200">
+                    Instalar Agora
+                </button>
+            </div>
+        `;
+        if (anchor) {
+            anchor.innerHTML = bannerHtml;
+            document.getElementById('install-banner').style.display = 'flex'; // Torna visível
+        }
+    }
+
+    // 3. Função chamada pelo botão customizado para disparar a instalação
+    function installPWA() {
+        if (deferredPrompt) {
+            // Dispara o pop-up NATIVO do navegador
+            deferredPrompt.prompt(); 
+            
+            // Monitora a escolha do usuário
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('Instalação aceita!');
+                } else {
+                    console.log('Instalação recusada.');
+                }
+                // Remove o banner/botão após a tentativa (aceita ou recusada)
+                const banner = document.getElementById('install-banner');
+                if (banner) banner.remove();
+                deferredPrompt = null;
+            });
+        }
+    }
+
+    // Configurações de Mês/Ano e Dados (Restante do seu código)
     const MONTH_DAY_COUNT = 31;
     const MONTH_INDEX = 11; // 0 = Janeiro, 11 = Dezembro
     const YEAR = 2025;
@@ -104,8 +165,8 @@
     // Tipos de Lecionário
     const LecionarioTypes = ['Semanal', 'Dominical', 'Santoral'];
 
-    // Estrutura de Dados (ATUALIZADA com base no Diretório 2025)
-    const dailySchedule = {
+    // Estrutura de Dados (Seu JSON de Agendamentos e Tarefas)
+    const dailySchedule = { /* ... (Seu JSON de agendamentos) ... */ 
         // Dia 01
         "01": {
             liturgia: { text: "2ª-feira da 1ª Semana do Advento", color: "lit-roxo" },
@@ -548,11 +609,8 @@
         },
     };
 
-    // --- FUNÇÕES DE RENDERIZAÇÃO E NAVEGAÇÃO ---
+    // --- FUNÇÕES DE RENDERIZAÇÃO E NAVEGAÇÃO (Sem alterações significativas) ---
 
-    /**
-     * Retorna as classes Tailwind para a cor litúrgica.
-     */
     function getLiturgicalColorClasses(colorKey) {
         switch (colorKey) {
             case 'lit-roxo': return 'bg-lit-roxo text-white';
@@ -564,9 +622,6 @@
         }
     }
 
-    /**
-     * Retorna as classes para o botão do carrossel selecionado.
-     */
     function getSelectedDateClasses(colorKey) {
         let bgColor, textColor, ringColor;
         
@@ -606,9 +661,6 @@
         return `${bgColor} ${textColor} ring-2 ${ringColor} ring-offset-2 ring-offset-card-dark`;
     }
 
-    /**
-     * Constrói o HTML do carrossel de datas e insere na página.
-     */
     function renderDateCarousel(todayDay) {
         const carousel = document.getElementById('date-carousel');
         carousel.innerHTML = ''; 
@@ -621,7 +673,6 @@
 
             const isToday = (day === todayDay) && (date.getMonth() === MONTH_INDEX) && (date.getFullYear() === YEAR);
             
-            // O estilo do dia atual é determinado na função showDailyContent.
             const selectedClass = isToday ? 'selected' : '';
             const defaultClasses = 'bg-element-dark text-gray-300 hover:bg-gray-700';
             const snapClass = 'snap-start';
@@ -659,9 +710,6 @@
         }
     }
 
-    /**
-     * Rola o carrossel para centralizar o elemento selecionado.
-     */
     function scrollToCenter(element) {
         const container = document.getElementById('date-carousel');
         const containerWidth = container.offsetWidth;
@@ -676,10 +724,6 @@
         });
     }
 
-
-    /**
-     * Constrói e exibe o conteúdo de um dia específico.
-     */
     function showDailyContent(dayString) {
         const container = document.getElementById('daily-content-container');
         container.innerHTML = ''; // Limpa o conteúdo anterior
@@ -695,7 +739,7 @@
 
         // 2. Atualiza a seleção visual do carrossel
         document.querySelectorAll('.date-item').forEach(b => {
-            // Remove todas as classes de destaque do carrossel (cores litúrgicas e default gold)
+            // Remove todas as classes de destaque do carrossel 
             const allCarouselClasses = ['selected', 'bg-lit-roxo', 'bg-lit-branco', 'bg-lit-rosa', 'bg-lit-vermelho', 'bg-lit-verde', 'bg-highlight-gold', 'text-gray-900', 'text-white', 'ring-2', 'ring-lit-roxo', 'ring-lit-branco', 'ring-lit-rosa', 'ring-lit-vermelho', 'ring-lit-verde', 'ring-highlight-gold', 'ring-offset-2', 'ring-offset-card-dark'];
             b.classList.remove(...allCarouselClasses);
             b.classList.add('bg-element-dark', 'text-gray-300');
@@ -725,7 +769,7 @@
             return;
         }
 
-        // 4. Header Litúrgico (Já usa a cor correta)
+        // 4. Header Litúrgico 
         const colorClasses = getLiturgicalColorClasses(dayData.liturgia.color);
         const headerHtml = `
             <div class="p-4 md:p-5 mb-6 rounded-xl font-bold text-center text-lg shadow-xl ${colorClasses}">
@@ -733,7 +777,7 @@
             </div>
         `;
 
-        // 5. Tabela de Agenda (SEM CHECKBOX)
+        // 5. Tabela de Agenda 
         let agendaTableHtml = `
             <h2 class="text-xl font-bold text-highlight-gold mb-3 border-b border-gray-700 pb-1">Agenda do Dia</h2>
             <div class="overflow-x-auto rounded-xl shadow-lg border border-gray-700">
@@ -748,7 +792,6 @@
                     <tbody>
         `;
 
-        // Removido detailRowsHtml e injetando diretamente no loop
         dayData.agenda.forEach((item, index) => {
             const rowClass = index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-900';
             const highlightClass = item.highlight ? 'bg-yellow-900 text-highlight-gold font-semibold' : '';
@@ -772,21 +815,20 @@
                 // Checklist de Preparação Litúrgica (Detalhe Oculto)
                 let checklistHtml = '';
                 LiturgicalItemsBase.forEach((itemName, itemIndex) => {
-                    // ID ÚNICO por dia + índice da agenda + índice do item litúrgico
                     const checklistId = `lit-${dayString}-${index}-${itemIndex}`; 
                     const isChecked = localStorage.getItem(checklistId) === 'true';
                     checklistHtml += `
                         <div class="flex items-center space-x-2 p-1 border-b border-gray-600 last:border-b-0">
                             <label class="flex items-center space-x-2 cursor-pointer text-sm text-gray-200 w-full">
                                 <input type="checkbox" id="${checklistId}" ${isChecked ? 'checked' : ''}
-                                       class="form-checkbox h-4 w-4 text-priest-blue bg-gray-600 border-gray-500 rounded focus:ring-priest-blue">
+                                        class="form-checkbox h-4 w-4 text-priest-blue bg-gray-600 border-gray-500 rounded focus:ring-priest-blue">
                                 <span>${itemName}</span>
                             </label>
                         </div>
                     `;
                 });
 
-                // NOVO: Checklist do Lecionário
+                // Checklist do Lecionário
                 let lecionarioHtml = '';
                 LecionarioTypes.forEach((option, idx) => {
                     const lecionarioId = `lec-${dayString}-${index}-${idx}`;
@@ -849,7 +891,7 @@
             </div>
         `;
 
-        // 6. Seção de Tarefas da Sacristia (Checks mantidos)
+        // 6. Seção de Tarefas da Sacristia
         let tasksSectionHtml = `
             <div class="bg-gray-800 p-4 rounded-xl shadow-lg mt-6">
                 <h2 class="text-xl font-bold text-highlight-gold mb-3 border-b border-gray-600 pb-1">Tarefas da Sacristia (Emanuel & Pietro)</h2>
@@ -862,7 +904,7 @@
             </p>`;
         });
 
-        // 6.2. Checklist simplificado (mantido, usando a primeira tarefa como item de checklist)
+        // 6.2. Checklist simplificado
         tasksSectionHtml += '<div class="mt-4 border-t border-gray-700 pt-3 space-y-3">';
 
         dayData.tarefas.forEach((p, pIndex) => {
@@ -889,9 +931,6 @@
         attachEventListeners();
     }
 
-    /**
-     * Anexa os listeners de eventos.
-     */
     function attachEventListeners() {
         // Evento 1: Checkboxes de Tarefas da Sacristia e Itens Litúrgicos (salva em localStorage)
         document.querySelectorAll('input[type="checkbox"]').forEach(el => {
@@ -923,14 +962,6 @@
         });
     }
 
-    /**
-     * FUNÇÃO DE RELATÓRIO REMOVIDA
-     */
-    // function generateReport() { ... }
-
-    /**
-     * Inicia a aplicação.
-     */
     function initializeApp() {
         const today = new Date();
         const currentMonth = today.getMonth();
@@ -941,17 +972,30 @@
         if (currentMonth === MONTH_INDEX && currentYear === YEAR) {
             startDay = today.getDate();
         } else {
-             startDay = 3;
+           startDay = 3;
         }
 
         renderDateCarousel(startDay);
-
-        // O listener do botão de relatório foi removido, pois o botão foi excluído.
     }
 
     // Inicia a aplicação assim que o DOM estiver carregado
     document.addEventListener('DOMContentLoaded', initializeApp);
 
+</script>
+
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            // ATENÇÃO: Se o caminho do seu repositório for diferente de '/aparoquia/', corrija aqui.
+            navigator.serviceWorker.register('/aparoquia/sw.js') 
+                .then(registration => {
+                    console.log('Service Worker da Sacristia registrado com sucesso!', registration.scope);
+                })
+                .catch(error => {
+                    console.error('Falha no registro do Service Worker da Sacristia:', error);
+                });
+        });
+    }
 </script>
 
 </body>
